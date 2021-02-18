@@ -8,6 +8,7 @@
       <div class="center content-inputs mtop-50">
         <vs-input
           v-model="combination"
+          type="text"
           shadow
           danger
           icon-after

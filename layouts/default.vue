@@ -18,7 +18,9 @@ html {
   background-color: #ffdee9;
   background-image: linear-gradient(0deg, #ffdee9 0%, #ffffff 100%);
 }
-
+input {
+  font-size: 24px;
+}
 *,
 *::before,
 *::after {
