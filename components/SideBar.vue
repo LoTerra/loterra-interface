@@ -1,6 +1,6 @@
 <template>
   <div class="hidden">
-    <vs-navbar v-model="active" shadow square center-collapsed>
+    <vs-navbar v-model="active" shadow center-collapsed>
       <template #left>
         <vs-button flat danger icon @click="activeSidebar = !activeSidebar">
           <i class="bx bx-menu"></i>
@@ -22,7 +22,7 @@
         </vs-switch>
       </template>
     </vs-navbar>
-    <vs-sidebar v-model="active" absolute :open.sync="activeSidebar">
+    <vs-sidebar v-model="active" absolute :open.sync="activeSidebar" danger>
       <template #logo>
         <!-- ...img logo -->
       </template>

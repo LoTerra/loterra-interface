@@ -15,6 +15,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  background-color: #ffdee9;
+  background-image: linear-gradient(0deg, #ffdee9 0%, #ffffff 100%);
 }
 
 *,
