@@ -18,7 +18,7 @@
             <i class="bx bx-hash"></i>
           </template>
         </vs-input>
-        <vs-tooltip warn left>
+        <vs-tooltip warn bottom>
           <vs-button circle warn icon flat>
             <i class="bx bx-info-circle"></i>
           </vs-button>
