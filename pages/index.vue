@@ -24,7 +24,7 @@ export default {
     LoTerraGame,
     Rank,
   },
-  middleware: 'terraConnect',
+  // middleware: 'terraConnect',
   mounted() {
     this.loadWallet()
   },

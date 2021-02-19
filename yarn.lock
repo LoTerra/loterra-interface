@@ -1534,10 +1534,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@terra-money/terra.js@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-1.4.0.tgz#b65fa958208506467b96f8c1ebcaa96b7adcc108"
-  integrity sha512-rJ/wP0i+pMmVqM2cehq2UkHauwE+1NxsktrvvCjEKg6A0Acu3XX/qXx3aErQJn8lkMJfJTXjbwBw/yCgdrg/ng==
+"@terra-money/terra.js@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-1.4.1.tgz#e86b979369d3235df15dd735103237e7b8b1c484"
+  integrity sha512-16RbahZvlkQwckbKr0eQKG4vrhjbCBv18/Q5fnmBsGVtWVifY0PHozEuFm0xTkypq4FS+1x5DIbxmr6E2ZEuDg==
   dependencies:
     axios "^0.21.1"
     bech32 "^1.1.4"

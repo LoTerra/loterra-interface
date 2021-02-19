@@ -13,7 +13,7 @@
         <vs-button flat danger @click="activeDialog = !activeDialog">
           LOTA
         </vs-button>
-        <vs-button @click="station()" gradient danger
+        <vs-button gradient danger @click="station()"
           >Connect to a wallet</vs-button
         >
         <vs-switch v-model="active5" danger>
@@ -97,25 +97,45 @@
 </template>
 
 <script>
-import { Extension, Wallet } from '@terra-money/terra.js'
+import { LCDClient, Extension } from '@terra-money/terra.js'
 export default {
   data: () => ({
     active: 'lottery',
     activeDialog: false,
     activeSidebar: false,
+    wallet: '',
   }),
   methods: {
     station() {
-      console.log('ok')
-      // eslint-disable-next-line no-unused-vars
-      const wallet = new Wallet()
+      // eslint-disable-next-line no-undef,no-unused-vars
+      const terra = new LCDClient({
+        URL: 'https://tequila-lcd.terra.dev',
+        chainID: 'tequila-0004',
+      })
       const extension = new Extension()
       extension.connect()
-      extension.on('connect', (w) => {
-        console.log(w)
-        w = wallet
+      extension.on((w) => {
+        this.wallet = w.address
+        // console.log(w)
+        // eslint-disable-next-line no-unused-vars
       })
-      // extension.connect()
+      console.log(this.wallet)
+      /* const coin = new Coin('uusd', '1000000')
+      const coins = new Coins()
+      coins.add(coin)
+      const msgg = new MsgSend(
+        'terra1ddr7runxu5qqcawqjagkn6sa7kh7l940gq5cld',
+        'terra1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v',
+        { uusd: 1000 }
+      )
+      const msg = extension.post({
+        msgs: [msgg],
+      })
+      console.log(msg)
+        Coin,
+        Coins,
+        MsgSend,
+      */
     },
   },
 }
