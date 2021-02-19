@@ -35,9 +35,7 @@
     </template>
     <template #buttons>
       <div class="p-20">
-        <vs-button gradient danger @click="active = 0">
-          Buy combination
-        </vs-button>
+        <vs-button gradient danger @click="active = 0"> Buy ticket </vs-button>
       </div>
     </template>
   </vs-card>
