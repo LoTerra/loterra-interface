@@ -13,7 +13,7 @@
               <vs-button warn flat circle icon>
                 <i class="bx bx-info-circle"></i>
               </vs-button>
-              <template #tooltip> Combination: [0-9][a-f] </template>
+              <template #tooltip> [0-9][a-f] </template>
             </vs-tooltip>
           </vs-col>
         </vs-row>
