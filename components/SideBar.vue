@@ -26,12 +26,52 @@
       <template #logo>
         <!-- ...img logo -->
       </template>
-      <vs-sidebar-item id="home">
+      <vs-sidebar-item id="lottery">
         <template #icon>
-          <i class="bx bx-home"></i>
+          <i class="bx bxs-coupon"></i>
         </template>
-        Home
+        Lottery
       </vs-sidebar-item>
+      <vs-sidebar-item id="public-sale">
+        <template #icon>
+          <i class="bx bx-coin"></i>
+        </template>
+        Public sale
+      </vs-sidebar-item>
+      <vs-sidebar-item id="trerrand-oracle">
+        <template #icon>
+          <i class="bx bx-dice-5"></i>
+        </template>
+        Terrand oracle
+      </vs-sidebar-item>
+      <vs-sidebar-group>
+        <template #header>
+          <vs-sidebar-item arrow>
+            <template #icon>
+              <i class="bx bx-dots-horizontal-rounded"></i>
+            </template>
+            More
+          </vs-sidebar-item>
+        </template>
+        <vs-sidebar-item id="github">
+          <template #icon>
+            <i class="bx bxl-github"></i>
+          </template>
+          Github
+        </vs-sidebar-item>
+        <vs-sidebar-item id="docs-terrand">
+          <template #icon>
+            <i class="bx bxs-file-doc"></i>
+          </template>
+          Docs Terrand
+        </vs-sidebar-item>
+        <vs-sidebar-item id="docs-lottera">
+          <template #icon>
+            <i class="bx bxs-file-doc"></i>
+          </template>
+          Docs LoTerra
+        </vs-sidebar-item>
+      </vs-sidebar-group>
     </vs-sidebar>
     <!--Dialog info of LOTA tokens-->
     <div class="center">
