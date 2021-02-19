@@ -1,7 +1,7 @@
 <template>
   <vs-card>
     <template #title>
-      <h3>Play</h3>
+      <h3>Enter draw</h3>
       <p>Register a combination for next lottery draw.</p>
     </template>
     <template #text>
