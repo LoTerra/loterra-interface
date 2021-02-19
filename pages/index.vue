@@ -4,9 +4,7 @@
       <SideBar />
     </header>
     <body class="container">
-      <div class="center">
-        <LoTerraGame />
-      </div>
+      <LoTerraGame />
     </body>
     <footer>
       <div><Rank /></div>

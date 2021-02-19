@@ -6,6 +6,17 @@
     </template>
     <template #text>
       <div class="center content-inputs mtop-50">
+        <vs-row>
+          <vs-col w="10"></vs-col>
+          <vs-col w="2">
+            <vs-tooltip warn left>
+              <vs-button warn flat circle icon>
+                <i class="bx bx-info-circle"></i>
+              </vs-button>
+              <template #tooltip> Combination: [0-9][a-f] </template>
+            </vs-tooltip>
+          </vs-col>
+        </vs-row>
         <vs-input
           v-model="combination"
           type="text"
@@ -18,13 +29,8 @@
           <template #icon>
             <i class="bx bx-hash"></i>
           </template>
+          <template v-if="1 == 2" #message-danger> Required </template>
         </vs-input>
-        <vs-tooltip warn bottom>
-          <vs-button circle warn icon flat>
-            <i class="bx bx-info-circle"></i>
-          </vs-button>
-          <template #tooltip> Combination: [0-9][a-f] </template>
-        </vs-tooltip>
       </div>
     </template>
     <template #buttons>
@@ -51,5 +57,8 @@ export default {
 }
 .p-20 {
   padding: 20px;
+}
+.pb-15 {
+  padding-bottom: 15px;
 }
 </style>
