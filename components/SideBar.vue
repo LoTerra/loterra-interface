@@ -13,7 +13,9 @@
         <vs-button flat danger @click="activeDialog = !activeDialog">
           LOTA
         </vs-button>
-        <vs-button gradient danger>Connect to a wallet</vs-button>
+        <vs-button @click="station()" gradient danger
+          >Connect to a wallet</vs-button
+        >
         <vs-switch v-model="active5" danger>
           <template #circle>
             <i v-if="!active5" class="bx bxs-moon"></i>
@@ -95,12 +97,27 @@
 </template>
 
 <script>
+import { Extension, Wallet } from '@terra-money/terra.js'
 export default {
   data: () => ({
     active: 'lottery',
     activeDialog: false,
     activeSidebar: false,
   }),
+  methods: {
+    station() {
+      console.log('ok')
+      // eslint-disable-next-line no-unused-vars
+      const wallet = new Wallet()
+      const extension = new Extension()
+      extension.connect()
+      extension.on('connect', (w) => {
+        console.log(w)
+        w = wallet
+      })
+      // extension.connect()
+    },
+  },
 }
 </script>
 

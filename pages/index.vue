@@ -16,11 +16,29 @@
 import SideBar from '~/components/SideBar'
 import LoTerraGame from '~/components/LoTerraGame'
 import Rank from '~/components/Rank'
+// eslint-disable-next-line no-unused-vars
+
 export default {
   components: {
     SideBar,
     LoTerraGame,
     Rank,
+  },
+  middleware: 'terraConnect',
+  mounted() {
+    this.loadWallet()
+  },
+  methods: {
+    loadWallet: () => {
+      // eslint-disable-next-line no-unused-vars
+      /*
+      let x = terrax.apiRequester
+      const f = await terrax.auth.accountInfo(
+        'terra1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v'
+      )
+
+      console.log(f) */
+    },
   },
 }
 </script>
