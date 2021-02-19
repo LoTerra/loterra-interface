@@ -97,7 +97,7 @@
 <script>
 export default {
   data: () => ({
-    active: 'home',
+    active: 'lottery',
     activeDialog: false,
     activeSidebar: false,
   }),
