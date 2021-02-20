@@ -7,17 +7,6 @@
       </template>
       <template #text>
         <div class="center content-inputs mtop-50">
-          <vs-row>
-            <vs-col w="10"></vs-col>
-            <vs-col w="2">
-              <vs-tooltip warn left>
-                <vs-button warn flat circle icon>
-                  <i class="bx bx-info-circle"></i>
-                </vs-button>
-                <template #tooltip> last 6 symbols of hash type </template>
-              </vs-tooltip>
-            </vs-col>
-          </vs-row>
           <vs-input
             v-model="combination"
             type="text"
