@@ -140,6 +140,27 @@
         </div>
       </template>
     </vs-card>
+    <vs-dialog v-model="activeDialogInfoNoWalletDetected" non-center>
+      <template #header>
+        <h4 class="not-margin">Setup needed</h4>
+      </template>
+      <div class="con-content">
+        <p>
+          The LoTerra Dapp requires
+          <a href="https://www.google.com/intl/en_en/chrome/" target="_blank"
+            >Google Chrome</a
+          >
+          and
+          <a
+            target="_blank"
+            href="https://chrome.google.com/webstore/detail/terra-station/aiifbnbfobpmeekipheeijimdpnlpgpp"
+          >
+            Terra Station wallet</a
+          >
+          Extension to be installed.
+        </p>
+      </div>
+    </vs-dialog>
   </div>
 </template>
 
@@ -154,6 +175,7 @@ export default {
   data: () => ({
     combination: '',
     load: false,
+    activeDialogInfoNoWalletDetected: false,
   }),
   computed: {
     connected() {
