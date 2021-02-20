@@ -1,9 +1,27 @@
 <template>
   <div>
-    <Nuxt />
+    <header class="content-logos">
+      <SideBar />
+    </header>
+    <body class="container">
+      <Nuxt />
+    </body>
+    <footer>
+      <div><Rank /></div>
+    </footer>
   </div>
 </template>
+<script>
+import SideBar from '~/components/SideBar'
+import Rank from '~/components/Rank'
 
+export default {
+  components: {
+    SideBar,
+    Rank,
+  },
+}
+</script>
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',

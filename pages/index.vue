@@ -1,32 +1,30 @@
 <template>
   <div>
-    <header class="content-logos">
-      <SideBar />
-    </header>
     <body class="container">
       <LoTerraGame />
     </body>
-    <footer>
-      <div><Rank /></div>
-    </footer>
   </div>
 </template>
 
 <script>
-import SideBar from '~/components/SideBar'
+import { LCDClient, Extension } from '@terra-money/terra.js'
 import LoTerraGame from '~/components/LoTerraGame'
-import Rank from '~/components/Rank'
 // eslint-disable-next-line no-unused-vars
 
 export default {
   components: {
-    SideBar,
     LoTerraGame,
-    Rank,
   },
   // middleware: 'terraConnect',
   mounted() {
-    this.loadWallet()
+    // eslint-disable-next-line no-unused-vars
+    const terra = new LCDClient({
+      URL: 'https://tequila-lcd.terra.dev',
+      chainID: 'tequila-0004',
+    })
+    const extension = new Extension()
+    extension.connect()
+    console.log(extension.isAvailable)
   },
   methods: {
     loadWallet: () => {

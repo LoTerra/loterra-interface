@@ -1,6 +1,6 @@
 <template>
   <div class="hidden">
-    <vs-navbar v-model="active" shadow center-collapsed>
+    <vs-navbar v-model="active" center-collapsed height="100px">
       <template #left>
         <vs-button flat danger icon @click="activeSidebar = !activeSidebar">
           <i class="bx bx-menu"></i>
@@ -13,8 +13,14 @@
         <vs-button flat danger @click="activeDialog = !activeDialog">
           LOTA
         </vs-button>
-        <vs-button gradient danger @click="station()"
+        <vs-button v-if="!humanAddress" gradient danger @click="station()"
           >Connect to a wallet</vs-button
+        >
+        <vs-button
+          v-if="humanAddress"
+          shadow
+          @click="activeDialogInfoConnection = !activeDialogInfoConnection"
+          >{{ shortAddress }}</vs-button
         >
         <vs-switch v-model="active5" danger>
           <template #circle>
@@ -28,13 +34,13 @@
       <template #logo>
         <!-- ...img logo -->
       </template>
-      <vs-sidebar-item id="lottery">
+      <vs-sidebar-item id="lottery" to="/">
         <template #icon>
           <i class="bx bxs-coupon"></i>
         </template>
         Lottery
       </vs-sidebar-item>
-      <vs-sidebar-item id="public-sale">
+      <vs-sidebar-item id="public-sale" to="/public-sale">
         <template #icon>
           <i class="bx bx-coin"></i>
         </template>
@@ -55,12 +61,6 @@
             More
           </vs-sidebar-item>
         </template>
-        <vs-sidebar-item id="github">
-          <template #icon>
-            <i class="bx bxl-github"></i>
-          </template>
-          Github
-        </vs-sidebar-item>
         <vs-sidebar-item id="docs-terrand">
           <template #icon>
             <i class="bx bxs-file-doc"></i>
@@ -74,6 +74,22 @@
           Docs LoTerra
         </vs-sidebar-item>
       </vs-sidebar-group>
+      <template #footer>
+        <vs-row justify="space-between">
+          <vs-avatar badge-color="danger" badge-position="top-right">
+            <i class="bx bxl-github"></i>
+          </vs-avatar>
+          <vs-avatar badge-color="danger" badge-position="top-right">
+            <i class="bx bxl-twitter"></i>
+          </vs-avatar>
+          <vs-avatar badge-color="danger" badge-position="top-right">
+            <i class="bx bxl-facebook"></i>
+          </vs-avatar>
+          <vs-avatar badge-color="danger" badge-position="top-right">
+            <i class="bx bxl-telegram"></i>
+          </vs-avatar>
+        </vs-row>
+      </template>
     </vs-sidebar>
     <!--Dialog info of LOTA tokens-->
     <div class="center">
@@ -93,49 +109,83 @@
         </template>
       </vs-dialog>
     </div>
+    <vs-dialog v-model="activeDialogInfoConnection" non-center>
+      <template #header>
+        <h4 class="not-margin">{{ shortAddress }}</h4>
+      </template>
+      <template #footer>
+        <div class="con-footer">
+          <vs-button icon danger transparent>
+            <i class="bx bx-copy"></i> Copy
+          </vs-button>
+          <vs-button icon danger transparent @click="active = false">
+            <i class="bx bx-log-out"></i> Disconnect
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
+    <vs-dialog v-model="activeDialogInfoNoWalletDetected" non-center>
+      <template #header>
+        <h4 class="not-margin">Setup needed</h4>
+      </template>
+      <div class="con-content">
+        <p>
+          The LoTerra Dapp requires
+          <a href="https://www.google.com/intl/en_en/chrome/" target="_blank"
+            >Google Chrome</a
+          >
+          and
+          <a
+            target="_blank"
+            href="https://chrome.google.com/webstore/detail/terra-station/aiifbnbfobpmeekipheeijimdpnlpgpp"
+          >
+            Terra Station wallet</a
+          >
+          Extension to be installed.
+        </p>
+      </div>
+    </vs-dialog>
   </div>
 </template>
 
 <script>
-import { LCDClient, Extension } from '@terra-money/terra.js'
+import { Extension } from '@terra-money/terra.js'
+
 export default {
   data: () => ({
     active: 'lottery',
     activeDialog: false,
     activeSidebar: false,
+    activeDialogInfoConnection: false,
+    activeDialogInfoNoWalletDetected: false,
     wallet: '',
   }),
+  computed: {
+    humanAddress() {
+      return this.$store.state.station.address
+    },
+    shortAddress() {
+      const addressPart1 = this.$store.state.station.address.substring(0, 7)
+      const addressPart2 = this.$store.state.station.address.substring(
+        this.$store.state.station.address.length - 6,
+        this.$store.state.station.address.length
+      )
+      return addressPart1 + '...' + addressPart2
+    },
+  },
   methods: {
     station() {
-      // eslint-disable-next-line no-undef,no-unused-vars
-      const terra = new LCDClient({
-        URL: 'https://tequila-lcd.terra.dev',
-        chainID: 'tequila-0004',
-      })
       const extension = new Extension()
       extension.connect()
-      extension.on((w) => {
-        this.wallet = w.address
-        // console.log(w)
-        // eslint-disable-next-line no-unused-vars
-      })
-      console.log(this.wallet)
-      /* const coin = new Coin('uusd', '1000000')
-      const coins = new Coins()
-      coins.add(coin)
-      const msgg = new MsgSend(
-        'terra1ddr7runxu5qqcawqjagkn6sa7kh7l940gq5cld',
-        'terra1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v',
-        { uusd: 1000 }
-      )
-      const msg = extension.post({
-        msgs: [msgg],
-      })
-      console.log(msg)
-        Coin,
-        Coins,
-        MsgSend,
-      */
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        console.log(extension.isAvailable)
+        extension.once((w) => {
+          this.$store.state.station.address = w.address
+        })
+      }
     },
   },
 }
