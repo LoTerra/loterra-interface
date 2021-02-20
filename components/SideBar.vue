@@ -61,13 +61,13 @@
             More
           </vs-sidebar-item>
         </template>
-        <vs-sidebar-item id="docs-terrand">
+        <vs-sidebar-item id="docs-terrand" href="https://docs.terrand.dev/">
           <template #icon>
             <i class="bx bxs-file-doc"></i>
           </template>
           Docs Terrand
         </vs-sidebar-item>
-        <vs-sidebar-item id="docs-lottera">
+        <vs-sidebar-item id="docs-lottera" href="https://docs.loterra.io/">
           <template #icon>
             <i class="bx bxs-file-doc"></i>
           </template>
@@ -76,16 +76,16 @@
       </vs-sidebar-group>
       <template #footer>
         <vs-row justify="space-between">
-          <vs-avatar badge-color="danger" badge-position="top-right">
+          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
             <i class="bx bxl-github"></i>
           </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right">
+          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
             <i class="bx bxl-twitter"></i>
           </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right">
+          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
             <i class="bx bxl-facebook"></i>
           </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right">
+          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
             <i class="bx bxl-telegram"></i>
           </vs-avatar>
         </vs-row>
@@ -162,13 +162,16 @@ export default {
   }),
   computed: {
     humanAddress() {
-      return this.$store.state.station.address
+      return this.$store.state.station.senderAddress
     },
     shortAddress() {
-      const addressPart1 = this.$store.state.station.address.substring(0, 7)
-      const addressPart2 = this.$store.state.station.address.substring(
-        this.$store.state.station.address.length - 6,
-        this.$store.state.station.address.length
+      const addressPart1 = this.$store.state.station.senderAddress.substring(
+        0,
+        7
+      )
+      const addressPart2 = this.$store.state.station.senderAddress.substring(
+        this.$store.state.station.senderAddress.length - 6,
+        this.$store.state.station.senderAddress.length
       )
       return addressPart1 + '...' + addressPart2
     },
@@ -183,7 +186,7 @@ export default {
       } else {
         console.log(extension.isAvailable)
         extension.once((w) => {
-          this.$store.state.station.address = w.address
+          this.$store.commit('station/update', w.address)
         })
       }
     },
