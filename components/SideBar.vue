@@ -46,6 +46,12 @@
         </template>
         Public sale
       </vs-sidebar-item>
+      <vs-sidebar-item id="staking" to="/staking">
+        <template #icon>
+          <i class="bx bx-coin-stack"></i>
+        </template>
+        Staking
+      </vs-sidebar-item>
       <vs-sidebar-item id="trerrand-oracle">
         <template #icon>
           <i class="bx bx-dice-5"></i>

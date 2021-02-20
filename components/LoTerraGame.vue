@@ -189,11 +189,12 @@ export default {
         })
       }
     },
-    openNotification(title, text) {
+    openNotification(title, text, seconds) {
       this.$vs.notification({
         position: 'bottom-center',
         title,
         text,
+        duration: seconds,
       })
     },
     addCombination(symbol) {
@@ -204,7 +205,7 @@ export default {
     },
     async buyCombination() {
       if (this.combination.length !== 6) {
-        this.openNotification('Error', 'You need to register 6 symbols')
+        this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
       const terra = new LCDClient({
@@ -243,9 +244,16 @@ export default {
         await extension.post({
           msgs: [msg],
         })
-        extension.on((msgss) => {
-          console.log(msgss)
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
           this.load = !this.load
+          if (!trxMsg.success) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              'none'
+            )
+          }
         })
       }
       /* const msgg = new MsgSend(
