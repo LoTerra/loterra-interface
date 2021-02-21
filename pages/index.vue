@@ -1,8 +1,6 @@
 <template>
   <div>
-    <body class="container">
-      <LoTerraGame />
-    </body>
+    <LoTerraGame />
   </div>
 </template>
 
