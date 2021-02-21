@@ -82,18 +82,24 @@
       </vs-sidebar-group>
       <template #footer>
         <vs-row justify="space-between">
-          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
-            <i class="bx bxl-github"></i>
-          </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
-            <i class="bx bxl-twitter"></i>
-          </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
-            <i class="bx bxl-facebook"></i>
-          </vs-avatar>
-          <vs-avatar badge-color="danger" badge-position="top-right" pointer>
-            <i class="bx bxl-telegram"></i>
-          </vs-avatar>
+          <a href="#" target="_blank" style="text-decoration: none">
+            <vs-avatar badge-color="danger" badge-position="top-right" pointer>
+              <i class="bx bxl-github"></i> </vs-avatar
+          ></a>
+          <a href="#" target="_blank" style="text-decoration: none">
+            <vs-avatar badge-color="danger" badge-position="top-right" pointer>
+              <i class="bx bxl-twitter"></i> </vs-avatar
+          ></a>
+          <a href="#" target="_blank" style="text-decoration: none">
+            <vs-avatar badge-color="danger" badge-position="top-right" pointer>
+              <i class="bx bxl-facebook"></i>
+            </vs-avatar>
+          </a>
+          <a href="#" target="_blank" style="text-decoration: none">
+            <vs-avatar badge-color="danger" badge-position="top-right" pointer>
+              <i class="bx bxl-telegram"></i>
+            </vs-avatar>
+          </a>
         </vs-row>
       </template>
     </vs-sidebar>
