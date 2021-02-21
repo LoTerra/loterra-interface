@@ -35,6 +35,10 @@ html {
   box-sizing: border-box;
   background-color: #ffdee9;
   background-image: linear-gradient(0deg, #ffdee9 0%, #ffffff 100%);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 input {
   font-size: 24px;

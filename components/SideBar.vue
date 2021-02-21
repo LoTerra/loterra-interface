@@ -52,7 +52,7 @@
         </template>
         Staking
       </vs-sidebar-item>
-      <vs-sidebar-item id="trerrand-oracle">
+      <vs-sidebar-item id="trerrand-oracle" to="/terrand-oracle">
         <template #icon>
           <i class="bx bx-dice-5"></i>
         </template>

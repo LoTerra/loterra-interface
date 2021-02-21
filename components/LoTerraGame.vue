@@ -247,20 +247,16 @@ export default {
         extension.on((trxMsg) => {
           console.log(trxMsg)
           this.load = !this.load
-          if (!trxMsg.success) {
+          if (!trxMsg.success)
             this.openNotification(
               'Transaction error',
               trxMsg.error.message,
               'none'
             )
-          }
+          if (trxMsg.success)
+            this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
         })
       }
-      /* const msgg = new MsgSend(
-        'terra1ddr7runxu5qqcawqjagkn6sa7kh7l940gq5cld',
-        'terra1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v',
-        { uusd: 1000 }
-      ) */
     },
   },
 }
