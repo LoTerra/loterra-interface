@@ -21,7 +21,7 @@
       <b>{{ contractAddr }}</b>
     </vs-alert>
     <div class="jackpot-title">Jackpot</div>
-    <div class="jackpot">10000000UST</div>
+    <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <vs-card>
       <template #title>
         <h3>Enter draw</h3>
@@ -187,7 +187,10 @@ import {
   WasmAPI,
   MsgExecuteContract,
   Extension,
+  BankAPI,
 } from '@terra-money/terra.js'
+
+import numeral from 'numeral'
 export default {
   data: () => ({
     combination: '',
@@ -196,6 +199,8 @@ export default {
     active: false,
     time: 10000,
     progress: 0,
+    terraClient: '',
+    contractBalance: '',
   }),
   computed: {
     connected() {
@@ -224,6 +229,12 @@ export default {
       }
     },
   },
+  created() {
+    this.terraClient = new LCDClient({
+      URL: this.$store.state.station.lcdUrl,
+      chainID: this.$store.state.station.lcdChainId,
+    })
+  },
   mounted() {
     this.$vs.notification({
       position: 'bottom-right',
@@ -233,8 +244,20 @@ export default {
       activeInfo: true,
     })
     this.active = true
+    this.contactBalance()
   },
   methods: {
+    async contactBalance() {
+      const bank = new BankAPI(this.terraClient.apiRequester)
+      const allBalance = await bank.balance(
+        'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p'
+      )
+      const ustBalance = allBalance.get('uusd').toData()
+      this.contractBalance = numeral(ustBalance.amount / 1000000).format(
+        '0,0.00'
+      )
+      // bank.balance()
+    },
     station() {
       const extension = new Extension()
       extension.connect()
@@ -267,11 +290,7 @@ export default {
         this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
-      const terra = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(terra.apiRequester)
+      const api = new WasmAPI(this.terraClient.apiRequester)
       console.log(
         await api.contractInfo('terra16nc2sxj0rgdm0utpe8gw8dn0eef4va4y9txnyt')
       )
@@ -346,14 +365,17 @@ export default {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 100px;
+  font-size: 3rem;
   padding-bottom: 30px;
+}
+.jackpot span {
+  font-size: 2rem;
 }
 .jackpot-title {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 50px;
+  font-size: 2rem;
   padding-bottom: 10px;
 }
 </style>

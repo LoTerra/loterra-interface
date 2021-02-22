@@ -182,7 +182,7 @@ export default {
         7
       )
       const addressPart2 = this.$store.state.station.senderAddress.substring(
-        this.$store.state.station.senderAddress.length - 6,
+        this.$store.state.station.senderAddress.length - 4,
         this.$store.state.station.senderAddress.length
       )
       return addressPart1 + '...' + addressPart2

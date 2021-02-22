@@ -27,13 +27,28 @@
             label-placeholder="Amount in UST"
             type="number"
             min="0"
-          />
+          >
+            <template v-if="errorFormat" #message-danger>
+              Wrong format
+            </template></vs-input
+          >
           <p style="font-size: small">only UST is accepted</p>
         </div>
       </template>
       <template #buttons>
         <div style="padding-bottom: 20px">
-          <vs-button danger gradient> Buy LOTA </vs-button>
+          <vs-button v-if="!connected" gradient danger block @click="station()">
+            Connect Wallet
+          </vs-button>
+          <vs-button
+            v-if="connected"
+            danger
+            gradient
+            :loading="load"
+            @click="buyLota"
+          >
+            Buy LOTA
+          </vs-button>
         </div>
       </template>
     </vs-card>
@@ -41,11 +56,107 @@
 </template>
 
 <script>
+import { Extension, MsgExecuteContract } from '@terra-money/terra.js'
 export default {
   name: 'PublicSale',
   data: () => ({
     amount: '',
+    errorFormat: false,
+    formatAmount: 0,
+    load: false,
   }),
+  computed: {
+    connected() {
+      if (this.$store.state.station.senderAddress) {
+        return true
+      } else {
+        return false
+      }
+    },
+  },
+  watch: {
+    amount(val) {
+      console.log(parseFloat(val))
+      if (isNaN(parseFloat(val))) {
+        this.errorFormat = !this.errorFormat
+      } else {
+        this.formatAmount = parseFloat(this.amount) * 1000000
+        this.errorFormat = false
+      }
+    },
+  },
+  methods: {
+    openNotification(title, text, seconds) {
+      this.$vs.notification({
+        position: 'bottom-right',
+        title,
+        text,
+        duration: seconds,
+      })
+    },
+    station() {
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        console.log(extension.isAvailable)
+        extension.once((w) => {
+          this.$store.commit('station/update', w.address)
+        })
+      }
+    },
+    async buyLota() {
+      if (this.formatAmount <= 0) {
+        this.$vs.notification({
+          position: 'bottom-right',
+          title: 'Error',
+          text: `Wrong format.`,
+          duration: 4000,
+          activeInfo: true,
+        })
+        return
+      }
+
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          public_sale: {},
+        },
+        { uusd: this.formatAmount }
+      )
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+        })
+        let switchs = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          this.load = !this.load
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
+  },
 }
 </script>
 
