@@ -1,12 +1,20 @@
 <template>
-  <div class="content-container">
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
     <vs-alert id="alert-1" gradient danger>
       <template #title> LoTerra </template>
-      <p>
-        LoTerra enable decentralized lottery on Terra Luna blockchain, do not
-        trust read the code smart contract address: <b>{{ contractAddr }}</b>
-      </p>
+
+      LoTerra enable decentralized lottery on Terra Luna blockchain, do not
+      trust read the code smart contract address:
+      <b>{{ contractAddr }}</b>
     </vs-alert>
+
     <vs-card>
       <template #title>
         <h3>Enter draw</h3>
