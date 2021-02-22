@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="content-container">
+    <vs-alert id="alert-1" gradient danger>
+      <template #title> LoTerra </template>
+      <p>
+        LoTerra enable decentralized lottery on Terra Luna blockchain, do not
+        trust read the code smart contract address: <b>{{ contractAddr }}</b>
+      </p>
+    </vs-alert>
     <vs-card>
       <template #title>
         <h3>Enter draw</h3>
@@ -129,6 +136,10 @@
         </div>
       </template>
     </vs-card>
+
+    <!--    <p style="margin-top: 25px; position: absolute; bottom: 0">
+      Contract address: {{ contractAddr }}
+    </p>-->
     <vs-dialog v-model="activeDialogInfoNoWalletDetected" non-center>
       <template #header>
         <h4 class="not-margin">Setup needed</h4>
@@ -174,6 +185,17 @@ export default {
         return false
       }
     },
+    contractAddr() {
+      return this.$store.state.station.loterraLotteryContractAddress
+    },
+  },
+  mounted() {
+    this.$vs.notification({
+      position: 'bottom-right',
+      title: 'Lottery DAO',
+      text: `Buy a combination for 1UST and get a chance to win the jackpot! 🍀.`,
+      duration: 8000,
+    })
   },
   methods: {
     station() {
@@ -263,6 +285,11 @@ export default {
 </script>
 
 <style scoped>
+#alert-1 {
+  width: 70%;
+  margin-bottom: 25px;
+  text-align: left;
+}
 .mtop-50 {
   margin-top: 50px;
 }

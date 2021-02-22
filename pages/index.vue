@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-container">
     <LoTerraGame />
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style>
-.container {
+.content-container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;

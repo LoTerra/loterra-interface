@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-container">
     <vs-card>
       <template #title>
         <h3>Staking</h3>
