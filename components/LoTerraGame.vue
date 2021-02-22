@@ -22,21 +22,17 @@
       </template>
       <template #text>
         <div class="center content-inputs mtop-50">
-          <vs-input
-            v-model="combination"
-            type="text"
-            shadow
-            danger
-            icon-after
-            label-placeholder="Combination"
-            maxlength="6"
-            disabled
+          <h2
+            style="
+              margin-bottom: 50px;
+              border: 0.1px black solid;
+              border-radius: 20px;
+              padding: 5px;
+            "
+            warn
           >
-            <template #icon>
-              <i class="bx bx-hash"></i>
-            </template>
-            <template v-if="1 == 2" #message-danger> Required </template>
-          </vs-input>
+            {{ combination ? combination : 'Combination' }}
+          </h2>
           <vs-row>
             <vs-col w="2">
               <vs-button border flat danger @click="addCombination('0')">
@@ -221,7 +217,7 @@ export default {
     },
     openNotification(title, text, seconds) {
       this.$vs.notification({
-        position: 'bottom-center',
+        position: 'bottom-right',
         title,
         text,
         duration: seconds,
@@ -274,18 +270,24 @@ export default {
         await extension.post({
           msgs: [msg],
         })
+        let switchs = true
         extension.on((trxMsg) => {
           console.log(trxMsg)
           this.load = !this.load
-          if (!trxMsg.success)
+          if (!trxMsg.success && switchs) {
             this.openNotification(
               'Transaction error',
               trxMsg.error.message,
               'none'
             )
-          if (trxMsg.success)
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
             this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
+            switchs = false
+          }
         })
+        switchs = true
       }
     },
   },
