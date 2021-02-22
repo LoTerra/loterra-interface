@@ -41,6 +41,9 @@ html {
 input {
   font-size: 24px;
 }
+[disabled] {
+  opacity: 100%;
+}
 *,
 *::before,
 *::after {

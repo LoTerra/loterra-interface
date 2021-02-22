@@ -22,12 +22,12 @@
           @click="activeDialogInfoConnection = !activeDialogInfoConnection"
           >{{ shortAddress }}</vs-button
         >
-        <vs-switch v-model="active5" danger>
+        <!--        <vs-switch v-model="active5" danger>
           <template #circle>
             <i v-if="!active5" class="bx bxs-moon"></i>
             <i v-else class="bx bxs-sun"></i>
           </template>
-        </vs-switch>
+        </vs-switch>-->
       </template>
     </vs-navbar>
     <vs-sidebar v-model="active" absolute :open.sync="activeSidebar" danger>
