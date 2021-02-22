@@ -1,14 +1,15 @@
 <template>
   <div class="content-container">
     <vs-alert id="alert-1" gradient danger>
-      <template #title> LOTA is the token of LoTerra </template>
+      <template #title> LOTA is the DAO token of LoTerra </template>
 
-      <b>LOTA is a DAO token</b>, he give power to vote proposal and manage the
-      decentralized LoTerra ecosystem of lottery gaming's also holders can stake
-      LOTA and earn 10% of lottery rewards. Public sale ratio is 1UST:1LOTA,
-      100% sold UST is auto added to the jackpot and become available to the
-      next draw. The current supply of LOTA is 7Mm so hard cap is $7Mm unsold
-      will remain on the smart contract forever lowering the circulating supply.
+      LOTA give power to vote proposal and manage the decentralized LoTerra
+      ecosystem of lottery gaming's also holders can stake LOTA and earn 10% of
+      lottery rewards. Public sale ratio is 1:1 UST -> LOTA, all 100% sold UST
+      is auto added to the jackpot and become available to the next draw. The
+      current supply of LOTA is 7Mm so hard cap is $7Mm unsold will remain on
+      the smart contract forever lowering the circulating supply. Creators will
+      keep 30% of 7Mm LOTA for developing the LoTerra ecosystem.
     </vs-alert>
 
     <vs-card>

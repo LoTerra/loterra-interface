@@ -38,6 +38,15 @@ html {
   width: 100%;
   height: 100%;
 }
+body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+html,
+body {
+  overflow-y: scroll;
+}
 input {
   font-size: 24px;
 }
@@ -54,7 +63,14 @@ input {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  min-height: 100vh;
   text-align: center;
+}
+
+.content-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 500px;
+  margin-bottom: 60px;
 }
 </style>

@@ -7,14 +7,21 @@
       flex-direction: column;
     "
   >
-    <vs-alert id="alert-1" gradient danger>
+    <vs-alert
+      id="alert-1"
+      v-model="active"
+      :progress="progress"
+      gradient
+      danger
+    >
       <template #title> LoTerra </template>
 
       LoTerra enable decentralized lottery on Terra Luna blockchain, do not
-      trust read the code smart contract address:
+      trust read the code. Smart contract address:
       <b>{{ contractAddr }}</b>
     </vs-alert>
-
+    <div class="jackpot-title">Jackpot</div>
+    <div class="jackpot">10000000UST</div>
     <vs-card>
       <template #title>
         <h3>Enter draw</h3>
@@ -132,7 +139,7 @@
             block
             @click="buyCombination()"
           >
-            Buy ticket
+            Buy ticket 🍀
           </vs-button>
           <vs-button v-if="!connected" gradient danger block @click="station()">
             Connect Wallet
@@ -140,7 +147,13 @@
         </div>
       </template>
     </vs-card>
+    <!--<vs-alert id="alert-1" gradient danger>
+      <template #title> LoTerra </template>
 
+      LoTerra enable decentralized lottery on Terra Luna blockchain, do not
+      trust read the code smart contract address:
+      <b>{{ contractAddr }}</b>
+    </vs-alert>-->
     <!--    <p style="margin-top: 25px; position: absolute; bottom: 0">
       Contract address: {{ contractAddr }}
     </p>-->
@@ -180,6 +193,9 @@ export default {
     combination: '',
     load: false,
     activeDialogInfoNoWalletDetected: false,
+    active: false,
+    time: 10000,
+    progress: 0,
   }),
   computed: {
     connected() {
@@ -193,13 +209,30 @@ export default {
       return this.$store.state.station.loterraLotteryContractAddress
     },
   },
+  watch: {
+    active(val) {
+      if (val) {
+        const interval = setInterval(() => {
+          this.progress++
+        }, this.time / 100)
+
+        setTimeout(() => {
+          this.active = false
+          clearInterval(interval)
+          this.progress = 0
+        }, this.time)
+      }
+    },
+  },
   mounted() {
     this.$vs.notification({
       position: 'bottom-right',
       title: 'Lottery DAO',
       text: `Buy a combination for 1UST and get a chance to win the jackpot! 🍀.`,
       duration: 8000,
+      activeInfo: true,
     })
+    this.active = true
   },
   methods: {
     station() {
@@ -278,7 +311,7 @@ export default {
             this.openNotification(
               'Transaction error',
               trxMsg.error.message,
-              'none'
+              30000
             )
             switchs = false
           }
@@ -308,5 +341,19 @@ export default {
 }
 .pb-15 {
   padding-bottom: 15px;
+}
+.jackpot {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 100px;
+  padding-bottom: 30px;
+}
+.jackpot-title {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 50px;
+  padding-bottom: 10px;
 }
 </style>
