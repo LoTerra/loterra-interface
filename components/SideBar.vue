@@ -24,6 +24,7 @@
           @click="activeDialogInfoConnection = !activeDialogInfoConnection"
           >{{ shortAddress }}</vs-button
         >
+        <i class="bx bxs-planet bx-md bx-burst-hover"></i>
         <!--        <vs-switch v-model="active5" danger>
           <template #circle>
             <i v-if="!active5" class="bx bxs-moon"></i>
@@ -44,21 +45,27 @@
       </vs-sidebar-item>
       <vs-sidebar-item id="public-sale" to="/public-sale">
         <template #icon>
-          <i class="bx bx-coin"></i>
+          <i class="bx bxs-coin"></i>
         </template>
         Public sale
       </vs-sidebar-item>
       <vs-sidebar-item id="staking" to="/staking">
         <template #icon>
-          <i class="bx bx-coin-stack"></i>
+          <i class="bx bxs-coin-stack"></i>
         </template>
         Staking
       </vs-sidebar-item>
       <vs-sidebar-item id="trerrand-oracle" to="/terrand-oracle">
         <template #icon>
-          <i class="bx bx-dice-5"></i>
+          <i class="bx bxs-dice-5"></i>
         </template>
         Terrand oracle
+      </vs-sidebar-item>
+      <vs-sidebar-item id="trerrand-oracle" to="/dao">
+        <template #icon>
+          <i class="bx bxs-planet"></i>
+        </template>
+        DAO
       </vs-sidebar-item>
       <vs-sidebar-group>
         <template #header>
