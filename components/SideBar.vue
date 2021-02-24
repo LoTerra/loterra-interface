@@ -143,7 +143,7 @@
       </template>
       <template #footer>
         <div class="con-footer">
-          <vs-button icon danger transparent @click="copy()">
+          <vs-button icon danger transparent>
             <i class="bx bx-copy"></i> Copy
           </vs-button>
           <vs-button icon danger transparent @click="logout">
@@ -221,9 +221,6 @@ export default {
           this.$store.commit('station/update', w.address)
         })
       }
-    },
-    copy() {
-      document.execCommand('copy')
     },
     logout() {
       this.$store.state.station.senderAddress = ''
