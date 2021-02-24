@@ -171,7 +171,11 @@ export default {
             switchs = false
           }
           if (trxMsg.success && switchs) {
-            this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
+            this.openNotification(
+              'Transaction success',
+              'Welcome to the DAO, do not forget to stake your LOTA.',
+              4000
+            )
             switchs = false
           }
         })

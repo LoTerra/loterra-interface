@@ -191,6 +191,7 @@ import {
 } from '@terra-money/terra.js'
 
 import numeral from 'numeral'
+
 export default {
   data: () => ({
     combination: '',
@@ -236,10 +237,11 @@ export default {
     })
   },
   mounted() {
+    const amountMinMax = numeral(1).format('0,0.00')
     this.$vs.notification({
       position: 'bottom-right',
       title: 'Lottery DAO',
-      text: `Buy a combination for 1UST and get a chance to win the jackpot! 🍀.`,
+      text: `Buy a combination for ${amountMinMax}UST and get a chance to win the jackpot! 🍀.`,
       duration: 8000,
       activeInfo: true,
     })

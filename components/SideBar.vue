@@ -11,8 +11,10 @@
       </vs-navbar-item>-->
       <template #right>
         <vs-button flat danger @click="activeDialog = !activeDialog">
-          LOTA
+          <GetBalanceUserLotaContract />
+          <span style="margin-left: 5px">LOTA</span>
         </vs-button>
+
         <vs-button v-if="!humanAddress" gradient danger @click="station()"
           >Connect to a wallet</vs-button
         >
@@ -82,20 +84,27 @@
       </vs-sidebar-group>
       <template #footer>
         <vs-row justify="space-between">
-          <a href="#" target="_blank" style="text-decoration: none">
+          <a
+            href="https://github.com/LoTerra"
+            target="_blank"
+            style="text-decoration: none"
+          >
             <vs-avatar badge-color="danger" badge-position="top-right" pointer>
               <i class="bx bxl-github"></i> </vs-avatar
           ></a>
-          <a href="#" target="_blank" style="text-decoration: none">
+          <a
+            href="https://twitter.com/LoTerra_LOTA"
+            target="_blank"
+            style="text-decoration: none"
+          >
             <vs-avatar badge-color="danger" badge-position="top-right" pointer>
               <i class="bx bxl-twitter"></i> </vs-avatar
           ></a>
-          <a href="#" target="_blank" style="text-decoration: none">
-            <vs-avatar badge-color="danger" badge-position="top-right" pointer>
-              <i class="bx bxl-facebook"></i>
-            </vs-avatar>
-          </a>
-          <a href="#" target="_blank" style="text-decoration: none">
+          <a
+            href="https://t.me/LoTerra"
+            target="_blank"
+            style="text-decoration: none"
+          >
             <vs-avatar badge-color="danger" badge-position="top-right" pointer>
               <i class="bx bxl-telegram"></i>
             </vs-avatar>
@@ -162,8 +171,12 @@
 
 <script>
 import { Extension } from '@terra-money/terra.js'
+import GetBalanceUserLotaContract from '../components/GetBalanceUserLotaContract'
 
 export default {
+  components: {
+    GetBalanceUserLotaContract,
+  },
   data: () => ({
     active: 'lottery',
     activeDialog: false,
