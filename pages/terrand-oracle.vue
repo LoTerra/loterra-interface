@@ -6,10 +6,13 @@
       needed round of randomness used by the lottery draw.
     </vs-alert>
     <div style="margin-bottom: 30px; margin-top: 30px">
-      <h2 style="margin-bottom: 30px">
+      <h2 v-if="!randomnessAlreadyAdded" style="margin-bottom: 30px">
         <span style="font-size: 23px">Next round:</span>
         <span style="color: rgb(242, 19, 93)">{{ nextRound }}</span>
       </h2>
+      <p v-if="randomnessAlreadyAdded" style="margin-bottom: 30px">
+        Round ALREADY ADDED. Wait until determination of the next round
+      </p>
       <a
         :href="'https://drand.cloudflare.com/public/' + nextRound"
         target="_blank"
@@ -122,6 +125,7 @@ export default {
     inputRound: '',
     inputSignature: '',
     inputPreviousSignature: '',
+    randomnessAlreadyAdded: false,
   }),
   computed: {
     round: {
@@ -157,19 +161,23 @@ export default {
           get_round: {},
         }
       )
+
       this.nextRound = nextRoundObj.next_round
       this.inputRound = nextRoundObj.next_round
+      this.queryRandomnessExist()
     },
-    async queryRandomnessExist() {
+    async queryRandomnessExist(_nextRound) {
       const api = new WasmAPI(this.terraClient.apiRequester)
-
       const nextRandomnessObj = await api.contractQuery(
         this.$store.state.station.terrandContractAddress,
         {
-          get_rand: {},
+          get_randomness: { round: this.nextRound },
         }
       )
-      console.log(nextRandomnessObj)
+      if (nextRandomnessObj.randomness) {
+        this.randomnessAlreadyAdded = !this.randomnessAlreadyAdded
+        this.inputRound = ''
+      }
     },
     openNotification(title, text, seconds) {
       this.$vs.notification({
