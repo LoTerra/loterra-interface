@@ -7,15 +7,30 @@
     </vs-alert>
     <div style="margin-bottom: 30px; margin-top: 30px">
       <div v-if="!randomnessAlreadyAdded">
-        <h2 style="margin-bottom: 30px">
-          <span style="font-size: 23px">Next round:</span>
-          <span style="color: rgb(242, 19, 93)">{{ nextRound }}</span>
-        </h2>
-        <a
-          :href="'https://drand.cloudflare.com/public/' + nextRound"
-          target="_blank"
-          >Get the next randomness from official Drand</a
-        >
+        <div style="display: flex">
+          <div class="center">
+            <vs-tooltip top>
+              <vs-button
+                flat
+                danger
+                href="https://docs.terrand.dev/#add-randomness"
+                blank
+              >
+                <i class="bx bx-info-circle"></i>
+              </vs-button>
+              <template #tooltip> Click and go to Terrand docs </template>
+            </vs-tooltip>
+          </div>
+          <h2 style="margin-bottom: 30px">
+            <span style="font-size: 23px">Next round:</span>
+            <a
+              :href="'https://drand.cloudflare.com/public/' + nextRound"
+              target="_blank"
+              style="color: rgb(242, 19, 93); text-decoration: none"
+              >{{ nextRound }}</a
+            >
+          </h2>
+        </div>
       </div>
       <div v-if="randomnessAlreadyAdded">
         <p style="margin-bottom: 30px">
