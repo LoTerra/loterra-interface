@@ -7,6 +7,9 @@ import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import numeral from 'numeral'
 export default {
   name: 'GetBalanceUserLotaContract',
+  props: {
+    userAddress: String,
+  },
   data: () => ({
     balanceOf: '0',
   }),
@@ -29,23 +32,12 @@ export default {
         this.$store.state.station.lotaCw20ContractAddress,
         {
           balance: {
-            address: 'terra1np82azjrpfr2ax77s854w4nyh9k63ng7vj26h0',
+            address: this.userAddress,
           },
         }
       )
 
       this.balanceOf = numeral(objBalance.balance / 1000000).format('0,0.00')
-
-      console.log(
-        await api.contractQuery(
-          this.$store.state.station.lotaCw20ContractAddress,
-          {
-            balance: {
-              address: 'terra1np82azjrpfr2ax77s854w4nyh9k63ng7vj26h0',
-            },
-          }
-        )
-      )
     },
   },
 }

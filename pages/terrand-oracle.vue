@@ -5,9 +5,14 @@
       Become a worker and earn UST from the jackpot rewards every time you add a
       needed round of randomness used by the lottery draw.
     </vs-alert>
-    <div style="margin-bottom: 20px">
-      <h3>Next round: {{ nextRound }}</h3>
-      <a :href="'https://drand.cloudflare.com/public/' + nextRound"
+    <div style="margin-bottom: 30px; margin-top: 30px">
+      <h2 style="margin-bottom: 30px">
+        <span style="font-size: 23px">Next round:</span>
+        <span style="color: rgb(242, 19, 93)">{{ nextRound }}</span>
+      </h2>
+      <a
+        :href="'https://drand.cloudflare.com/public/' + nextRound"
+        target="_blank"
         >Get the next randomness from official Drand</a
       >
     </div>
@@ -21,7 +26,7 @@
       <template #text>
         <div class="center content-inputs">
           <vs-input
-            v-model="amount"
+            v-model="inputRound"
             block
             placeholder="Round"
             type="number"
@@ -34,7 +39,7 @@
           >
 
           <vs-input
-            v-model="amount"
+            v-model="inputSignature"
             block
             placeholder="Signature"
             type="text"
@@ -46,7 +51,7 @@
           >
 
           <vs-input
-            v-model="amount"
+            v-model="inputPreviousSignature"
             block
             placeholder="Previous signature"
             type="text"
@@ -68,9 +73,9 @@
             danger
             gradient
             :loading="load"
-            @click="buyLota"
+            @click="terraAddRandomness"
           >
-            Buy LOTA
+            Add randomness
           </vs-button>
         </div>
       </template>
@@ -100,8 +105,129 @@
 </template>
 
 <script>
+import {
+  Extension,
+  LCDClient,
+  WasmAPI,
+  MsgExecuteContract,
+} from '@terra-money/terra.js'
+
 export default {
   name: 'TerrandOracle',
+  data: () => ({
+    activeDialogInfoNoWalletDetected: false,
+    load: false,
+    terraClient: '',
+    nextRound: '',
+    inputRound: '',
+    inputSignature: '',
+    inputPreviousSignature: '',
+  }),
+  computed: {
+    round: {
+      get() {
+        return this.inputRound
+      },
+      set(d) {
+        this.inputRound = d
+      },
+    },
+    connected() {
+      if (this.$store.state.station.senderAddress) {
+        return true
+      } else {
+        return false
+      }
+    },
+  },
+  created() {
+    this.terraClient = new LCDClient({
+      URL: this.$store.state.station.lcdUrl,
+      chainID: this.$store.state.station.lcdChainId,
+    })
+    this.queryRound()
+  },
+  methods: {
+    async queryRound() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+
+      const nextRoundObj = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          get_round: {},
+        }
+      )
+      this.nextRound = nextRoundObj.next_round
+      this.inputRound = nextRoundObj.next_round
+    },
+    openNotification(title, text, seconds) {
+      this.$vs.notification({
+        position: 'bottom-right',
+        title,
+        text,
+        duration: seconds,
+      })
+    },
+    station() {
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        console.log(extension.isAvailable)
+        extension.once((w) => {
+          this.$store.commit('station/update', w.address)
+        })
+      }
+    },
+    async terraAddRandomness() {
+      // eslint-disable-next-line camelcase
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.terrandContractAddress,
+        {
+          drand: {
+            round: parseInt(this.inputRound),
+            previous_signature: this.inputPreviousSignature,
+            signature: this.inputSignature,
+          },
+        }
+      )
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+        })
+        let switchs = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          this.load = !this.load
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction success',
+              'Thank you for your contribution! 🍀',
+              4000
+            )
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
+  },
 }
 </script>
 

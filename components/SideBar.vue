@@ -11,7 +11,7 @@
       </vs-navbar-item>-->
       <template #right>
         <vs-button flat danger @click="activeDialog = !activeDialog">
-          <GetBalanceUserLotaContract />
+          <GetBalanceUserLotaContract :user-address="humanAddress" />
           <span style="margin-left: 5px">LOTA</span>
         </vs-button>
 
@@ -61,7 +61,7 @@
         </template>
         Terrand oracle
       </vs-sidebar-item>
-      <vs-sidebar-item id="trerrand-oracle" to="/dao">
+      <vs-sidebar-item id="dao" to="/dao">
         <template #icon>
           <i class="bx bxs-planet"></i>
         </template>
@@ -143,10 +143,10 @@
       </template>
       <template #footer>
         <div class="con-footer">
-          <vs-button icon danger transparent>
+          <vs-button icon danger transparent @click="copy()">
             <i class="bx bx-copy"></i> Copy
           </vs-button>
-          <vs-button icon danger transparent @click="active = false">
+          <vs-button icon danger transparent @click="logout">
             <i class="bx bx-log-out"></i> Disconnect
           </vs-button>
         </div>
@@ -221,6 +221,13 @@ export default {
           this.$store.commit('station/update', w.address)
         })
       }
+    },
+    copy() {
+      document.execCommand('copy')
+    },
+    logout() {
+      this.$store.state.station.senderAddress = ''
+      this.activeDialogInfoConnection = !this.activeDialogInfoConnection
     },
   },
 }
