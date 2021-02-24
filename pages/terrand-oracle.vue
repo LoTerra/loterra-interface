@@ -160,6 +160,17 @@ export default {
       this.nextRound = nextRoundObj.next_round
       this.inputRound = nextRoundObj.next_round
     },
+    async queryRandomnessExist() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+
+      const nextRandomnessObj = await api.contractQuery(
+        this.$store.state.station.terrandContractAddress,
+        {
+          get_rand: {},
+        }
+      )
+      console.log(nextRandomnessObj)
+    },
     openNotification(title, text, seconds) {
       this.$vs.notification({
         position: 'bottom-right',

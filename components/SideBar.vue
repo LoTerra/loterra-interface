@@ -130,7 +130,12 @@
         </div>
         <template #footer>
           <div class="con-footer">
-            <vs-button transparent @click="active = false">
+            <vs-button
+              transparent
+              danger
+              target="_blank"
+              href="https://docs.loterra.io/"
+            >
               More info
             </vs-button>
           </div>
