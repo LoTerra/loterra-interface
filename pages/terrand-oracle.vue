@@ -6,18 +6,22 @@
       needed round of randomness used by the lottery draw.
     </vs-alert>
     <div style="margin-bottom: 30px; margin-top: 30px">
-      <h2 v-if="!randomnessAlreadyAdded" style="margin-bottom: 30px">
-        <span style="font-size: 23px">Next round:</span>
-        <span style="color: rgb(242, 19, 93)">{{ nextRound }}</span>
-      </h2>
-      <p v-if="randomnessAlreadyAdded" style="margin-bottom: 30px">
-        Round ALREADY ADDED. Wait until determination of the next round
-      </p>
-      <a
-        :href="'https://drand.cloudflare.com/public/' + nextRound"
-        target="_blank"
-        >Get the next randomness from official Drand</a
-      >
+      <div v-if="!randomnessAlreadyAdded">
+        <h2 style="margin-bottom: 30px">
+          <span style="font-size: 23px">Next round:</span>
+          <span style="color: rgb(242, 19, 93)">{{ nextRound }}</span>
+        </h2>
+        <a
+          :href="'https://drand.cloudflare.com/public/' + nextRound"
+          target="_blank"
+          >Get the next randomness from official Drand</a
+        >
+      </div>
+      <div v-if="randomnessAlreadyAdded">
+        <p style="margin-bottom: 30px">
+          Round ALREADY ADDED. Wait until determination of the next round
+        </p>
+      </div>
     </div>
     <vs-card>
       <template #title>
