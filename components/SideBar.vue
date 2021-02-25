@@ -10,6 +10,7 @@
         Guide
       </vs-navbar-item>-->
       <template #right>
+        <vs-button flat success> Testnet </vs-button>
         <vs-button flat danger @click="activeDialog = !activeDialog">
           <GetBalanceUserLotaContract :user-address="humanAddress" />
           <span style="margin-left: 5px">LOTA</span>
