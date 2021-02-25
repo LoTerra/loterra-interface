@@ -12,7 +12,7 @@
       <template #right>
         <vs-button flat success> Testnet </vs-button>
         <vs-button flat danger @click="activeDialog = !activeDialog">
-          <GetBalanceUserLotaContract :user-address="humanAddress" />
+          <GetBalanceUserLotaContract />
           <span style="margin-left: 5px">LOTA</span>
         </vs-button>
 
@@ -179,11 +179,11 @@
 
 <script>
 import { Extension } from '@terra-money/terra.js'
-import GetBalanceUserLotaContract from '../components/GetBalanceUserLotaContract'
-
+// import GetBalanceUserLotaContract from '../components/GetBalanceUserLotaContract'
 export default {
   components: {
-    GetBalanceUserLotaContract,
+    GetBalanceUserLotaContract: () =>
+      import('../components/GetBalanceUserLotaContract'),
   },
   data: () => ({
     active: 'lottery',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { LCDClient, Extension } from '@terra-money/terra.js'
+import { Extension } from '@terra-money/terra.js'
 import LoTerraGame from '~/components/LoTerraGame'
 // eslint-disable-next-line no-unused-vars
 
@@ -16,10 +16,6 @@ export default {
   // middleware: 'terraConnect',
   mounted() {
     // eslint-disable-next-line no-unused-vars
-    const terra = new LCDClient({
-      URL: 'https://tequila-lcd.terra.dev',
-      chainID: 'tequila-0004',
-    })
     const extension = new Extension()
     extension.connect()
     console.log(extension.isAvailable)
