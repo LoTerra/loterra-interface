@@ -38,85 +38,70 @@
         </p>
       </div>
     </div>
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      "
-    >
-      <vs-card>
-        <template #title>
-          <h3>Terrand oracle</h3>
-          <p style="margin-bottom: 25px">
-            Adding randomness to Terrand smart contract
-          </p>
-        </template>
-        <template #text>
-          <div class="center content-inputs">
-            <vs-input
-              v-model="inputRound"
-              block
-              placeholder="Round"
-              type="number"
-              min="0"
-              class="input-drand"
-            >
-              <template v-if="errorFormat" #message-danger>
-                Wrong format
-              </template></vs-input
-            >
+    <vs-card>
+      <template #title>
+        <h3>Terrand oracle</h3>
+        <p style="margin-bottom: 25px">
+          Adding randomness to Terrand smart contract
+        </p>
+      </template>
+      <template #text>
+        <div class="center content-inputs">
+          <vs-input
+            v-model="inputRound"
+            block
+            placeholder="Round"
+            type="number"
+            min="0"
+            class="input-drand"
+          >
+            <template v-if="errorFormat" #message-danger>
+              Wrong format
+            </template></vs-input
+          >
 
-            <vs-input
-              v-model="inputSignature"
-              block
-              placeholder="Signature"
-              type="text"
-              class="input-drand"
-            >
-              <template v-if="errorFormat" #message-danger>
-                Wrong format
-              </template></vs-input
-            >
+          <vs-input
+            v-model="inputSignature"
+            block
+            placeholder="Signature"
+            type="text"
+            class="input-drand"
+          >
+            <template v-if="errorFormat" #message-danger>
+              Wrong format
+            </template></vs-input
+          >
 
-            <vs-input
-              v-model="inputPreviousSignature"
-              block
-              placeholder="Previous signature"
-              type="text"
-              class="input-drand"
-            >
-              <template v-if="errorFormat" #message-danger>
-                Wrong format
-              </template></vs-input
-            >
-          </div>
-        </template>
-        <template #buttons>
-          <div style="padding-bottom: 20px">
-            <vs-button
-              v-if="!connected"
-              gradient
-              danger
-              block
-              @click="station()"
-            >
-              Connect Wallet
-            </vs-button>
-            <vs-button
-              v-if="connected"
-              danger
-              gradient
-              :loading="load"
-              @click="terraAddRandomness"
-            >
-              Add randomness
-            </vs-button>
-          </div>
-        </template>
-      </vs-card>
-    </div>
+          <vs-input
+            v-model="inputPreviousSignature"
+            block
+            placeholder="Previous signature"
+            type="text"
+            class="input-drand"
+          >
+            <template v-if="errorFormat" #message-danger>
+              Wrong format
+            </template></vs-input
+          >
+        </div>
+      </template>
+      <template #buttons>
+        <div style="padding-bottom: 20px">
+          <vs-button v-if="!connected" gradient danger @click="station()">
+            Connect Wallet
+          </vs-button>
+          <vs-button
+            v-if="connected"
+            danger
+            gradient
+            :loading="load"
+            @click="terraAddRandomness"
+          >
+            Add randomness
+          </vs-button>
+        </div>
+      </template>
+    </vs-card>
     <vs-dialog v-model="activeDialogInfoNoWalletDetected" non-center>
       <template #header>
         <h4 class="not-margin">Setup needed</h4>

@@ -37,7 +37,7 @@
       </template>
       <template #buttons>
         <div style="padding-bottom: 20px">
-          <vs-button v-if="!connected" gradient danger block @click="station()">
+          <vs-button v-if="!connected" gradient danger @click="station()">
             Connect Wallet
           </vs-button>
           <vs-button
