@@ -5,7 +5,9 @@
         <h3>Staking</h3>
         <p>In construction...</p>
       </template>
-      <template #text> Soon we will enable LOTA staking. Stay tuned </template>
+      <template #text>
+        LOTA staking will be available soon. Stay tuned
+      </template>
     </vs-card>
   </div>
 </template>
