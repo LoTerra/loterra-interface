@@ -12,7 +12,15 @@
       keep 30% of 7Mm LOTA for developing the LoTerra ecosystem.
     </vs-alert>
 
-    <vs-card>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/Qcvyrf0g3kg"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+    <vs-card style="margin-top: 25px">
       <template #title>
         <h3>Public sale</h3>
         <p style="margin-bottom: 25px">
