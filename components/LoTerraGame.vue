@@ -338,6 +338,7 @@ export default {
           }
           if (trxMsg.success && switchs) {
             this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
+            this.combination = ''
             switchs = false
           }
         })
