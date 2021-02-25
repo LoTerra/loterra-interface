@@ -20,7 +20,7 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
     ></iframe>
-    <vs-card style="margin-top: 25px">
+    <vs-card style="margin-top: 25px; margin-bottom: 25px">
       <template #title>
         <h3>Public sale</h3>
         <p style="margin-bottom: 25px">
