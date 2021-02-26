@@ -23,179 +23,174 @@
     </vs-alert>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
-    <div class="row">
-      <vs-row justify="center">
-        <vs-col
-          w="9"
-          sm="12"
-          vs-type="flex"
-          vs-justify="center"
-          vs-align="center"
-        >
-          <vs-card>
-            <template #title>
-              <h3>Enter draw</h3>
-              <p>Register your combination for next lottery draw.</p>
-            </template>
-            <template #text>
-              <div class="center content-inputs mtop-50">
-                <p>Time left before next draw:</p>
-                <p class="jackpot-timer">{{ lotteryTimestampDraw }}</p>
-                <h2
-                  style="
-                    margin-bottom: 50px;
-                    border: 0.1px black solid;
-                    border-radius: 20px;
-                    padding: 5px;
-                  "
-                  warn
-                >
-                  {{ combination ? combination : 'Combination' }}
-                </h2>
-                <vs-row>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('0')">
-                      0
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('1')">
-                      1
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('2')">
-                      2
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('3')">
-                      3
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('4')">
-                      4
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('5')">
-                      5
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('6')">
-                      6
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('7')">
-                      7
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('8')">
-                      8
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('9')">
-                      9
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('a')">
-                      a
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('b')">
-                      b
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('c')">
-                      c
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('d')">
-                      d
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('e')">
-                      e
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="addCombination('f')">
-                      f
-                    </vs-button>
-                  </vs-col>
-                  <vs-col w="2">
-                    <vs-button border flat danger @click="removeCombination">
-                      <i class="bx bxs-tag-x"></i>
-                    </vs-button>
-                  </vs-col>
-                </vs-row>
-              </div>
-            </template>
-            <template #buttons>
-              <div class="p-20">
-                <vs-button
-                  v-if="connected"
-                  :loading="load"
-                  gradient
-                  danger
-                  block
-                  @click="buyCombination()"
-                >
-                  Buy ticket 🍀
-                </vs-button>
-                <vs-button
-                  v-if="!connected"
-                  gradient
-                  danger
-                  block
-                  @click="station()"
-                >
-                  Connect Wallet
-                </vs-button>
-              </div>
-            </template>
-          </vs-card>
-        </vs-col>
-        <vs-col w="3" sm="12">
-          <div style="margin-top: 50px; display: flex; justify-content: center">
-            <vs-card width="400px">
-              <template #title>
-                <h3>Claim reward</h3>
-              </template>
-              <template #text>
-                <div
-                  class="center content-inputs"
-                  style="margin-top: 25px; margin-bottom: 25px"
-                >
-                  <vs-input v-model="value" placeholder="Address" />
-                </div>
-                <vs-button v-if="connected" danger block gradient
-                  >Claim</vs-button
-                >
-                <vs-button
-                  v-if="!connected"
-                  gradient
-                  danger
-                  block
-                  @click="station()"
-                >
-                  Connect Wallet
-                </vs-button>
-              </template>
-            </vs-card>
-          </div>
-        </vs-col>
-      </vs-row>
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div class="game">
+        <vs-card>
+          <template #title>
+            <h3>Enter draw</h3>
+            <p>Register your combination for next lottery draw.</p>
+          </template>
+          <template #text>
+            <div class="center content-inputs mtop-50">
+              <p>Time left before next draw:</p>
+              <p class="jackpot-timer">{{ lotteryTimestampDraw }}</p>
+              <h2
+                style="
+                  margin-bottom: 50px;
+                  border: 0.1px black solid;
+                  border-radius: 20px;
+                  padding: 5px;
+                "
+                warn
+              >
+                {{ combination ? combination : 'Combination' }}
+              </h2>
+              <vs-row>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('0')">
+                    0
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('1')">
+                    1
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('2')">
+                    2
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('3')">
+                    3
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('4')">
+                    4
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('5')">
+                    5
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('6')">
+                    6
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('7')">
+                    7
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('8')">
+                    8
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('9')">
+                    9
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('a')">
+                    a
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('b')">
+                    b
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('c')">
+                    c
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('d')">
+                    d
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('e')">
+                    e
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="addCombination('f')">
+                    f
+                  </vs-button>
+                </vs-col>
+                <vs-col w="2">
+                  <vs-button border flat danger @click="removeCombination">
+                    <i class="bx bxs-tag-x"></i>
+                  </vs-button>
+                </vs-col>
+              </vs-row>
+            </div>
+          </template>
+          <template #buttons>
+            <div class="p-20">
+              <vs-button
+                v-if="connected"
+                :loading="load"
+                gradient
+                danger
+                block
+                @click="buyCombination()"
+              >
+                Buy ticket 🍀
+              </vs-button>
+              <vs-button
+                v-if="!connected"
+                gradient
+                danger
+                block
+                @click="station()"
+              >
+                Connect Wallet
+              </vs-button>
+            </div>
+          </template>
+        </vs-card>
+      </div>
+      <div style="margin-top: 50px; display: flex; justify-content: center">
+        <vs-card width="400px">
+          <template #title>
+            <h3>Claim reward</h3>
+          </template>
+          <template #text>
+            <div
+              class="center content-inputs"
+              style="margin-top: 25px; margin-bottom: 25px"
+            >
+              <vs-input v-model="value" placeholder="Address" />
+            </div>
+            <vs-button v-if="connected" danger block gradient>Claim</vs-button>
+            <vs-button
+              v-if="!connected"
+              gradient
+              danger
+              block
+              @click="station()"
+            >
+              Connect Wallet
+            </vs-button>
+          </template>
+        </vs-card>
+      </div>
     </div>
     <!--<vs-alert id="alert-1" gradient danger>
       <template #title> LoTerra </template>
@@ -484,28 +479,52 @@ export default {
 .pb-15 {
   padding-bottom: 15px;
 }
-.jackpot {
-  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 3rem;
-  padding-bottom: 30px;
-}
+
 .jackpot span {
-  font-size: 2rem;
+  font-size: 1rem;
 }
-.jackpot-title {
-  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 2rem;
-  padding-bottom: 10px;
-}
+
 .jackpot-timer {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 1.5rem;
   padding-bottom: 10px;
+}
+.jackpot-title {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  padding-bottom: 10px;
+}
+.jackpot {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  padding-bottom: 30px;
+}
+@media (min-width: 620px) {
+  .game {
+    margin-right: 20px;
+  }
+  .jackpot-title {
+    background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    padding-bottom: 10px;
+  }
+  .jackpot {
+    background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3rem;
+    padding-bottom: 30px;
+  }
+  .jackpot span {
+    font-size: 2rem;
+  }
 }
 </style>
