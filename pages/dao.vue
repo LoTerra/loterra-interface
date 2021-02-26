@@ -44,7 +44,7 @@
               <span class="color-proposal">{{ item.amount }}</span>
             </div>
             <div>
-              status: <span class="color-proposal">{{ item.status }}</span>
+              Status: <span class="color-proposal">{{ item.status }}</span>
             </div>
           </div>
         </template>
