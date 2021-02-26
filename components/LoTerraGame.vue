@@ -298,9 +298,13 @@ export default {
       const sec = this.roundDown(
         (((this.timeLeftDraw % 86400000) % 3600000) % 60000) / 1000
       )
+      const dayFormat = days < 10 ? '0' + days : days
+      const hourFormat = hours < 10 ? '0' + hours : hours
+      const minFormat = min < 10 ? '0' + min : min
       const secFormat = sec < 10 ? '0' + sec : sec
+
       this.lotteryTimestampDraw =
-        days + ' ' + hours + ' ' + min + ' ' + secFormat
+        dayFormat + ' ' + hourFormat + ' ' + minFormat + ' ' + secFormat
     },
   },
   created() {
