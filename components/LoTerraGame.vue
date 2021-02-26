@@ -175,10 +175,10 @@
             <div
               class="center content-inputs"
               style="margin-top: 25px; margin-bottom: 25px"
+            ></div>
+            <vs-button v-if="connected" danger block gradient @click="claim()"
+              >Claim</vs-button
             >
-              <vs-input v-model="value" placeholder="Address" />
-            </div>
-            <vs-button v-if="connected" danger block gradient>Claim</vs-button>
             <vs-button
               v-if="!connected"
               gradient
@@ -250,6 +250,7 @@ export default {
     countDown: 0,
     lotteryTimestampDraw: 0,
     timeLeftDraw: 0,
+    claimAddr: '',
   }),
   computed: {
     connected() {
@@ -322,6 +323,47 @@ export default {
     this.contactBalance()
   },
   methods: {
+    async claim() {
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          jackpot: {},
+        }
+      )
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+        })
+        let switchs = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          this.load = !this.load
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction success',
+              'Reward claimed 🥳',
+              4000
+            )
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
     roundDown(num) {
       const full = num.toString()
       const reg = /([\d]+)/i
