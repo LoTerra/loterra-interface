@@ -49,7 +49,13 @@
           <template #text>
             <div class="center content-inputs mtop-50">
               <p>Time left before next draw:</p>
-              <p class="jackpot-timer">{{ lotteryTimestampDraw }}</p>
+              <p class="jackpot-timer">
+                {{
+                  lotteryTimestampDraw
+                    ? lotteryTimestampDraw
+                    : 'Registration closed'
+                }}
+              </p>
               <h2
                 style="
                   margin-bottom: 50px;
@@ -411,6 +417,7 @@ export default {
           // this.lotteryDraw()
         }, 1000)
       } else {
+        this.timeLeftDraw = 0
         clearInterval(int)
       }
       // Hours part from the timestamp
