@@ -132,6 +132,8 @@ import {
   LCDClient,
   WasmAPI,
   MsgExecuteContract,
+  Coin,
+  StdFee,
 } from '@terra-money/terra.js'
 
 export default {
@@ -238,8 +240,12 @@ export default {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
+        // out of gas: out of gas in location: Contract Execution; gasWanted: 3000000, gasUsed: 3001033: failed to simulate tx
+        const coin = new Coin('uluna', 6000000)
+        const data = new StdFee(10000000, [coin])
         await extension.post({
           msgs: [msg],
+          fee: data,
         })
         let switchs = true
         extension.on((trxMsg) => {
@@ -254,6 +260,7 @@ export default {
             switchs = false
           }
           if (trxMsg.success && switchs) {
+            console.log(trxMsg)
             this.openNotification(
               'Transaction success',
               'Thank you for your contribution! 🍀',

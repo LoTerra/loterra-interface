@@ -52,7 +52,7 @@
             </div>
           </div>
         </template>
-        <template #buttons>
+        <template v-if="item.status == 'InProgress'" #buttons>
           <div
             v-if="!connected"
             style="display: flex; justify-content: space-around"
