@@ -21,6 +21,15 @@
       <b>{{ contractAddr }}</b
       >. Disclaimer: All reward need to be claim before the next draw
     </vs-alert>
+
+    <!--<div class="jackpot-title">
+      <div class="jackpot-title">Winning combination</div>
+      {{
+        lastWinningCombination
+          ? lastWinningCombination
+          : '234234932049023482309483240943234'
+      }}
+    </div>-->
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -254,6 +263,7 @@ export default {
     lotteryTimestampDraw: 0,
     timeLeftDraw: 0,
     claimAddr: '',
+    lastWinningCombination: '',
   }),
   computed: {
     connected() {
@@ -312,6 +322,8 @@ export default {
       chainID: this.$store.state.station.lcdChainId,
     })
     this.getTimeDraw()
+    this.contactBalance()
+    this.contractInfo()
   },
   mounted() {
     const amountMinMax = numeral(1).format('0,0.00')
@@ -323,7 +335,6 @@ export default {
       activeInfo: true,
     })
     this.active = true
-    this.contactBalance()
   },
   methods: {
     async claim() {
@@ -418,6 +429,18 @@ export default {
       this.contractBalance = numeral(ustBalance.amount / 1000000).format(
         '0,0.00'
       )
+      // bank.balance()
+    },
+    async contractInfo() {
+      // eslint-disable-next-line camelcase
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      const contractInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          config: {},
+        }
+      )
+      this.lastWinningCombination = contractInfo.last_winning_number
       // bank.balance()
     },
     station() {
