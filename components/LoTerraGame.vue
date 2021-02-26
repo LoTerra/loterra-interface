@@ -169,7 +169,7 @@
       <div style="margin-top: 50px; display: flex; justify-content: center">
         <vs-card width="400px">
           <template #title>
-            <h3>Claim reward</h3>
+            <h3>Claim your rewards</h3>
           </template>
           <template #text>
             <div
