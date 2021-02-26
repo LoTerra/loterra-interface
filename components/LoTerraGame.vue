@@ -18,135 +18,179 @@
 
       LoTerra enable decentralized lottery on Terra Luna blockchain, do not
       trust read the code. Smart contract address:
-      <b>{{ contractAddr }}</b>
+      <b>{{ contractAddr }}</b
+      >. Disclaimer: All reward need to be claim before the next draw
     </vs-alert>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
-    <vs-card>
-      <template #title>
-        <h3>Enter draw</h3>
-        <p>Register your combination for next lottery draw.</p>
-      </template>
-      <template #text>
-        <div class="center content-inputs mtop-50">
-          <h2
-            style="
-              margin-bottom: 50px;
-              border: 0.1px black solid;
-              border-radius: 20px;
-              padding: 5px;
-            "
-            warn
-          >
-            {{ combination ? combination : 'Combination' }}
-          </h2>
-          <vs-row>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('0')">
-                0
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('1')">
-                1
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('2')">
-                2
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('3')">
-                3
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('4')">
-                4
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('5')">
-                5
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('6')">
-                6
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('7')">
-                7
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('8')">
-                8
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('9')">
-                9
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('a')">
-                a
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('b')">
-                b
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('c')">
-                c
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('d')">
-                d
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('e')">
-                e
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="addCombination('f')">
-                f
-              </vs-button>
-            </vs-col>
-            <vs-col w="2">
-              <vs-button border flat danger @click="removeCombination">
-                <i class="bx bxs-tag-x"></i>
-              </vs-button>
-            </vs-col>
-          </vs-row>
-        </div>
-      </template>
-      <template #buttons>
-        <div class="p-20">
-          <vs-button
-            v-if="connected"
-            :loading="load"
-            gradient
-            danger
-            block
-            @click="buyCombination()"
-          >
-            Buy ticket 🍀
-          </vs-button>
-          <vs-button v-if="!connected" gradient danger block @click="station()">
-            Connect Wallet
-          </vs-button>
-        </div>
-      </template>
-    </vs-card>
+    <div class="row">
+      <vs-row justify="center">
+        <vs-col w="9" vs-type="flex" vs-justify="center" vs-align="center">
+          <vs-card>
+            <template #title>
+              <h3>Enter draw</h3>
+              <p>Register your combination for next lottery draw.</p>
+            </template>
+            <template #text>
+              <div class="center content-inputs mtop-50">
+                <p>Time left before next draw:</p>
+                <p class="jackpot-timer">{{ lotteryTimestampDraw }}</p>
+                <h2
+                  style="
+                    margin-bottom: 50px;
+                    border: 0.1px black solid;
+                    border-radius: 20px;
+                    padding: 5px;
+                  "
+                  warn
+                >
+                  {{ combination ? combination : 'Combination' }}
+                </h2>
+                <vs-row>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('0')">
+                      0
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('1')">
+                      1
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('2')">
+                      2
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('3')">
+                      3
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('4')">
+                      4
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('5')">
+                      5
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('6')">
+                      6
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('7')">
+                      7
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('8')">
+                      8
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('9')">
+                      9
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('a')">
+                      a
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('b')">
+                      b
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('c')">
+                      c
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('d')">
+                      d
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('e')">
+                      e
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="addCombination('f')">
+                      f
+                    </vs-button>
+                  </vs-col>
+                  <vs-col w="2">
+                    <vs-button border flat danger @click="removeCombination">
+                      <i class="bx bxs-tag-x"></i>
+                    </vs-button>
+                  </vs-col>
+                </vs-row>
+              </div>
+            </template>
+            <template #buttons>
+              <div class="p-20">
+                <vs-button
+                  v-if="connected"
+                  :loading="load"
+                  gradient
+                  danger
+                  block
+                  @click="buyCombination()"
+                >
+                  Buy ticket 🍀
+                </vs-button>
+                <vs-button
+                  v-if="!connected"
+                  gradient
+                  danger
+                  block
+                  @click="station()"
+                >
+                  Connect Wallet
+                </vs-button>
+              </div>
+            </template>
+          </vs-card>
+        </vs-col>
+        <vs-col w="3">
+          <div style="margin-top: 50px; display: flex; justify-content: center">
+            <vs-card width="400px">
+              <template #title>
+                <h3>Claim reward</h3>
+              </template>
+              <template #text>
+                <div
+                  class="center content-inputs"
+                  style="margin-top: 25px; margin-bottom: 25px"
+                >
+                  <vs-input v-model="value" placeholder="Address" />
+                </div>
+                <vs-button v-if="connected" danger block gradient
+                  >Claim</vs-button
+                >
+                <vs-button
+                  v-if="!connected"
+                  gradient
+                  danger
+                  block
+                  @click="station()"
+                >
+                  Connect Wallet
+                </vs-button>
+              </template>
+            </vs-card>
+          </div>
+        </vs-col>
+      </vs-row>
+    </div>
     <!--<vs-alert id="alert-1" gradient danger>
       <template #title> LoTerra </template>
 
@@ -202,6 +246,9 @@ export default {
     progress: 0,
     terraClient: '',
     contractBalance: '',
+    countDown: 0,
+    lotteryTimestampDraw: 0,
+    timeLeftDraw: 0,
   }),
   computed: {
     connected() {
@@ -213,6 +260,13 @@ export default {
     },
     contractAddr() {
       return this.$store.state.station.loterraLotteryContractAddress
+    },
+    timeCounterDown() {
+      // const date = new Date(this.timeLeftDraw * 1000)
+      const days = Math.floor(this.timeLeftDraw / 86400000)
+      const hours = Math.floor((this.timeLeftDraw % 86400000) / 3600000)
+      const min = Math.round(((this.timeLeftDraw % 86400000) % 3600000) / 60000)
+      return days + ' ' + hours + ' ' + min
     },
   },
   watch: {
@@ -229,12 +283,26 @@ export default {
         }, this.time)
       }
     },
+    timeLeftDraw() {
+      const days = this.roundDown(this.timeLeftDraw / 86400000)
+      const hours = this.roundDown((this.timeLeftDraw % 86400000) / 3600000)
+      const min = this.roundDown(
+        ((this.timeLeftDraw % 86400000) % 3600000) / 60000
+      )
+      const sec = this.roundDown(
+        (((this.timeLeftDraw % 86400000) % 3600000) % 60000) / 1000
+      )
+      const secFormat = sec < 10 ? '0' + sec : sec
+      this.lotteryTimestampDraw =
+        days + ' ' + hours + ' ' + min + ' ' + secFormat
+    },
   },
   created() {
     this.terraClient = new LCDClient({
       URL: this.$store.state.station.lcdUrl,
       chainID: this.$store.state.station.lcdChainId,
     })
+    this.getTimeDraw()
   },
   mounted() {
     const amountMinMax = numeral(1).format('0,0.00')
@@ -249,6 +317,48 @@ export default {
     this.contactBalance()
   },
   methods: {
+    roundDown(num) {
+      const full = num.toString()
+      const reg = /([\d]+)/i
+      const res = reg.exec(full)
+      return res[1]
+    },
+    async getTimeDraw() {
+      const terraClient = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      const api = new WasmAPI(terraClient.apiRequester)
+      const objBalance = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          config: {},
+        }
+      )
+      this.timeLeftDraw =
+        new Date(objBalance.block_time_play * 1000) - Date.now()
+      console.log(this.timeLeftDraw)
+      this.lotteryDraw()
+    },
+    lotteryDraw() {
+      // this.getTimeDraw()
+      // var timestamp = (Date.now() + 1000 * 60 * 60 * 24 * 3) - Date.now();
+      let int
+      if (this.timeLeftDraw > 0) {
+        int = setInterval(() => {
+          this.timeLeftDraw -= 1000
+          // this.lotteryDraw()
+        }, 1000)
+      } else {
+        clearInterval(int)
+      }
+      // Hours part from the timestamp
+      // const hours = date.getHours()
+      // Minutes part from the timestamp
+      // const minutes = '0' + date.getMinutes()
+      // Seconds part from the timestamp
+      // const seconds = '0' + date.getSeconds()
+    },
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
@@ -379,6 +489,13 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2rem;
+  padding-bottom: 10px;
+}
+.jackpot-timer {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
   padding-bottom: 10px;
 }
 </style>

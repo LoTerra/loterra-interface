@@ -20,7 +20,6 @@ export default {
         chainID: this.$store.state.station.lcdChainId,
       })
       const api = new WasmAPI(terraClient.apiRequester)
-      console.log('121' + this.$store.state.station.lotaCw20ContractAddress)
       const extension = new Extension()
       extension.connect()
       extension.once(async (w) => {

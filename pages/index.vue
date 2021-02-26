@@ -1,6 +1,66 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
+    <div class="row" style="width: 100%; margin-top: 50px">
+      <vs-row justify="space-around">
+        <vs-col lg="2" sm="12">
+          <vs-card>
+            <template #title>
+              <h3>Winner 6 symbols #rank1</h3>
+              <p></p>
+            </template>
+            <template #text>
+              <div style="display: flex; flex-direction: column">
+                <div>terra1umd70q...dxd46p</div>
+                <div>terra1umd70q...dxd46p</div>
+              </div>
+            </template>
+          </vs-card>
+        </vs-col>
+        <vs-col lg="2" sm="12">
+          <vs-card>
+            <template #title>
+              <h3>Winner 5 symbols #rank2</h3>
+              <p></p>
+            </template>
+            <template #text>
+              <div style="display: flex; flex-direction: column">
+                <div>terra1umd70q...dxd46p</div>
+                <div>terra1umd70q...dxd46p</div>
+              </div>
+            </template>
+          </vs-card>
+        </vs-col>
+        <vs-col lg="2" sm="12">
+          <vs-card>
+            <template #title>
+              <h3>Winner 4 symbols #rank3</h3>
+              <p></p>
+            </template>
+            <template #text>
+              <div style="display: flex; flex-direction: column">
+                <div>terra1umd70q...dxd46p</div>
+                <div>terra1umd70q...dxd46p</div>
+              </div>
+            </template>
+          </vs-card>
+        </vs-col>
+        <vs-col lg="2" sm="12">
+          <vs-card>
+            <template #title>
+              <h3>Winner 3 symbols #rank4</h3>
+              <p></p>
+            </template>
+            <template #text>
+              <div style="display: flex; flex-direction: column">
+                <div>terra1umd70q...dxd46p</div>
+                <div>terra1umd70q...dxd46p</div>
+              </div>
+            </template>
+          </vs-card>
+        </vs-col>
+      </vs-row>
+    </div>
   </div>
 </template>
 
