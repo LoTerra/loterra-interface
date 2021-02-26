@@ -153,6 +153,9 @@
               >
                 Buy ticket 🍀
               </vs-button>
+              <vs-button v-if="connected" danger block gradient @click="claim()"
+                >Claim jackpot rewards 🤑</vs-button
+              >
               <vs-button
                 v-if="!connected"
                 gradient
@@ -166,7 +169,7 @@
           </template>
         </vs-card>
       </div>
-      <div style="margin-top: 50px; display: flex; justify-content: center">
+      <!--<div style="margin-top: 50px; display: flex; justify-content: center">
         <vs-card width="400px">
           <template #title>
             <h3>Claim your rewards</h3>
@@ -190,7 +193,7 @@
             </vs-button>
           </template>
         </vs-card>
-      </div>
+      </div>-->
     </div>
     <!--<vs-alert id="alert-1" gradient danger>
       <template #title> LoTerra </template>
