@@ -49,9 +49,14 @@
           </div>
         </template>
         <template #buttons>
-          <vs-button v-if="!connected" gradient danger @click="station()">
-            Connect Wallet
-          </vs-button>
+          <div
+            v-if="!connected"
+            style="display: flex; justify-content: space-around"
+          >
+            <vs-button gradient danger block @click="station()">
+              Connect Wallet
+            </vs-button>
+          </div>
           <span v-if="connected">vote</span>
           <div
             v-if="connected"
