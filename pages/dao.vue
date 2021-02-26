@@ -8,13 +8,17 @@
       v-if="pollData.length > 0"
       style="
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         width: 100%;
         flex-wrap: wrap;
         margin-top: 50px;
       "
     >
-      <vs-card v-for="(item, index) in pollData" :key="index">
+      <vs-card
+        v-for="(item, index) in pollData"
+        :key="index"
+        style="margin: 25px"
+      >
         <template #title>
           <h3>Proposal number: {{ index + 1 }}</h3>
           <p>{{ item.description }}</p>
