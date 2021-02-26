@@ -25,7 +25,13 @@
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div class="row">
       <vs-row justify="center">
-        <vs-col w="9" vs-type="flex" vs-justify="center" vs-align="center">
+        <vs-col
+          w="9"
+          sm="12"
+          vs-type="flex"
+          vs-justify="center"
+          vs-align="center"
+        >
           <vs-card>
             <template #title>
               <h3>Enter draw</h3>
@@ -160,7 +166,7 @@
             </template>
           </vs-card>
         </vs-col>
-        <vs-col w="3">
+        <vs-col w="3" sm="12">
           <div style="margin-top: 50px; display: flex; justify-content: center">
             <vs-card width="400px">
               <template #title>

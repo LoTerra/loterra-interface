@@ -2,7 +2,7 @@
   <div class="content-container">
     <LoTerraGame />
     <div class="row" style="width: 100%; margin-top: 50px">
-      <vs-row justify="space-around">
+      <!--<vs-row justify="space-around">
         <vs-col lg="2" sm="12">
           <vs-card>
             <template #title>
@@ -59,7 +59,7 @@
             </template>
           </vs-card>
         </vs-col>
-      </vs-row>
+      </vs-row>-->
     </div>
   </div>
 </template>
