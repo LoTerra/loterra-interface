@@ -63,7 +63,7 @@
             v-if="connected"
             style="display: flex; justify-content: space-around"
           >
-            <vs-button danger gradient @click="rejectProposal(index + 1)"
+            <vs-button danger flat @click="rejectProposal(index + 1)"
               >Creator reject proposal</vs-button
             >
           </div>
