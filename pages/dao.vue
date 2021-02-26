@@ -1,5 +1,9 @@
 <template>
   <div class="content-container">
+    <vs-alert id="alert-1" gradient danger>
+      <template #title> DAO </template>
+      Vote proposals and contribute to LoTerra ecosystem
+    </vs-alert>
     <div
       v-if="pollData.length > 0"
       style="
@@ -7,6 +11,7 @@
         justify-content: space-around;
         width: 100%;
         flex-wrap: wrap;
+        margin-top: 50px;
       "
     >
       <vs-card v-for="(item, index) in pollData" :key="index">
@@ -262,6 +267,12 @@ export default {
 </script>
 
 <style scoped>
+#alert-1 {
+  width: 70%;
+  margin-bottom: 25px;
+  text-align: left;
+  margin-top: 25px;
+}
 .color-proposal {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
