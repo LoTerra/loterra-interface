@@ -5,10 +5,14 @@ export const state = () => ({
   terrandContractAddress: 'terra1q88h7ewu6h3am4mxxeqhu3srt7zw4z5s20qu3k',
   lcdUrl: 'https://tequila-lcd.terra.dev',
   lcdChainId: 'tequila-0004',
+  ticketPrice: '',
 })
 
 export const mutations = {
   update(state, _address) {
     state.senderAddress = _address
+  },
+  update_ticket_price(state, _price) {
+    state.ticketPrice = _price
   },
 }

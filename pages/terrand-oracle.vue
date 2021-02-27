@@ -234,6 +234,13 @@ export default {
           },
         }
       )
+      /* const msgPlay = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          play: {},
+        }
+      ) */
       const extension = new Extension()
       extension.connect()
       if (!extension.isAvailable) {

@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { Extension } from '@terra-money/terra.js'
+import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import LoTerraGame from '~/components/LoTerraGame'
 // eslint-disable-next-line no-unused-vars
 
@@ -75,12 +75,30 @@ export default {
   },
   // middleware: 'terraConnect',
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const extension = new Extension()
-    extension.connect()
-    console.log(extension.isAvailable)
+    this.loadTicketPrice()
   },
   methods: {
+    loadTicketPrice() {
+      const client = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      const api = new WasmAPI(client.apiRequester)
+      api
+        .contractQuery(
+          this.$store.state.station.loterraLotteryContractAddress,
+          {
+            config: {},
+          }
+        )
+        .then((config) => {
+          console.log(config)
+          this.$store.commit(
+            'station/update_ticket_price',
+            config.price_per_ticket_to_register
+          )
+        })
+    },
     loadWallet: () => {
       // eslint-disable-next-line no-unused-vars
       /*

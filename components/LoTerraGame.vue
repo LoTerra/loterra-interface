@@ -482,19 +482,10 @@ export default {
         this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
-      const api = new WasmAPI(this.terraClient.apiRequester)
-      console.log(
-        await api.contractInfo('terra16nc2sxj0rgdm0utpe8gw8dn0eef4va4y9txnyt')
-      )
-      console.log(
-        await api.contractQuery(
-          'terra16nc2sxj0rgdm0utpe8gw8dn0eef4va4y9txnyt',
-          {
-            config: {},
-          }
-        )
-      )
-      // eslint-disable-next-line camelcase
+
+      const extension = new Extension()
+      extension.connect()
+      console.log(this.$store.state.station.ticketPrice)
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
         this.$store.state.station.loterraLotteryContractAddress,
@@ -503,10 +494,8 @@ export default {
             combination: this.combination,
           },
         },
-        { uusd: 1000000 }
+        { uusd: this.$store.state.station.ticketPrice }
       )
-      const extension = new Extension()
-      extension.connect()
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
