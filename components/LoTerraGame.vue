@@ -38,10 +38,10 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
       "
     >
-      <div class="game">
+      <div class="game" style="margin-bottom: 50px">
         <vs-card>
           <template #title>
             <h3>Enter draw</h3>
@@ -69,7 +69,7 @@
                 {{ combination ? combination : 'Combination' }}
               </h2>
               <vs-row>
-                <vs-col w="12">
+                <vs-col w="4">
                   <vs-button
                     border
                     flat
@@ -77,6 +77,12 @@
                     @click="generateRandomCombination()"
                   >
                     Random
+                  </vs-button>
+                </vs-col>
+                <vs-col v-if="!connected" w="7"> </vs-col>
+                <vs-col v-if="connected" w="7">
+                  <vs-button border flat danger @click="randomToBag(10)">
+                    Random x10
                   </vs-button>
                 </vs-col>
                 <vs-col w="2">
@@ -201,7 +207,7 @@
       </div>
       <div
         v-if="basket.length > 0"
-        style="margin-top: 50px; display: flex; justify-content: center"
+        style="display: flex; justify-content: center"
       >
         <vs-card width="400px">
           <template #title>
@@ -438,6 +444,12 @@ export default {
         randomCombination += combination[random]
       }
       this.combination = randomCombination
+    },
+    randomToBag(number) {
+      for (let x = 0; x < number; x++) {
+        this.generateRandomCombination()
+        this.addToBasket()
+      }
     },
     async claim() {
       const msg = new MsgExecuteContract(
