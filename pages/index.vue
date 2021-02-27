@@ -22,7 +22,8 @@
             #Rank1 6 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank1 }}UST</span>
           </div>
-          <div#Rank2 5 symbols:
+          <div>
+            #Rank2 5 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank2 }}UST</span>
           </div>
           <div>
