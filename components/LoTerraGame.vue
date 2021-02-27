@@ -238,6 +238,7 @@
             >
               Buy ticket 🍀
             </vs-button>
+            <p>Total: {{ basket.length }}UST</p>
             <vs-button
               v-if="!connected"
               :loading="load"
