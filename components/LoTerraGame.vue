@@ -212,7 +212,12 @@
               v-for="(item, index) in basket"
               :key="index"
               class="center content-inputs"
-              style="margin-top: 25px; margin-bottom: 25px; display: flex"
+              style="
+                margin-top: 25px;
+                margin-bottom: 25px;
+                display: flex;
+                justify-content: space-between;
+              "
             >
               <div class="jackpot-timer" style="margin-right: 25px">
                 {{ item.execute_msg.register.combination }}
