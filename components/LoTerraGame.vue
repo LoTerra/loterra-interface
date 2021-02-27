@@ -252,7 +252,7 @@
             >
               Buy ticket 🍀
             </vs-button>
-            <p>Total: {{ basket.length }}UST</p>
+            <p>Total: {{ basketTotal }}UST</p>
             <vs-button
               v-if="!connected"
               :loading="load"
@@ -346,6 +346,10 @@ export default {
       const hours = Math.floor((this.timeLeftDraw % 86400000) / 3600000)
       const min = Math.round(((this.timeLeftDraw % 86400000) % 3600000) / 60000)
       return days + ' ' + hours + ' ' + min
+    },
+    basketTotal() {
+      const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
+      return numeral(this.basket.length * pricePerTicket).format('0,0.00')
     },
   },
   watch: {
