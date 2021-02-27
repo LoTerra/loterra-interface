@@ -12,25 +12,17 @@
     >
       <div>
         <h3 class="jackpot-winner-reward">Last jackpot rewards</h3>
-        <p>Potential rewards per rank</p>
+        <p>Potential rewards</p>
         <div>
           <span class="jackpot-winner-reward">{{ jackpotFormat }}UST</span>
         </div>
-        <h3 class="jackpot-winner-reward">Prizes</h3>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            flex-direction: column;
-          "
-        >
+        <div>
+          <h3 class="jackpot-winner-reward">Prizes</h3>
           <div>
             #Rank1 6 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank1 }}UST</span>
           </div>
-          <div>
-            #Rank2 5 symbols:
+          <div#Rank2 5 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank2 }}UST</span>
           </div>
           <div>
