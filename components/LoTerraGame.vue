@@ -16,10 +16,11 @@
     >
       <template #title> LoTerra </template>
 
-      LoTerra enable decentralized lottery on Terra Luna blockchain, do not
-      trust read the code. Smart contract address:
+      LoTerra enables decentralized lottery on Terra Luna blockchain. Smart
+      contract address:
       <b>{{ contractAddr }}</b
-      >. Disclaimer: All reward need to be claim before the next draw
+      >. Disclaimer: All reward need to be claim before the next draw. (do not
+      trust read the code)
     </vs-alert>
 
     <!--<div class="jackpot-title">
