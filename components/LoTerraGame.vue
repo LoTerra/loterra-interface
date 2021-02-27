@@ -213,8 +213,8 @@
               :key="index"
               class="center content-inputs"
               style="
-                margin-top: 25px;
-                margin-bottom: 25px;
+                margin-top: 5px;
+                margin-bottom: 5px;
                 display: flex;
                 justify-content: space-between;
               "
