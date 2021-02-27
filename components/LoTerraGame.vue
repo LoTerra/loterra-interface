@@ -178,7 +178,7 @@
                 animation-type="scale"
                 @click="addToBasket()"
               >
-                Add to basket
+                Add to bag
                 <template #animate>
                   <i class="bx bxs-shopping-bag"></i>
                 </template>
@@ -205,7 +205,7 @@
       >
         <vs-card width="400px">
           <template #title>
-            <h3>Basket</h3>
+            <h3>Bag</h3>
           </template>
           <template #text>
             <div
