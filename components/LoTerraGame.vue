@@ -69,6 +69,16 @@
                 {{ combination ? combination : 'Combination' }}
               </h2>
               <vs-row>
+                <vs-col w="12">
+                  <vs-button
+                    border
+                    flat
+                    danger
+                    @click="generateRandomCombination()"
+                  >
+                    Random
+                  </vs-button>
+                </vs-col>
                 <vs-col w="2">
                   <vs-button border flat danger @click="addCombination('0')">
                     0
@@ -165,9 +175,13 @@
                 gradient
                 danger
                 block
-                @click="buyCombination()"
+                animation-type="scale"
+                @click="addToBasket()"
               >
-                Buy ticket 🍀
+                Add to basket
+                <template #animate>
+                  <i class="bx bxs-shopping-bag"></i>
+                </template>
               </vs-button>
               <vs-button v-if="connected" danger block gradient @click="claim()"
                 >Claim jackpot rewards 🤑</vs-button
@@ -185,21 +199,48 @@
           </template>
         </vs-card>
       </div>
-      <!--<div style="margin-top: 50px; display: flex; justify-content: center">
+      <div
+        v-if="basket.length > 0"
+        style="margin-top: 50px; display: flex; justify-content: center"
+      >
         <vs-card width="400px">
           <template #title>
-            <h3>Claim your rewards</h3>
+            <h3>Basket</h3>
           </template>
           <template #text>
             <div
+              v-for="(item, index) in basket"
+              :key="index"
               class="center content-inputs"
-              style="margin-top: 25px; margin-bottom: 25px"
-            ></div>
-            <vs-button v-if="connected" danger block gradient @click="claim()"
-              >Claim</vs-button
+              style="margin-top: 25px; margin-bottom: 25px; display: flex"
             >
+              <div class="jackpot-timer" style="margin-right: 25px">
+                {{ item.execute_msg.register.combination }}
+              </div>
+              <div>
+                <vs-button
+                  gradient
+                  danger
+                  block
+                  @click="individualEmptyBasket(index)"
+                >
+                  <i class="bx bxs-trash"></i>
+                </vs-button>
+              </div>
+            </div>
+            <vs-button
+              v-if="connected && basket.length > 0"
+              :loading="load"
+              gradient
+              danger
+              block
+              @click="buyCombination()"
+            >
+              Buy ticket 🍀
+            </vs-button>
             <vs-button
               v-if="!connected"
+              :loading="load"
               gradient
               danger
               block
@@ -209,7 +250,7 @@
             </vs-button>
           </template>
         </vs-card>
-      </div>-->
+      </div>
     </div>
     <!--<vs-alert id="alert-1" gradient danger>
       <template #title> LoTerra </template>
@@ -271,6 +312,7 @@ export default {
     timeLeftDraw: 0,
     claimAddr: '',
     lastWinningCombination: '',
+    basket: [],
   }),
   computed: {
     connected() {
@@ -344,6 +386,53 @@ export default {
     this.active = true
   },
   methods: {
+    addToBasket() {
+      if (this.combination.length !== 6) {
+        this.openNotification('Error', 'You need to register 6 symbols', 4000)
+        return
+      }
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          register: {
+            combination: this.combination,
+          },
+        },
+        { uusd: this.$store.state.station.ticketPrice }
+      )
+      this.basket.push(msg)
+      this.combination = ''
+    },
+    individualEmptyBasket(index) {
+      this.basket.splice(index, 1)
+    },
+    generateRandomCombination() {
+      const combination = [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+      ]
+      let randomCombination = ''
+      for (let x = 0; x < 6; x++) {
+        const random = Math.floor(Math.random() * combination.length)
+        randomCombination += combination[random]
+      }
+      this.combination = randomCombination
+    },
     async claim() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
@@ -479,30 +568,22 @@ export default {
       this.combination = this.combination.slice(0, -1)
     },
     async buyCombination() {
-      if (this.combination.length !== 6) {
-        this.openNotification('Error', 'You need to register 6 symbols', 4000)
+      if (this.basket.length <= 0) {
+        this.openNotification(
+          'Error',
+          'You need to add some combination to your basket',
+          4000
+        )
         return
       }
-
       const extension = new Extension()
       extension.connect()
-      console.log(this.$store.state.station.ticketPrice)
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          register: {
-            combination: this.combination,
-          },
-        },
-        { uusd: this.$store.state.station.ticketPrice }
-      )
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
-          msgs: [msg],
+          msgs: this.basket,
         })
         let switchs = true
         extension.on((trxMsg) => {
@@ -519,6 +600,7 @@ export default {
           if (trxMsg.success && switchs) {
             this.openNotification('Transaction success', 'Good luck! 🍀', 4000)
             this.combination = ''
+            this.basket = []
             switchs = false
           }
         })
