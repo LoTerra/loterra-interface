@@ -16,6 +16,7 @@
         <div>
           <span class="jackpot-winner-reward">{{ jackpotFormat }}UST</span>
         </div>
+        <h3 class="jackpot-winner-reward">Prizes</h3>
         <div
           style="
             display: flex;
@@ -24,20 +25,20 @@
             flex-direction: column;
           "
         >
-          <div style="display: flex; align-items: center">
-            <vs-button flat danger> #Rank1 </vs-button> Prize 6 symbols:
+          <div>
+            #Rank1 6 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank1 }}UST</span>
           </div>
-          <div style="display: flex; align-items: center">
-            <vs-button flat danger> #Rank2 </vs-button> Prize 5 symbols:
+          <div>
+            #Rank2 5 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank2 }}UST</span>
           </div>
-          <div style="display: flex; align-items: center">
-            <vs-button flat danger> #Rank3 </vs-button> Prize 4 symbols:
+          <div>
+            #Rank3 4 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank3 }}UST</span>
           </div>
-          <div style="display: flex; align-items: center">
-            <vs-button flat danger> #Rank4 </vs-button> Prize 3 symbols:
+          <div>
+            #Rank4 3 symbols:
             <span class="jackpot-winner-reward">{{ prizeRank4 }}UST</span>
           </div>
         </div>
