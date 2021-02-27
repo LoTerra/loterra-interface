@@ -22,15 +22,6 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
-
-    <!--<div class="jackpot-title">
-      <div class="jackpot-title">Winning combination</div>
-      {{
-        lastWinningCombination
-          ? lastWinningCombination
-          : '234234932049023482309483240943234'
-      }}
-    </div>-->
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -49,6 +40,12 @@
           </template>
           <template #text>
             <div class="center content-inputs mtop-50">
+              <p>Last winning combination</p>
+              <div class="jackpot-timer">
+                {{
+                  lastWinningCombination ? lastWinningCombination : 'Waiting...'
+                }}
+              </div>
               <p>Time left before next draw:</p>
               <p class="jackpot-timer">
                 {{
@@ -561,7 +558,9 @@ export default {
           config: {},
         }
       )
-      this.lastWinningCombination = contractInfo.last_winning_number
+      this.lastWinningCombination = contractInfo.last_winning_number.substr(
+        contractInfo.last_winning_number.length - 6
+      )
       // bank.balance()
     },
     station() {
