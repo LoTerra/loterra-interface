@@ -167,15 +167,16 @@ export default {
           msgs: [msg],
         })
         let switchs = true
+        this.load = true
         extension.on((trxMsg) => {
           console.log(trxMsg)
-          this.load = !this.load
           if (!trxMsg.success && switchs) {
             this.openNotification(
               'Transaction error',
               trxMsg.error.message,
               30000
             )
+            this.load = false
             switchs = false
           }
           if (trxMsg.success && switchs) {
@@ -184,6 +185,7 @@ export default {
               'Welcome to the DAO, do not forget to stake your LOTA.',
               4000
             )
+            this.load = false
             switchs = false
           }
         })

@@ -205,15 +205,16 @@ export default {
           msgs: [msg],
         })
         let switchs = true
+        this.load = true
         extension.on((trxMsg) => {
           console.log(trxMsg)
-          this.load = !this.load
           if (!trxMsg.success && switchs) {
             this.openNotification(
               'Transaction error',
               trxMsg.error.message,
               30000
             )
+            this.load = false
             switchs = false
           }
           if (trxMsg.success && switchs) {
@@ -224,6 +225,7 @@ export default {
             )
             this.combination = ''
             switchs = false
+            this.load = false
           }
         })
         switchs = true
