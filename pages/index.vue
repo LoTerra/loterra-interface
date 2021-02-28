@@ -7,7 +7,7 @@
         padding: 25px;
         background-color: white;
         margin: 25px;
-        border-radius: 50px;
+        border-radius: 25px;
       "
     >
       <div>
