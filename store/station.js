@@ -6,6 +6,7 @@ export const state = () => ({
   lcdUrl: 'https://tequila-lcd.terra.dev',
   lcdChainId: 'tequila-0004',
   ticketPrice: '',
+  balanceOf: '',
 })
 
 export const mutations = {

@@ -32,7 +32,7 @@
         align-items: flex-start;
       "
     >
-      <div class="game" style="margin-bottom: 50px">
+      <div style="margin-bottom: 50px">
         <vs-card>
           <template #title>
             <h3>Enter draw</h3>
@@ -210,6 +210,7 @@
       </div>
       <div
         v-if="basket.length > 0"
+        class="basket"
         style="display: flex; justify-content: center"
       >
         <vs-card width="400px">
@@ -682,8 +683,8 @@ export default {
   padding-bottom: 30px;
 }
 @media (min-width: 620px) {
-  .game {
-    margin-right: 20px;
+  .basket {
+    margin-left: 20px;
   }
   .jackpot-title {
     background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);

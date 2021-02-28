@@ -7,10 +7,12 @@ import { LCDClient, WasmAPI, Extension } from '@terra-money/terra.js'
 import numeral from 'numeral'
 export default {
   name: 'GetBalanceUserLotaContract',
-  data: () => ({
-    balanceOf: '0',
-  }),
-  mounted() {
+  computed: {
+    balanceOf() {
+      return this.$store.state.station.balanceOf
+    },
+  },
+  created() {
     this.queryBalance()
   },
   methods: {
@@ -31,10 +33,9 @@ export default {
             },
           }
         )
-
-        this.balanceOf = await numeral(objBalance.balance / 1000000).format(
-          '0,0.00'
-        )
+        this.$store.state.station.balanceOf = await numeral(
+          objBalance.balance / 1000000
+        ).format('0,0.00')
       })
     },
   },
