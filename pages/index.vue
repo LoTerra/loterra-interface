@@ -14,29 +14,45 @@
         <h3 class="jackpot-winner-reward">Last jackpot rewards</h3>
         <p>Potential rewards</p>
         <div>
-          <span class="jackpot-winner-reward">{{ jackpotFormat }}UST</span>
+          <span class="jackpot-winner-reward"
+            >{{ jackpotFormat }}<span style="font-size: 25px">UST</span></span
+          >
         </div>
         <div>
           <h3 class="jackpot-winner-reward">Prizes</h3>
           <div>
             #Rank1 6 symbols:
-            <span class="jackpot-winner-reward">{{ prizeRank1 }}UST</span>
+            <span class="jackpot-winner-reward"
+              >{{ prizeRank1 }}<span style="font-size: 25px">UST</span></span
+            >
           </div>
           <div>
             #Rank2 5 symbols:
-            <span class="jackpot-winner-reward">{{ prizeRank2 }}UST</span>
+            <span class="jackpot-winner-reward"
+              >{{ prizeRank2 }}<span style="font-size: 25px">UST</span></span
+            >
           </div>
           <div>
             #Rank3 4 symbols:
-            <span class="jackpot-winner-reward">{{ prizeRank3 }}UST</span>
+            <span class="jackpot-winner-reward"
+              >{{ prizeRank3 }}<span style="font-size: 25px">UST</span></span
+            >
           </div>
           <div>
             #Rank4 3 symbols:
-            <span class="jackpot-winner-reward">{{ prizeRank4 }}UST</span>
+            <span class="jackpot-winner-reward"
+              >{{ prizeRank4 }}<span style="font-size: 25px">UST</span></span
+            >
           </div>
         </div>
       </div>
       <h3 class="jackpot-winner-reward">Last winners</h3>
+      <div
+        v-if="allWinners.length == 0"
+        style="display: flex; justify-content: center"
+      >
+        <div>No winners</div>
+      </div>
       <div style="display: flex">
         <div v-for="(item, index) in allWinners.winner" :key="index">
           <div v-if="item.rank > 0 && item.rank < 5">
