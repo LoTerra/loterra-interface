@@ -243,6 +243,7 @@
                 </vs-button>
               </div>
             </div>
+
             <vs-button
               v-if="connected && basket.length > 0"
               :loading="load"

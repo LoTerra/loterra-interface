@@ -1,16 +1,8 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
-    <div
-      style="
-        margin-top: 50px;
-        padding: 25px;
-        background-color: white;
-        margin: 25px;
-        border-radius: 25px;
-      "
-    >
-      <div>
+    <vs-card style="margin-bottom: 50px">
+      <template #title>
         <h3 class="jackpot-winner-reward">Last jackpot rewards</h3>
         <p>Potential rewards</p>
         <div>
@@ -18,62 +10,85 @@
             >{{ jackpotFormat }}<span style="font-size: 25px">UST</span></span
           >
         </div>
-        <div>
-          <h3 class="jackpot-winner-reward">Prizes</h3>
-          <div>
-            #Rank1 6 symbols:
-            <span class="jackpot-winner-reward"
-              >{{ prizeRank1 }}<span style="font-size: 25px">UST</span></span
-            >
-          </div>
-          <div>
-            #Rank2 5 symbols:
-            <span class="jackpot-winner-reward"
-              >{{ prizeRank2 }}<span style="font-size: 25px">UST</span></span
-            >
-          </div>
-          <div>
-            #Rank3 4 symbols:
-            <span class="jackpot-winner-reward"
-              >{{ prizeRank3 }}<span style="font-size: 25px">UST</span></span
-            >
-          </div>
-          <div>
-            #Rank4 3 symbols:
-            <span class="jackpot-winner-reward"
-              >{{ prizeRank4 }}<span style="font-size: 25px">UST</span></span
-            >
-          </div>
-        </div>
-      </div>
-      <h3 class="jackpot-winner-reward">Last winners</h3>
-      <div
-        v-if="allWinners.length == 0"
-        style="display: flex; justify-content: center"
-      >
-        <div>No winners</div>
-      </div>
-      <div style="display: flex">
-        <div v-for="(item, index) in allWinners.winner" :key="index">
-          <div v-if="item.rank > 0 && item.rank < 5">
-            <div
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              <div class="jackpot-winner-reward">#Rank{{ item.rank }}</div>
-              <div class="jackpot-winner-reward">
+      </template>
+      <template #text>
+        <vs-table>
+          <template #thead>
+            <vs-tr>
+              <vs-th> #Ranks </vs-th>
+              <vs-th> Symbols </vs-th>
+              <vs-th> Prizes </vs-th>
+            </vs-tr>
+          </template>
+          <template #tbody>
+            <vs-tr>
+              <vs-td> #1 </vs-td>
+              <vs-td> 6 </vs-td>
+              <vs-td>
+                <span class="jackpot-winner-reward"
+                  >{{ prizeRank1
+                  }}<span style="font-size: 25px">UST</span></span
+                >
+              </vs-td>
+            </vs-tr>
+            <vs-tr>
+              <vs-td> #2 </vs-td>
+              <vs-td> 5 </vs-td>
+              <vs-td>
+                <span class="jackpot-winner-reward"
+                  >{{ prizeRank2
+                  }}<span style="font-size: 25px">UST</span></span
+                >
+              </vs-td>
+            </vs-tr>
+            <vs-tr>
+              <vs-td> #3 </vs-td>
+              <vs-td> 4 </vs-td>
+              <vs-td>
+                <span class="jackpot-winner-reward"
+                  >{{ prizeRank3
+                  }}<span style="font-size: 25px">UST</span></span
+                >
+              </vs-td>
+            </vs-tr>
+            <vs-tr>
+              <vs-td> #4 </vs-td>
+              <vs-td> 3 </vs-td>
+              <vs-td>
+                <span class="jackpot-winner-reward"
+                  >{{ prizeRank4
+                  }}<span style="font-size: 25px">UST</span></span
+                >
+              </vs-td>
+            </vs-tr>
+          </template>
+        </vs-table>
+        <h3 class="jackpot-winner-reward">Last winners</h3>
+        <div
+          v-if="allWinners.length == 0"
+          style="display: flex; justify-content: center"
+        ></div>
+        <vs-table>
+          <template #thead>
+            <vs-tr>
+              <vs-th> #Ranks </vs-th>
+              <vs-th> Numbers 🥳</vs-th>
+            </vs-tr>
+          </template>
+          <template #tbody>
+            <vs-tr v-for="(item, index) in allWinners.winner" :key="index">
+              <vs-th v-if="item.rank > 0 && item.rank < 5">
+                {{ item.rank }}
+              </vs-th>
+              <vs-th v-if="item.rank > 0 && item.rank < 5">
                 {{ item.winners.length }}
-                {{ item.winners.length == 1 ? 'winner' : 'winners' }}
-              </div>
-              <span>🥳</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </vs-th>
+            </vs-tr>
+          </template>
+          <template #notFound> No winners </template>
+        </vs-table>
+      </template>
+    </vs-card>
   </div>
 </template>
 
