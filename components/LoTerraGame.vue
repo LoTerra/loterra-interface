@@ -211,7 +211,7 @@
       <div
         v-if="basket.length > 0"
         class="basket"
-        style="display: flex; justify-content: center"
+        style="display: flex; justify-content: center; margin-bottom: 50px"
       >
         <vs-card width="400px">
           <template #title>
