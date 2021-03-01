@@ -40,10 +40,12 @@
           </template>
           <template #text>
             <div class="center content-inputs mtop-50">
-              <p>Last winning combination</p>
+              <p>Latest winning combination</p>
               <div class="jackpot-timer">
                 {{
-                  lastWinningCombination ? lastWinningCombination : 'Waiting...'
+                  latestWinningCombination
+                    ? latestWinningCombination
+                    : 'Waiting...'
                 }}
               </div>
               <p>Time left before next draw:</p>
@@ -328,7 +330,7 @@ export default {
     lotteryTimestampDraw: 0,
     timeLeftDraw: 0,
     claimAddr: '',
-    lastWinningCombination: '',
+    latestWinningCombination: '',
     basket: [],
   }),
   computed: {
@@ -566,7 +568,7 @@ export default {
           config: {},
         }
       )
-      this.lastWinningCombination = contractInfo.last_winning_number.substr(
+      this.latestWinningCombination = contractInfo.last_winning_number.substr(
         contractInfo.last_winning_number.length - 6
       )
       // bank.balance()

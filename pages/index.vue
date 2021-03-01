@@ -3,7 +3,7 @@
     <LoTerraGame />
     <vs-card style="margin-bottom: 50px">
       <template #title>
-        <h3 class="jackpot-winner-reward">Last jackpot rewards</h3>
+        <h3 class="jackpot-winner-reward">Latest jackpot rewards</h3>
         <p>Potential rewards</p>
         <div>
           <span class="jackpot-winner-reward"
@@ -63,7 +63,7 @@
             </vs-tr>
           </template>
         </vs-table>
-        <h3 class="jackpot-winner-reward">Last winners</h3>
+        <h3 class="jackpot-winner-reward">Latest winners</h3>
         <div
           v-if="allWinners.length == 0"
           style="display: flex; justify-content: center"
