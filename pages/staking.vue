@@ -112,12 +112,12 @@ export default {
   }),
   computed: {
     lotaBalance() {
-      return numeral(1000232.3).format('0,0.00')
+      return numeral(this.$store.state.station.balanceOf).format('0,0.00')
     },
   },
   methods: {
     sendAll() {
-      this.amountToSend = 100
+      this.amountToSend = this.$store.state.station.balanceOf
     },
   },
 }

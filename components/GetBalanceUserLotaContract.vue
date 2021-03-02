@@ -9,7 +9,7 @@ export default {
   name: 'GetBalanceUserLotaContract',
   computed: {
     balanceOf() {
-      return this.$store.state.station.balanceOf
+      return numeral(this.$store.state.station.balanceOf).format('0,0.00')
     },
   },
   created() {
@@ -33,9 +33,8 @@ export default {
             },
           }
         )
-        this.$store.state.station.balanceOf = await numeral(
-          objBalance.balance / 1000000
-        ).format('0,0.00')
+        this.$store.state.station.balanceOf =
+          (await objBalance.balance) / 1000000
       })
     },
   },
