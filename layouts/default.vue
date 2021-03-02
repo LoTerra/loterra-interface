@@ -64,6 +64,7 @@ input {
   align-items: center;
   margin: 0 auto;
   text-align: center;
+  margin-top: 50px;
 }
 
 .content-logos {
