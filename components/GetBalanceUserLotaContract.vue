@@ -33,8 +33,10 @@ export default {
             },
           }
         )
-        this.$store.state.station.balanceOf =
-          (await objBalance.balance) / 1000000
+        this.$store.commit(
+          'station/update_balance',
+          objBalance.balance / 1000000
+        )
       })
     },
   },
