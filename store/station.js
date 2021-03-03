@@ -8,6 +8,9 @@ export const state = () => ({
   lcdChainId: 'tequila-0004',
   ticketPrice: '',
   balanceOf: '',
+  allowance: '',
+  bonded: '',
+  unBonded: '',
 })
 
 export const mutations = {
@@ -19,5 +22,14 @@ export const mutations = {
   },
   update_balance(state, _balance) {
     state.balanceOf = _balance
+  },
+  update_allowance(state, _allowance) {
+    state.allowance = _allowance
+  },
+  update_bonded(state, _bonded) {
+    state.bonded = _bonded
+  },
+  update_un_bonded(state, _unBonded) {
+    state.unBonded = _unBonded
   },
 }
