@@ -221,9 +221,7 @@
                       <vs-button flat warn
                         ><i class="bx bx-info-circle"></i
                       ></vs-button>
-                      <template #tooltip>
-                        Withdraw unbonded tokens to your account
-                      </template>
+                      <template #tooltip> Claim all unbonded LOTA </template>
                     </vs-tooltip>
                   </div>
                   Available:
@@ -255,13 +253,13 @@
                         ><i class="bx bx-info-circle"></i
                       ></vs-button>
                       <template #tooltip>
-                        Withdraw your rewards to your account
+                        Claim all your rewards in UST
                       </template>
                     </vs-tooltip>
                   </div>
                   Available:
                   <vs-button shadow size="mini"
-                    >{{ unBondedLota
+                    >{{ reward
                     }}<span style="font-size: 11px">UST</span></vs-button
                   >
                 </div>
@@ -350,6 +348,11 @@ export default {
         '0,0.00'
       )
     },
+    reward() {
+      return numeral(this.$store.state.station.reward / 1000000).format(
+        '0,0.00'
+      )
+    },
     connected() {
       if (this.$store.state.station.senderAddress) {
         return true
@@ -415,6 +418,22 @@ export default {
       })
     },
     loadUnBonded() {
+      /* const msg = new MsgExecuteContract(
+        'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
+        this.$store.state.station.lotaStakingContractAddress,
+        {
+          payout_reward: {},
+        },
+        { uusd: '9000000000' }
+      )
+      const extensions = new Extension()
+      extensions.connect()
+      await extensions.post({
+        msgs: [msg],
+      })
+      extensions.on((trxMsg) => {
+        console.log(trxMsg)
+      }) */
       const terraClient = new LCDClient({
         URL: this.$store.state.station.lcdUrl,
         chainID: this.$store.state.station.lcdChainId,
