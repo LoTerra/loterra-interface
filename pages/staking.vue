@@ -85,7 +85,7 @@
                 "
               >
                 Allowance:
-                {{ allowance }}
+                {{ allowance }}<span style="font-size: 11px">LOTA</span>
               </div>
               <vs-input
                 v-model="value"
@@ -149,7 +149,8 @@
                       size="mini"
                       style="color: dodgerblue"
                       @click="lotaAll()"
-                      >{{ lotaBalance }}</vs-button
+                      >{{ lotaBalance
+                      }}<span style="font-size: 11px">LOTA</span></vs-button
                     >
                   </div>
                 </div>
@@ -190,7 +191,8 @@
                     size="mini"
                     style="color: dodgerblue"
                     @click="lotaAllBonded()"
-                    >{{ bondedLota }}</vs-button
+                    >{{ bondedLota
+                    }}<span style="font-size: 11px">LOTA</span></vs-button
                   >
                 </div>
               </div>
@@ -214,13 +216,59 @@
                 <div
                   style="font-size: 13px; display: flex; align-items: center"
                 >
+                  <div class="center">
+                    <vs-tooltip>
+                      <vs-button flat warn
+                        ><i class="bx bx-info-circle"></i
+                      ></vs-button>
+                      <template #tooltip>
+                        Withdraw unbonded tokens to your account
+                      </template>
+                    </vs-tooltip>
+                  </div>
                   Available:
-                  <vs-button shadow size="mini">{{ unBondedLota }}</vs-button>
+                  <vs-button shadow size="mini"
+                    >{{ unBondedLota
+                    }}<span style="font-size: 11px">LOTA</span></vs-button
+                  >
                 </div>
               </div>
               <div>
                 <vs-button gradient danger block @click="claimUnBonded()"
                   >Claim unstake</vs-button
+                >
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 10px;
+                  align-items: center;
+                "
+              >
+                <div
+                  style="font-size: 13px; display: flex; align-items: center"
+                >
+                  <div class="center">
+                    <vs-tooltip>
+                      <vs-button flat warn
+                        ><i class="bx bx-info-circle"></i
+                      ></vs-button>
+                      <template #tooltip>
+                        Withdraw your rewards to your account
+                      </template>
+                    </vs-tooltip>
+                  </div>
+                  Available:
+                  <vs-button shadow size="mini"
+                    >{{ unBondedLota
+                    }}<span style="font-size: 11px">UST</span></vs-button
+                  >
+                </div>
+              </div>
+              <div>
+                <vs-button gradient danger block @click="claimReward()"
+                  >Claim rewards</vs-button
                 >
               </div>
             </div>
@@ -314,6 +362,7 @@ export default {
     this.loadBonded()
     this.loadUnBonded()
     this.loadAllowance()
+    this.loadReward()
   },
   methods: {
     lotaAll() {
@@ -343,7 +392,7 @@ export default {
         })
       }
     },
-    async loadAllowance() {
+    loadAllowance() {
       const terraClient = new LCDClient({
         URL: this.$store.state.station.lcdUrl,
         chainID: this.$store.state.station.lcdChainId,
@@ -351,18 +400,19 @@ export default {
       const api = new WasmAPI(terraClient.apiRequester)
       const extension = new Extension()
       extension.connect()
-      extension.once(async (w) => {})
-      const obj = await api.contractQuery(
-        this.$store.state.station.lotaCw20ContractAddress,
-        {
-          allowance: {
-            owner: 'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
-            spender: this.$store.state.station.lotaStakingContractAddress,
-          },
-        }
-      )
-      this.$store.commit('station/update_allowance', obj.allowance)
-      console.log(obj)
+      extension.once(async (w) => {
+        const obj = await api.contractQuery(
+          this.$store.state.station.lotaCw20ContractAddress,
+          {
+            allowance: {
+              owner: w.address,
+              spender: this.$store.state.station.lotaStakingContractAddress,
+            },
+          }
+        )
+        this.$store.commit('station/update_allowance', obj.allowance)
+        console.log(obj)
+      })
     },
     loadUnBonded() {
       const terraClient = new LCDClient({
@@ -377,7 +427,7 @@ export default {
           this.$store.state.station.lotaStakingContractAddress,
           {
             get_holder: {
-              address: 'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
+              address: w.address,
             },
           }
         )
@@ -398,11 +448,32 @@ export default {
           this.$store.state.station.lotaStakingContractAddress,
           {
             get_holder: {
-              address: 'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
+              address: w.address,
             },
           }
         )
         this.$store.commit('station/update_bonded', obj.bonded)
+        console.log(obj)
+      })
+    },
+    loadReward() {
+      const terraClient = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      const api = new WasmAPI(terraClient.apiRequester)
+      const extension = new Extension()
+      extension.connect()
+      extension.once(async (w) => {
+        const obj = await api.contractQuery(
+          this.$store.state.station.lotaStakingContractAddress,
+          {
+            get_holder: {
+              address: w.address,
+            },
+          }
+        )
+        this.$store.commit('station/update_reward', obj.available)
         console.log(obj)
       })
     },
@@ -453,6 +524,49 @@ export default {
         switchs = true
       }
     },
+    async claimReward() {
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.lotaStakingContractAddress,
+        {
+          claim_reward: {},
+        }
+      )
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+        })
+        let switchs = true
+        this.load = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            this.load = false
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction success',
+              'Reward claim success',
+              4000
+            )
+            this.load = false
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
     async claimUnBonded() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
@@ -486,7 +600,7 @@ export default {
           if (trxMsg.success && switchs) {
             this.openNotification(
               'Transaction success',
-              'Staking success',
+              'Unbonded claim success',
               4000
             )
             this.load = false

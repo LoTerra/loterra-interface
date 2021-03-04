@@ -11,6 +11,7 @@ export const state = () => ({
   allowance: '',
   bonded: '',
   unBonded: '',
+  reward: '',
 })
 
 export const mutations = {
@@ -31,5 +32,8 @@ export const mutations = {
   },
   update_un_bonded(state, _unBonded) {
     state.unBonded = _unBonded
+  },
+  update_reward(state, _reward) {
+    state.reward = _reward
   },
 }
