@@ -63,87 +63,167 @@
       <vs-card class="margin-content">
         <template #title>
           <h3>Staking</h3>
-          <p>In construction...</p>
+          <p>
+            Stake your LOTA and get 10% of jackpots shared among all LOTA
+            stakers
+          </p>
         </template>
         <template #text>
-          <p>Stake</p>
-          <div class="center content-inputs">
-            <vs-input v-model="value" type="number" placeholder="Stake" />
+          <div v-if="!connected">
+            <vs-button :loading="load" gradient danger block @click="station()">
+              Connect Wallet
+            </vs-button>
           </div>
-          <div>
-            <vs-button gradient danger block @click="addAllowance()"
-              >Allowance</vs-button
-            >
-          </div>
-          <div
-            style="display: flex; justify-content: flex-end; margin-top: 10px"
-          >
-            <div
-              style="
-                font-size: 13px;
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-              "
-            >
-              <div style="display: flex; justify-content: flex-end">
+          <div v-if="connected">
+            <div class="center content-inputs">
+              <div
+                style="
+                  font-size: 13px;
+                  display: flex;
+                  justify-content: flex-end;
+                  align-items: center;
+                "
+              >
                 Allowance:
                 {{ allowance }}
               </div>
-              <div style="display: flex; justify-content: flex-end">
-                Available:
+              <vs-input
+                v-model="value"
+                block
+                type="number"
+                placeholder="Amount"
+              />
+            </div>
+            <div v-if="insufficientBalance">
+              <vs-button disabled gradient danger block>
+                Insufficient balance
+              </vs-button>
+            </div>
+            <div v-if="!insufficientBalance">
+              <div v-if="!isAllowed" style="margin-top: 10px">
+                <div
+                  style="font-size: 13px; display: flex; align-items: center"
+                >
+                  <div class="center">
+                    <vs-tooltip>
+                      <vs-button flat warn
+                        ><i class="bx bx-info-circle"></i
+                      ></vs-button>
+                      <template #tooltip>
+                        This transaction require increase allowance to continue
+                      </template>
+                    </vs-tooltip>
+                  </div>
+                  <vs-button gradient danger block @click="addAllowance()"
+                    >Approve</vs-button
+                  >
+                </div>
+              </div>
+              <div
+                v-if="isAllowed"
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  style="
+                    font-size: 13px;
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: flex-end;
+                    flex-direction: column;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: flex-end;
+                      align-items: center;
+                    "
+                  >
+                    Max:
+                    <vs-button
+                      shadow
+                      size="mini"
+                      style="color: dodgerblue"
+                      @click="lotaAll()"
+                      >{{ lotaBalance }}</vs-button
+                    >
+                  </div>
+                </div>
+              </div>
+              <div v-if="isAllowed">
                 <vs-button
-                  shadow
-                  size="mini"
-                  style="color: dodgerblue"
-                  @click="lotaAll()"
-                  >{{ lotaBalance }}</vs-button
+                  gradient
+                  danger
+                  block
+                  @click="stakeOrUnstake('stake')"
+                  >Stake</vs-button
+                >
+              </div>
+              <div
+                v-if="isAllowed"
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  style="font-size: 13px; display: flex; align-items: center"
+                >
+                  <div class="center">
+                    <vs-tooltip>
+                      <vs-button flat warn
+                        ><i class="bx bx-info-circle"></i
+                      ></vs-button>
+                      <template #tooltip>
+                        Unbonding period of 100000 blocks
+                      </template>
+                    </vs-tooltip>
+                  </div>
+                  Max:
+                  <vs-button
+                    shadow
+                    size="mini"
+                    style="color: dodgerblue"
+                    @click="lotaAllBonded()"
+                    >{{ bondedLota }}</vs-button
+                  >
+                </div>
+              </div>
+              <div v-if="isAllowed">
+                <vs-button
+                  gradient
+                  danger
+                  block
+                  @click="stakeOrUnstake('unstake')"
+                  >Unstake</vs-button
+                >
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 10px;
+                  align-items: center;
+                "
+              >
+                <div
+                  style="font-size: 13px; display: flex; align-items: center"
+                >
+                  Available:
+                  <vs-button shadow size="mini">{{ unBondedLota }}</vs-button>
+                </div>
+              </div>
+              <div>
+                <vs-button gradient danger block @click="claimUnBonded()"
+                  >Claim unstake</vs-button
                 >
               </div>
             </div>
-          </div>
-          <div>
-            <vs-button gradient danger block @click="stakeOrUnstake('stake')"
-              >Stake</vs-button
-            >
-          </div>
-          <div
-            style="display: flex; justify-content: flex-end; margin-top: 10px"
-          >
-            <div style="font-size: 13px; display: flex; align-items: center">
-              Available:
-              <vs-button
-                shadow
-                size="mini"
-                style="color: dodgerblue"
-                @click="lotaAllBonded()"
-                >{{ bondedLota }}</vs-button
-              >
-            </div>
-          </div>
-          <div>
-            <vs-button gradient danger block @click="stakeOrUnstake('unstake')"
-              >UnStake</vs-button
-            >
-          </div>
-          <div
-            style="display: flex; justify-content: flex-end; margin-top: 10px"
-          >
-            <div style="font-size: 13px; display: flex; align-items: center">
-              Available:
-              <vs-button
-                shadow
-                size="mini"
-                style="color: dodgerblue"
-                @click="lotaAllUnBonded()"
-                >{{ unBondedLota }}</vs-button
-              >
-            </div>
-          </div>
-          <div>
-            <vs-button gradient danger block @click="claimUnBonded()"
-              >Claim unStake</vs-button
-            >
           </div>
         </template>
       </vs-card>
@@ -201,10 +281,16 @@ export default {
       )
     },
     isAllowed() {
-      if (this.allowance < this.value) {
+      if (this.$store.state.station.allowance / 1000000 < this.value) {
         return false
       }
       return true
+    },
+    insufficientBalance() {
+      if (this.$store.state.station.balanceOf < this.value) {
+        return true
+      }
+      return false
     },
     bondedLota() {
       return numeral(this.$store.state.station.bonded / 1000000).format(
@@ -215,6 +301,13 @@ export default {
       return numeral(this.$store.state.station.unBonded / 1000000).format(
         '0,0.00'
       )
+    },
+    connected() {
+      if (this.$store.state.station.senderAddress) {
+        return true
+      } else {
+        return false
+      }
     },
   },
   created() {
@@ -229,9 +322,6 @@ export default {
     lotaAllBonded() {
       this.value = this.$store.state.station.bonded / 1000000
     },
-    lotaAllUnBonded() {
-      this.value = this.$store.state.station.unBonded / 1000000
-    },
     openNotification(title, text, seconds) {
       this.$vs.notification({
         position: 'bottom-right',
@@ -239,6 +329,19 @@ export default {
         text,
         duration: seconds,
       })
+    },
+    station() {
+      const extension = new Extension()
+      extension.connect()
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        console.log(extension.isAvailable)
+        extension.once((w) => {
+          this.$store.commit('station/update', w.address)
+        })
+      }
     },
     async loadAllowance() {
       const terraClient = new LCDClient({
