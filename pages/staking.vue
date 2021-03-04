@@ -205,70 +205,79 @@
                   >Unstake</vs-button
                 >
               </div>
-              <div
-                style="
-                  display: flex;
-                  justify-content: flex-end;
-                  margin-top: 10px;
-                  align-items: center;
-                "
-              >
-                <div
-                  style="font-size: 13px; display: flex; align-items: center"
-                >
-                  <div class="center">
-                    <vs-tooltip>
-                      <vs-button flat warn
-                        ><i class="bx bx-info-circle"></i
-                      ></vs-button>
-                      <template #tooltip> Claim all unbonded LOTA </template>
-                    </vs-tooltip>
-                  </div>
-                  Available:
-                  <vs-button shadow size="mini"
-                    >{{ unBondedLota
-                    }}<span style="font-size: 11px">LOTA</span></vs-button
-                  >
+            </div>
+          </div>
+        </template>
+      </vs-card>
+      <vs-card>
+        <template #title>
+          <h3>Claiming</h3>
+          <p>Claim unbonded LOTA and UST rewards</p>
+        </template>
+        <template #text>
+          <div v-if="!connected">
+            <vs-button :loading="load" gradient danger block @click="station()">
+              Connect Wallet
+            </vs-button>
+          </div>
+          <div v-if="connected">
+            <div
+              style="
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 10px;
+                align-items: center;
+              "
+            >
+              <div style="font-size: 13px; display: flex; align-items: center">
+                <div class="center">
+                  <vs-tooltip>
+                    <vs-button flat warn
+                      ><i class="bx bx-info-circle"></i
+                    ></vs-button>
+                    <template #tooltip> Claim all unbonded LOTA </template>
+                  </vs-tooltip>
                 </div>
-              </div>
-              <div>
-                <vs-button gradient danger block @click="claimUnBonded()"
-                  >Claim unstake</vs-button
+                Available:
+                <vs-button shadow size="mini"
+                  >{{ unBondedLota
+                  }}<span style="font-size: 11px">LOTA</span></vs-button
                 >
               </div>
-              <div
-                style="
-                  display: flex;
-                  justify-content: flex-end;
-                  margin-top: 10px;
-                  align-items: center;
-                "
+            </div>
+            <div>
+              <vs-button gradient danger block @click="claimUnBonded()"
+                >Claim unstake</vs-button
               >
-                <div
-                  style="font-size: 13px; display: flex; align-items: center"
-                >
-                  <div class="center">
-                    <vs-tooltip>
-                      <vs-button flat warn
-                        ><i class="bx bx-info-circle"></i
-                      ></vs-button>
-                      <template #tooltip>
-                        Claim all your rewards in UST
-                      </template>
-                    </vs-tooltip>
-                  </div>
-                  Available:
-                  <vs-button shadow size="mini"
-                    >{{ reward
-                    }}<span style="font-size: 11px">UST</span></vs-button
-                  >
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 10px;
+                align-items: center;
+              "
+            >
+              <div style="font-size: 13px; display: flex; align-items: center">
+                <div class="center">
+                  <vs-tooltip>
+                    <vs-button flat warn
+                      ><i class="bx bx-info-circle"></i
+                    ></vs-button>
+                    <template #tooltip> Claim all your rewards UST </template>
+                  </vs-tooltip>
                 </div>
-              </div>
-              <div>
-                <vs-button gradient danger block @click="claimReward()"
-                  >Claim rewards</vs-button
+                Available:
+                <vs-button shadow size="mini"
+                  >{{ reward
+                  }}<span style="font-size: 11px">UST</span></vs-button
                 >
               </div>
+            </div>
+            <div>
+              <vs-button gradient danger block @click="claimReward()"
+                >Claim rewards</vs-button
+              >
             </div>
           </div>
         </template>
