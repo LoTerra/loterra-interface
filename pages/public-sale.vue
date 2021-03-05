@@ -4,13 +4,13 @@
       <template #title> LOTA is the DAO token of LoTerra </template>
 
       LOTA give power to vote proposals and manage the decentralized LoTerra
-      ecosystem of lottery gaming's also holders can stake LOTA and earn 10% of
-      lottery rewards if big winners. Public sale max LOTA supply is 7Mm ratio
-      1:1 UST -> LOTA, 100% sold UST is used to finance the jackpot and become
-      available to the next draw. Hard cap is $7Mm at the end of public sale
-      unsold LOTA will remain locked on the smart contract lowering the
-      circulating supply. Creators will keep 30% of 7Mm LOTA for development and
-      project funding to expand the LoTerra ecosystem.
+      ecosystem of lottery gaming's also holders can stake LOTA and earn lottery
+      rewards if big winners, up to 20% fixed at 10% at launch. Public sale max
+      LOTA supply is 7Mm ratio 1:1 UST -> LOTA, 100% sold UST is used to finance
+      the jackpot and become available to the next draw. Hard cap is $7Mm at the
+      end of public sale unsold LOTA will remain locked on the smart contract
+      lowering the circulating supply. Creators will keep 30% of 7Mm LOTA for
+      development and project funding to expand the LoTerra ecosystem.
     </vs-alert>
 
     <iframe
