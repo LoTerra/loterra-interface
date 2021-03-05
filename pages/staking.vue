@@ -109,7 +109,12 @@
                       </template>
                     </vs-tooltip>
                   </div>
-                  <vs-button gradient danger block @click="addAllowance()"
+                  <vs-button
+                    :loading="load"
+                    gradient
+                    danger
+                    block
+                    @click="addAllowance()"
                     >Approve</vs-button
                   >
                 </div>
@@ -160,6 +165,7 @@
                   gradient
                   danger
                   block
+                  :loading="load"
                   @click="stakeOrUnstake('stake')"
                   >Stake</vs-button
                 >
@@ -206,6 +212,7 @@
                   gradient
                   danger
                   block
+                  :loading="load"
                   @click="stakeOrUnstake('unstake')"
                   >Unstake</vs-button
                 >
@@ -251,7 +258,12 @@
               </div>
             </div>
             <div>
-              <vs-button gradient danger block @click="claimUnBonded()"
+              <vs-button
+                :loading="load"
+                gradient
+                danger
+                block
+                @click="claimUnBonded()"
                 >Claim unstake</vs-button
               >
             </div>
@@ -280,7 +292,12 @@
               </div>
             </div>
             <div>
-              <vs-button gradient danger block @click="claimReward()"
+              <vs-button
+                :loading="load"
+                gradient
+                danger
+                block
+                @click="claimReward()"
                 >Claim rewards</vs-button
               >
             </div>
@@ -562,6 +579,10 @@ export default {
         })
         switchs = true
       }
+      await this.loadBonded()
+      await this.loadUnBonded()
+      await this.loadAllowance()
+      await this.loadReward()
     },
     async claimReward() {
       const msg = new MsgExecuteContract(
@@ -605,6 +626,10 @@ export default {
         })
         switchs = true
       }
+      await this.loadBonded()
+      await this.loadUnBonded()
+      await this.loadAllowance()
+      await this.loadReward()
     },
     async claimUnBonded() {
       const msg = new MsgExecuteContract(
@@ -648,6 +673,10 @@ export default {
         })
         switchs = true
       }
+      await this.loadBonded()
+      await this.loadUnBonded()
+      await this.loadAllowance()
+      await this.loadReward()
     },
     async stakeOrUnstake(cmd) {
       const amount = parseInt(this.value * 1000000)
@@ -703,6 +732,10 @@ export default {
         })
         switchs = true
       }
+      await this.loadBonded()
+      await this.loadUnBonded()
+      await this.loadAllowance()
+      await this.loadReward()
     },
   },
 }
