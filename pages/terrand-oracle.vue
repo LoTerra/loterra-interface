@@ -276,6 +276,9 @@ export default {
             )
             this.load = false
             switchs = false
+            this.inputRound = ''
+            this.inputSignature = ''
+            this.inputPreviousSignature = ''
           }
         })
         switchs = true
