@@ -332,6 +332,7 @@ export default {
     claimAddr: '',
     latestWinningCombination: '',
     basket: [],
+    pricePerTicket: '',
   }),
   computed: {
     connected() {
@@ -343,13 +344,6 @@ export default {
     },
     contractAddr() {
       return this.$store.state.station.loterraLotteryContractAddress
-    },
-    timeCounterDown() {
-      // const date = new Date(this.timeLeftDraw * 1000)
-      const days = Math.floor(this.timeLeftDraw / 86400000)
-      const hours = Math.floor((this.timeLeftDraw % 86400000) / 3600000)
-      const min = Math.round(((this.timeLeftDraw % 86400000) % 3600000) / 60000)
-      return days + ' ' + hours + ' ' + min
     },
     basketTotal() {
       const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
@@ -398,14 +392,6 @@ export default {
     this.contractInfo()
   },
   mounted() {
-    const amountMinMax = numeral(1).format('0,0.00')
-    this.$vs.notification({
-      position: 'bottom-right',
-      title: 'Lottery DAO',
-      text: `Buy a combination for ${amountMinMax}UST and get a chance to win the jackpot! 🍀.`,
-      duration: 8000,
-      activeInfo: true,
-    })
     this.active = true
   },
   methods: {
@@ -571,6 +557,15 @@ export default {
       this.latestWinningCombination = contractInfo.last_winning_number.substr(
         contractInfo.last_winning_number.length - 6
       )
+      this.pricePerTicket = contractInfo.price_per_ticket_to_register / 1000000
+      const amountMinMax = numeral(this.pricePerTicket).format('0,0.00')
+      this.$vs.notification({
+        position: 'bottom-right',
+        title: 'Lottery DAO',
+        text: `Buy a combination for ${amountMinMax}UST and get a chance to win the jackpot! 🍀.`,
+        duration: 8000,
+        activeInfo: true,
+      })
       // bank.balance()
     },
     station() {
