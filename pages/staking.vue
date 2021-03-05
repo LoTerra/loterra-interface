@@ -94,12 +94,7 @@
                 placeholder="Amount"
               />
             </div>
-            <div v-if="insufficientBalance">
-              <vs-button disabled gradient danger block>
-                Insufficient balance
-              </vs-button>
-            </div>
-            <div v-if="!insufficientBalance">
+            <div>
               <div v-if="!isAllowed" style="margin-top: 10px">
                 <div
                   style="font-size: 13px; display: flex; align-items: center"
@@ -155,7 +150,12 @@
                   </div>
                 </div>
               </div>
-              <div v-if="isAllowed">
+              <div v-if="isAllowed && insufficientBalance">
+                <vs-button disabled gradient danger block>
+                  Insufficient balance
+                </vs-button>
+              </div>
+              <div v-if="isAllowed && !insufficientBalance">
                 <vs-button
                   gradient
                   danger
@@ -196,7 +196,12 @@
                   >
                 </div>
               </div>
-              <div v-if="isAllowed">
+              <div v-if="isAllowed && insufficientToUnstake">
+                <vs-button disabled gradient danger block>
+                  Insufficient balance
+                </vs-button>
+              </div>
+              <div v-if="isAllowed && !insufficientToUnstake">
                 <vs-button
                   gradient
                   danger
@@ -343,6 +348,12 @@ export default {
     },
     insufficientBalance() {
       if (this.$store.state.station.balanceOf < this.value) {
+        return true
+      }
+      return false
+    },
+    insufficientToUnstake() {
+      if (this.$store.state.station.bonded / 1000000 < this.value) {
         return true
       }
       return false
