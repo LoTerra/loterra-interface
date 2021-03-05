@@ -84,10 +84,8 @@
             </template></vs-input
           >
         </div>
-      </template>
-      <template #buttons>
-        <div style="padding-bottom: 20px">
-          <vs-button v-if="!connected" gradient danger @click="station()">
+        <div style="padding-top: 20px">
+          <vs-button v-if="!connected" gradient danger block @click="station()">
             Connect Wallet
           </vs-button>
           <vs-button
@@ -95,6 +93,7 @@
             danger
             gradient
             :loading="load"
+            block
             @click="terraAddRandomness"
           >
             Add randomness

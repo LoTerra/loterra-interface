@@ -42,17 +42,18 @@
           >
           <p style="font-size: small">only UST is accepted</p>
         </div>
-      </template>
-      <template #buttons>
-        <div style="padding-bottom: 20px">
-          <vs-button v-if="!connected" gradient danger @click="station()">
+        <div style="padding-top: 20px">
+          <vs-button v-if="!connected" gradient danger block @click="station()">
             Connect Wallet
           </vs-button>
+        </div>
+        <div style="padding-top: 20px">
           <vs-button
             v-if="connected"
             danger
             gradient
             :loading="load"
+            block
             @click="buyLota"
           >
             Buy LOTA
