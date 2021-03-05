@@ -2,8 +2,9 @@
   <div class="content-container">
     <vs-alert id="alert-1" gradient danger>
       <template #title> Terrand oracle </template>
-      Become a worker and earn UST from the jackpot rewards every time you add a
-      needed round of randomness used by the lottery draw.
+      Become a worker and earn UST from the jackpot rewards every time you add
+      the next round of randomness used by the lottery draw, you also become the
+      owner of this contribution and others Dapps can rewards you for using it.
     </vs-alert>
     <div style="margin-bottom: 30px; margin-top: 30px">
       <div v-if="!randomnessAlreadyAdded">
