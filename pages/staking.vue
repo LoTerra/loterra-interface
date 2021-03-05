@@ -68,8 +68,7 @@
         <template #title>
           <h3>Staking</h3>
           <p>
-            Stake and unstake your LOTA in order to get rewards and voting
-            weight
+            Unstake or stake your LOTA in order to get rewards and voting weight
           </p>
         </template>
         <template #text>
