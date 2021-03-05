@@ -1,5 +1,9 @@
 <template>
   <div class="content-container">
+    <vs-alert id="alert-1" gradient danger>
+      <template #title> LOTA staking </template>
+      Stake your LOTA and get 10% of jackpots shared among all LOTA stakers
+    </vs-alert>
     <div class="flex-staking">
       <!--<vs-card class="margin-content">
         <template #title>
@@ -63,10 +67,7 @@
       <vs-card class="margin-content">
         <template #title>
           <h3>Staking</h3>
-          <p>
-            Stake your LOTA and get 10% of jackpots shared among all LOTA
-            stakers
-          </p>
+          <p>Stake and unstake your LOTA</p>
         </template>
         <template #text>
           <div v-if="!connected">
@@ -801,5 +802,10 @@ export default {
 }
 .margin-content {
   margin: 25px;
+}
+#alert-1 {
+  width: 70%;
+  margin-bottom: 25px;
+  text-align: left;
 }
 </style>
