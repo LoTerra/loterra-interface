@@ -12,6 +12,7 @@ export const state = () => ({
   bonded: '',
   unBonded: '',
   reward: '',
+  blockInfo: '',
 })
 
 export const mutations = {
@@ -35,5 +36,8 @@ export const mutations = {
   },
   update_reward(state, _reward) {
     state.reward = _reward
+  },
+  update_block_info(state, _blockInfo) {
+    state.blockInfo = _blockInfo
   },
 }

@@ -35,7 +35,7 @@
           >
             <div>
               Creator:
-              <span class="color-proposal" style="font-size: 14px">{{
+              <span class="color-proposal" style="font-size: 12px">{{
                 item.creator
               }}</span>
             </div>

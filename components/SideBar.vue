@@ -12,8 +12,9 @@
       <template #right>
         <vs-button flat success> Testnet </vs-button>
         <vs-button flat danger @click="activeDialog = !activeDialog">
-          <GetBalanceUserLotaContract />
-          <span style="margin-left: 5px">LOTA</span>
+          <GetBalanceUserLotaContract /><span style="font-size: 15px"
+            >LOTA</span
+          >
         </vs-button>
 
         <vs-button v-if="!humanAddress" gradient danger @click="station()"

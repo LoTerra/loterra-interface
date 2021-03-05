@@ -2,7 +2,8 @@
   <div class="content-container">
     <vs-alert id="alert-1" gradient danger>
       <template #title> LOTA staking </template>
-      Stake your LOTA and get 10% of jackpots shared among all LOTA stakers
+      Stake your LOTA and get up to 20% of jackpots shared among all LOTA
+      stakers
     </vs-alert>
     <div class="flex-staking">
       <!--<vs-card class="margin-content">
@@ -353,6 +354,7 @@ export default {
     load: false,
     loadAmount: false,
     activeDialogInfoNoWalletDetected: false,
+    releaseBlock: 0,
   }),
   computed: {
     lotaBalance() {
@@ -403,6 +405,9 @@ export default {
         return false
       }
     },
+    blockInfo() {
+      return this.$store.state.station.blockInfo
+    },
   },
   created() {
     this.loadBonded()
@@ -410,6 +415,7 @@ export default {
     this.loadAllowance()
     this.loadReward()
     this.queryBalance()
+    this.queryBlockHeight()
   },
   methods: {
     lotaAll() {
@@ -438,6 +444,16 @@ export default {
           this.$store.commit('station/update', w.address)
         })
       }
+    },
+    queryBlockHeight() {
+      const terraClient = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      this.$store.commit(
+        'station/update_block_info',
+        terraClient.tendermint.blockInfo()
+      )
     },
     loadAllowance() {
       const terraClient = new LCDClient({
@@ -518,6 +534,7 @@ export default {
           }
         )
         this.$store.commit('station/update_un_bonded', obj.un_bonded)
+        this.releaseBlock = obj.period || 0
         console.log(obj)
       })
     },
