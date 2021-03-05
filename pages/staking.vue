@@ -67,7 +67,10 @@
       <vs-card class="margin-content">
         <template #title>
           <h3>Staking</h3>
-          <p>Stake and unstake your LOTA</p>
+          <p>
+            Stake and unstake your LOTA in order to get rewards and voting
+            weight
+          </p>
         </template>
         <template #text>
           <div v-if="!connected">
