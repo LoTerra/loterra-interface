@@ -148,6 +148,7 @@
                       shadow
                       size="mini"
                       style="color: dodgerblue"
+                      :loading="loadAmount"
                       @click="lotaAll()"
                       >{{ lotaBalance
                       }}<span style="font-size: 11px">LOTA</span></vs-button
@@ -196,6 +197,7 @@
                     shadow
                     size="mini"
                     style="color: dodgerblue"
+                    :loading="loadAmount"
                     @click="lotaAllBonded()"
                     >{{ bondedLota
                     }}<span style="font-size: 11px">LOTA</span></vs-button
@@ -251,7 +253,7 @@
                   </vs-tooltip>
                 </div>
                 Available:
-                <vs-button shadow size="mini"
+                <vs-button shadow size="mini" :loading="loadAmount"
                   >{{ unBondedLota
                   }}<span style="font-size: 11px">LOTA</span></vs-button
                 >
@@ -285,7 +287,7 @@
                   </vs-tooltip>
                 </div>
                 Available:
-                <vs-button shadow size="mini"
+                <vs-button shadow size="mini" :loading="loadAmount"
                   >{{ reward
                   }}<span style="font-size: 11px">UST</span></vs-button
                 >
@@ -346,6 +348,7 @@ export default {
     sendTo: '',
     memo: '',
     load: false,
+    loadAmount: false,
     activeDialogInfoNoWalletDetected: false,
   }),
   computed: {
@@ -403,6 +406,7 @@ export default {
     this.loadUnBonded()
     this.loadAllowance()
     this.loadReward()
+    this.queryBalance()
   },
   methods: {
     lotaAll() {
@@ -445,13 +449,36 @@ export default {
           this.$store.state.station.lotaCw20ContractAddress,
           {
             allowance: {
-              owner: w.address,
+              owner: w.address || this.$store.state.station.senderAddress,
               spender: this.$store.state.station.lotaStakingContractAddress,
             },
           }
         )
         this.$store.commit('station/update_allowance', obj.allowance)
         console.log(obj)
+      })
+    },
+    queryBalance() {
+      const terraClient = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      const api = new WasmAPI(terraClient.apiRequester)
+      const extension = new Extension()
+      extension.connect()
+      extension.once(async (w) => {
+        const objBalance = await api.contractQuery(
+          this.$store.state.station.lotaCw20ContractAddress,
+          {
+            balance: {
+              address: w.address || this.$store.state.station.senderAddress,
+            },
+          }
+        )
+        this.$store.commit(
+          'station/update_balance',
+          objBalance.balance / 1000000
+        )
       })
     },
     loadUnBonded() {
@@ -483,7 +510,7 @@ export default {
           this.$store.state.station.lotaStakingContractAddress,
           {
             get_holder: {
-              address: w.address,
+              address: w.address || this.$store.state.station.senderAddress,
             },
           }
         )
@@ -504,7 +531,7 @@ export default {
           this.$store.state.station.lotaStakingContractAddress,
           {
             get_holder: {
-              address: w.address,
+              address: w.address || this.$store.state.station.senderAddress,
             },
           }
         )
@@ -521,16 +548,20 @@ export default {
       const extension = new Extension()
       extension.connect()
       extension.once(async (w) => {
-        const obj = await api.contractQuery(
-          this.$store.state.station.lotaStakingContractAddress,
-          {
-            get_holder: {
-              address: w.address,
-            },
-          }
-        )
-        this.$store.commit('station/update_reward', obj.available)
-        console.log(obj)
+        try {
+          const obj = await api.contractQuery(
+            this.$store.state.station.lotaStakingContractAddress,
+            {
+              get_holder: {
+                address: w.address || this.$store.state.station.senderAddress,
+              },
+            }
+          )
+          this.$store.commit('station/update_reward', obj.available)
+          console.log(obj)
+        } catch (e) {
+          console.log(e)
+        }
       })
     },
     async addAllowance() {
@@ -575,14 +606,19 @@ export default {
             )
             this.load = false
             switchs = false
+            this.loadAmount = true
+            setTimeout(() => {
+              this.loadBonded()
+              this.loadUnBonded()
+              this.loadAllowance()
+              this.loadReward()
+              this.queryBalance()
+              this.loadAmount = false
+            }, 7000)
           }
         })
         switchs = true
       }
-      await this.loadBonded()
-      await this.loadUnBonded()
-      await this.loadAllowance()
-      await this.loadReward()
     },
     async claimReward() {
       const msg = new MsgExecuteContract(
@@ -622,14 +658,19 @@ export default {
             )
             this.load = false
             switchs = false
+            this.loadAmount = true
+            setTimeout(() => {
+              this.loadBonded()
+              this.loadUnBonded()
+              this.loadAllowance()
+              this.loadReward()
+              this.queryBalance()
+              this.loadAmount = false
+            }, 7000)
           }
         })
         switchs = true
       }
-      await this.loadBonded()
-      await this.loadUnBonded()
-      await this.loadAllowance()
-      await this.loadReward()
     },
     async claimUnBonded() {
       const msg = new MsgExecuteContract(
@@ -669,14 +710,19 @@ export default {
             )
             this.load = false
             switchs = false
+            this.loadAmount = true
+            setTimeout(() => {
+              this.loadBonded()
+              this.loadUnBonded()
+              this.loadAllowance()
+              this.loadReward()
+              this.queryBalance()
+              this.loadAmount = false
+            }, 7000)
           }
         })
         switchs = true
       }
-      await this.loadBonded()
-      await this.loadUnBonded()
-      await this.loadAllowance()
-      await this.loadReward()
     },
     async stakeOrUnstake(cmd) {
       const amount = parseInt(this.value * 1000000)
@@ -723,19 +769,24 @@ export default {
           if (trxMsg.success && switchs) {
             this.openNotification(
               'Transaction success',
-              'Staking success',
+              cmd === 'stake' ? 'Staking success' : 'Unstaking success',
               4000
             )
             this.load = false
             switchs = false
+            this.loadAmount = true
+            setTimeout(() => {
+              this.loadBonded()
+              this.loadUnBonded()
+              this.loadAllowance()
+              this.loadReward()
+              this.queryBalance()
+              this.loadAmount = false
+            }, 7000)
           }
         })
         switchs = true
       }
-      await this.loadBonded()
-      await this.loadUnBonded()
-      await this.loadAllowance()
-      await this.loadReward()
     },
   },
 }
