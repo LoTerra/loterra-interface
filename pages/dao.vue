@@ -126,6 +126,16 @@ export default {
     pollData: [],
     activeDialogInfoNoWalletDetected: false,
   }),
+  head: {
+    title: 'DAO',
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Vote proposals and contribute to LoTerra ecosystem',
+      },
+    ],
+  },
   computed: {
     connected() {
       if (this.$store.state.station.senderAddress) {

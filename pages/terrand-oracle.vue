@@ -148,6 +148,17 @@ export default {
     inputPreviousSignature: '',
     randomnessAlreadyAdded: false,
   }),
+  head: {
+    title: 'Terrand oracle',
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Become a worker and earn UST from the jackpot rewards every time you add the next round...',
+      },
+    ],
+  },
   computed: {
     round: {
       get() {

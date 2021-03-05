@@ -356,6 +356,17 @@ export default {
     activeDialogInfoNoWalletDetected: false,
     releaseBlock: 0,
   }),
+  head: {
+    title: 'Staking',
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Stake your LOTA and get up to 20% of jackpots if big winners shared among all LOTA stakers',
+      },
+    ],
+  },
   computed: {
     lotaBalance() {
       return numeral(this.$store.state.station.balanceOf).format('0,0.00')

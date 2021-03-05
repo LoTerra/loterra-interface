@@ -102,6 +102,19 @@ export default {
     load: false,
     activeDialogInfoNoWalletDetected: false,
   }),
+  head: {
+    title: 'Public sale',
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Public sale max\n' +
+          '      LOTA supply is 7Mm ratio 1:1 UST -> LOTA, 100% sold UST is used to finance\n' +
+          '      the jackpot and become available to the next draw...',
+      },
+    ],
+  },
   computed: {
     connected() {
       if (this.$store.state.station.senderAddress) {
