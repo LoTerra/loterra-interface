@@ -11,7 +11,12 @@
       </vs-navbar-item>-->
       <template #right>
         <vs-button flat success> Testnet </vs-button>
-        <vs-button flat danger @click="activeDialog = !activeDialog">
+        <vs-button
+          :loading="load"
+          flat
+          danger
+          @click="activeDialog = !activeDialog"
+        >
           <GetBalanceUserLotaContract /><span style="font-size: 15px"
             >LOTA</span
           >
@@ -185,6 +190,9 @@ export default {
   components: {
     GetBalanceUserLotaContract: () =>
       import('../components/GetBalanceUserLotaContract'),
+  },
+  props: {
+    load: Boolean,
   },
   data: () => ({
     active: 'lottery',

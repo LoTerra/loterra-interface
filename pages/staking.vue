@@ -518,7 +518,7 @@ export default {
         {
           payout_reward: {},
         },
-        { uusd: '9000000000' }
+        { uusd: '10000000000' }
       )
       const extensions = new Extension()
       extensions.connect()
