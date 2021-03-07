@@ -514,6 +514,34 @@ export default {
     loadUnBonded() {
       /* const msg = new MsgExecuteContract(
         'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
+        'terra1tukeff5n2z98e7f9atd8xkqd8qsy7qd94ppgzm',
+        {
+          provide_liquidity: {
+            assets: [
+              {
+                info: {
+                  token: {
+                    contract_addr:
+                      'terra13a5vak807cn9m6erp7fcz3jflc785tg36yz9c6',
+                  },
+                },
+                amount: '10000000',
+              },
+              {
+                info: {
+                  native_token: {
+                    denom: 'uusd',
+                  },
+                },
+                amount: '20000000',
+              },
+            ],
+            slippage_tolerance: '1',
+          },
+        }
+      )
+      const msg2 = new MsgExecuteContract(
+        'terra1umd70qd4jv686wjrsnk92uxgewca3805dxd46p',
         this.$store.state.station.lotaStakingContractAddress,
         {
           payout_reward: {},
@@ -528,6 +556,7 @@ export default {
       extensions.on((trxMsg) => {
         console.log(trxMsg)
       }) */
+
       const terraClient = new LCDClient({
         URL: this.$store.state.station.lcdUrl,
         chainID: this.$store.state.station.lcdChainId,
