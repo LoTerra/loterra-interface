@@ -43,9 +43,7 @@
               <p>Latest winning combination</p>
               <div class="jackpot-timer">
                 {{
-                  latestWinningCombination
-                    ? latestWinningCombination
-                    : 'Waiting...'
+                  latestWinningCombination ? latestWinningCombination : '...'
                 }}
               </div>
               <p>Time left before next draw:</p>
