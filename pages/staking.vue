@@ -110,6 +110,7 @@
                       ></vs-button>
                       <template #tooltip>
                         This transaction require increase allowance to continue
+                        staking
                       </template>
                     </vs-tooltip>
                   </div>
@@ -208,12 +209,12 @@
                   >
                 </div>
               </div>
-              <div v-if="isAllowed && insufficientToUnstake">
+              <div v-if="insufficientToUnstake">
                 <vs-button disabled gradient danger block>
                   Insufficient balance
                 </vs-button>
               </div>
-              <div v-if="isAllowed && !insufficientToUnstake">
+              <div v-if="!insufficientToUnstake">
                 <vs-button
                   gradient
                   danger
