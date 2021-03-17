@@ -22,6 +22,10 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
+    <div>
+      Testnet v2 is live on
+      <a href="https://testnet.loterra.io">https://testnet.loterra.io</a>
+    </div>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -43,9 +47,7 @@
               <p>Latest winning combination</p>
               <div class="jackpot-timer">
                 {{
-                  latestWinningCombination
-                    ? latestWinningCombination
-                    : 'Waiting...'
+                  latestWinningCombination ? latestWinningCombination : '...'
                 }}
               </div>
               <p>Time left before next draw:</p>
