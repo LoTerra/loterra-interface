@@ -1,9 +1,18 @@
 export const state = () => ({
   senderAddress: '',
+  // TESTNET
   loterraLotteryContractAddress: 'terra14usn4a3cnexvlu0wq0ta6lm2sdstzdre5aqa6u',
+  // LOCAL
+  // loterraLotteryContractAddress: 'terra1hpedwe27cnpc9yga02wlv5zqwgq3th579wqqkd',
+  // TESTNET
   lotaCw20ContractAddress: 'terra1veahtdq4qvt4dkl58r8v89a35vjmzjj8e5pn3s',
+  // LOCAL
+  // lotaCw20ContractAddress: 'terra16j59y88szd8gtmm27nv2w8d72fafrqsgx46wlq',
   terrandContractAddress: 'terra1vgjrv99xcmgt8m7cw9udmcvyww7sqxqjucvue6',
+  // TESTNET
   lotaStakingContractAddress: 'terra1lklaag0h9jhyekjvajwqc7h3406dlldnamtx9j',
+  // LOCAL
+  // lotaStakingContractAddress: 'terra1xg5d0xq05sgypxeuype24e8zrna28s9mtgy03q',
   lcdUrl: 'https://tequila-lcd.terra.dev',
   lcdChainId: 'tequila-0004',
   ticketPrice: '',

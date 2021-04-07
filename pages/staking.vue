@@ -177,7 +177,7 @@
                 >
               </div>
               <div
-                v-if="isAllowed"
+                v-if="isAllowed || !insufficientToUnstake"
                 style="
                   display: flex;
                   justify-content: flex-end;
