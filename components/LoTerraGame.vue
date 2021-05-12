@@ -193,7 +193,16 @@
                 block
                 gradient
                 @click="claim()"
-                >Claim jackpot rewards 🤑</vs-button
+                >Claim jackpot rewards</vs-button
+              >
+              <vs-button
+                v-if="connected"
+                :loading="load"
+                danger
+                block
+                gradient
+                @click="collect()"
+                >Collect jackpot rewards 🤑</vs-button
               >
               <vs-button
                 v-if="!connected"
@@ -451,11 +460,56 @@ export default {
         this.$store.state.station.senderAddress,
         this.$store.state.station.loterraLotteryContractAddress,
         {
+          claim: {},
+        }
+      )
+      const extension = new Extension()
+      extension.connect()
+
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+        })
+        let switchs = true
+        this.load = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            this.load = false
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction success',
+              'Reward collected 🥳',
+              4000
+            )
+            this.load = false
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
+    async collect() {
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
           jackpot: {},
         }
       )
       const extension = new Extension()
       extension.connect()
+
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected

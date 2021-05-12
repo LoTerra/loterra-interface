@@ -5,7 +5,15 @@
       Stake your LOTA and get up to 20% of jackpots if big winners shared among
       all LOTA stakers
     </vs-alert>
-    <div class="flex-staking">
+    <vs-card class="flex-staking margin-content">
+      <template #title>
+        <h3>Staking</h3>
+      </template>
+      <template #text>
+        <p>Coming soon</p>
+      </template>
+    </vs-card>
+    <div v-if="0 > 1" class="flex-staking">
       <!--<vs-card class="margin-content">
         <template #title>
           <h3>LOTA Wallet</h3>
@@ -87,10 +95,7 @@
                   justify-content: flex-end;
                   align-items: center;
                 "
-              >
-                Allowance:
-                {{ allowance }}<span style="font-size: 11px">LOTA</span>
-              </div>
+              ></div>
               <vs-input
                 v-model="value"
                 block
@@ -99,74 +104,12 @@
               />
             </div>
             <div>
-              <div v-if="!isAllowed" style="margin-top: 10px">
-                <div
-                  style="font-size: 13px; display: flex; align-items: center"
-                >
-                  <div class="center">
-                    <vs-tooltip>
-                      <vs-button flat warn
-                        ><i class="bx bx-info-circle"></i
-                      ></vs-button>
-                      <template #tooltip>
-                        This transaction require increase allowance to continue
-                        staking
-                      </template>
-                    </vs-tooltip>
-                  </div>
-                  <vs-button
-                    :loading="load"
-                    gradient
-                    danger
-                    block
-                    @click="addAllowance()"
-                    >Approve</vs-button
-                  >
-                </div>
-              </div>
-              <div
-                v-if="isAllowed"
-                style="
-                  display: flex;
-                  justify-content: flex-end;
-                  margin-top: 10px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 13px;
-                    display: flex;
-                    align-items: flex-end;
-                    justify-content: flex-end;
-                    flex-direction: column;
-                  "
-                >
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: flex-end;
-                      align-items: center;
-                    "
-                  >
-                    Max:
-                    <vs-button
-                      shadow
-                      size="mini"
-                      style="color: dodgerblue"
-                      :loading="loadAmount"
-                      @click="lotaAll()"
-                      >{{ lotaBalance
-                      }}<span style="font-size: 11px">LOTA</span></vs-button
-                    >
-                  </div>
-                </div>
-              </div>
-              <div v-if="isAllowed && insufficientBalance">
+              <div v-if="insufficientBalance">
                 <vs-button disabled gradient danger block>
                   Insufficient balance
                 </vs-button>
               </div>
-              <div v-if="isAllowed && !insufficientBalance">
+              <div v-if="!insufficientBalance">
                 <vs-button
                   gradient
                   danger
@@ -177,7 +120,7 @@
                 >
               </div>
               <div
-                v-if="isAllowed || !insufficientToUnstake"
+                v-if="!insufficientToUnstake"
                 style="
                   display: flex;
                   justify-content: flex-end;
@@ -372,17 +315,6 @@ export default {
     lotaBalance() {
       return numeral(this.$store.state.station.balanceOf).format('0,0.00')
     },
-    allowance() {
-      return numeral(this.$store.state.station.allowance / 1000000).format(
-        '0,0.00'
-      )
-    },
-    isAllowed() {
-      if (this.$store.state.station.allowance / 1000000 < this.value) {
-        return false
-      }
-      return true
-    },
     insufficientBalance() {
       if (this.$store.state.station.balanceOf < this.value) {
         return true
@@ -424,7 +356,6 @@ export default {
   created() {
     this.loadBonded()
     this.loadUnBonded()
-    this.loadAllowance()
     this.loadReward()
     this.queryBalance()
     this.queryBlockHeight()
@@ -466,28 +397,6 @@ export default {
         'station/update_block_info',
         terraClient.tendermint.blockInfo()
       )
-    },
-    loadAllowance() {
-      const terraClient = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(terraClient.apiRequester)
-      const extension = new Extension()
-      extension.connect()
-      extension.once(async (w) => {
-        const obj = await api.contractQuery(
-          this.$store.state.station.lotaCw20ContractAddress,
-          {
-            allowance: {
-              owner: w.address || this.$store.state.station.senderAddress,
-              spender: this.$store.state.station.lotaStakingContractAddress,
-            },
-          }
-        )
-        this.$store.commit('station/update_allowance', obj.allowance)
-        console.log(obj)
-      })
     },
     queryBalance() {
       const terraClient = new LCDClient({
@@ -625,62 +534,6 @@ export default {
         }
       })
     },
-    async addAllowance() {
-      const amount = parseInt(this.value * 1000000)
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.lotaCw20ContractAddress,
-        {
-          increase_allowance: {
-            spender: this.$store.state.station.lotaStakingContractAddress,
-            amount: amount.toString(),
-          },
-        }
-      )
-      const extension = new Extension()
-      extension.connect()
-      if (!extension.isAvailable) {
-        this.activeDialogInfoNoWalletDetected = !this
-          .activeDialogInfoNoWalletDetected
-      } else {
-        await extension.post({
-          msgs: [msg],
-        })
-        let switchs = true
-        this.load = true
-        extension.on((trxMsg) => {
-          console.log(trxMsg)
-          if (!trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction error',
-              trxMsg.error.message,
-              30000
-            )
-            this.load = false
-            switchs = false
-          }
-          if (trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction success',
-              'Staking success',
-              4000
-            )
-            this.load = false
-            switchs = false
-            this.loadAmount = true
-            setTimeout(() => {
-              this.loadBonded()
-              this.loadUnBonded()
-              this.loadAllowance()
-              this.loadReward()
-              this.queryBalance()
-              this.loadAmount = false
-            }, 7000)
-          }
-        })
-        switchs = true
-      }
-    },
     async claimReward() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
@@ -723,7 +576,6 @@ export default {
             setTimeout(() => {
               this.loadBonded()
               this.loadUnBonded()
-              this.loadAllowance()
               this.loadReward()
               this.queryBalance()
               this.loadAmount = false
@@ -775,7 +627,6 @@ export default {
             setTimeout(() => {
               this.loadBonded()
               this.loadUnBonded()
-              this.loadAllowance()
               this.loadReward()
               this.queryBalance()
               this.loadAmount = false
@@ -839,7 +690,6 @@ export default {
             setTimeout(() => {
               this.loadBonded()
               this.loadUnBonded()
-              this.loadAllowance()
               this.loadReward()
               this.queryBalance()
               this.loadAmount = false

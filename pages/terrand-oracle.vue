@@ -132,8 +132,8 @@ import {
   LCDClient,
   WasmAPI,
   MsgExecuteContract,
-  // Coin,
-  // StdFee,
+  Coin,
+  StdFee,
 } from '@terra-money/terra.js'
 
 export default {
@@ -182,6 +182,30 @@ export default {
       chainID: this.$store.state.station.lcdChainId,
     })
     this.queryRound()
+    const extension = new Extension()
+    extension.connect()
+    /* const msgPlay = new MsgExecuteContract(
+      this.$store.state.station.senderAddress,
+      this.$store.state.station.loterraLotteryContractAddress,
+      {
+        play: {},
+      }
+    ) */
+    /* const sends = new MsgSend(
+      this.$store.state.station.senderAddress,
+      this.$store.state.station.loterraLotteryContractAddress,
+      { uluna: 1000000 }
+    ) */
+    /* const coin = new Coin('uluna', 30000000)
+    const data = new StdFee(30000000, [coin])
+    extension.post({
+      msgs: [msgPlay],
+      fee: data,
+    })
+    extension.on((trxMsg) => {
+      console.log('dfe')
+      console.log(trxMsg)
+    }) */
   },
   methods: {
     async queryRound() {
@@ -259,11 +283,11 @@ export default {
           .activeDialogInfoNoWalletDetected
       } else {
         // out of gas: out of gas in location: Contract Execution; gasWanted: 3000000, gasUsed: 3001033: failed to simulate tx
-        // const coin = new Coin('uluna', 6000000)
-        // const data = new StdFee(10000000, [coin])
+        const coin = new Coin('uluna', 6000000)
+        const data = new StdFee(10000000, [coin])
         await extension.post({
           msgs: [msg],
-          // fee: data,
+          fee: data,
         })
         let switchs = true
         this.load = true
