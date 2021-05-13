@@ -126,7 +126,7 @@
                         ><i class="bx bx-info-circle"></i
                       ></vs-button>
                       <template #tooltip>
-                        Stake in order to get rewards
+                        Stake in order to get rewards and join the DAO
                       </template>
                     </vs-tooltip>
                   </div>
