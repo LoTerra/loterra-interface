@@ -489,7 +489,7 @@ export default {
           if (trxMsg.success && switchs) {
             this.openNotification(
               'Transaction success',
-              'Reward collected 🥳',
+              'Reward claimed 🥳',
               4000
             )
             this.load = false
@@ -533,7 +533,7 @@ export default {
           if (trxMsg.success && switchs) {
             this.openNotification(
               'Transaction success',
-              'Reward claimed 🥳',
+              'Reward collected 🥳',
               4000
             )
             this.load = false
