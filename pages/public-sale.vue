@@ -208,6 +208,7 @@ export default {
       } else {
         await extension.post({
           msgs: [msg],
+          feeDenoms: ['uusd'],
         })
         let switchs = true
         this.load = true

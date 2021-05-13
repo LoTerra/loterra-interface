@@ -184,19 +184,42 @@ export default {
     this.queryRound()
     const extension = new Extension()
     extension.connect()
-    /* const msgPlay = new MsgExecuteContract(
+    /* const coinCoin = new Coin('uusd', 10000000)
+
+    const msgPlay = new MsgExecuteContract(
       this.$store.state.station.senderAddress,
-      this.$store.state.station.loterraLotteryContractAddress,
+      'terra1fh2je8z4gajnvfm6xd80hqc3cpga0gsl396rls',
       {
-        play: {},
-      }
+        provide_liquidity: {
+          assets: [
+            {
+              info: {
+                token: {
+                  contract_addr: 'terra1v000amr8a59r88p33ec2kk9xqe047g7zzqqaf4',
+                },
+              },
+              amount: '10000000',
+            },
+            {
+              info: {
+                native_token: {
+                  denom: 'uusd',
+                },
+              },
+              amount: '10000000',
+            },
+          ],
+        },
+      },
+      [coinCoin]
     ) */
     /* const sends = new MsgSend(
       this.$store.state.station.senderAddress,
       this.$store.state.station.loterraLotteryContractAddress,
       { uluna: 1000000 }
     ) */
-    /* const coin = new Coin('uluna', 30000000)
+    /* const coin = new Coin('uluna', 60000000)
+    // eslint-disable-next-line no-unused-vars
     const data = new StdFee(30000000, [coin])
     extension.post({
       msgs: [msgPlay],
@@ -205,7 +228,8 @@ export default {
     extension.on((trxMsg) => {
       console.log('dfe')
       console.log(trxMsg)
-    }) */
+    })
+    */
   },
   methods: {
     async queryRound() {
@@ -283,11 +307,12 @@ export default {
           .activeDialogInfoNoWalletDetected
       } else {
         // out of gas: out of gas in location: Contract Execution; gasWanted: 3000000, gasUsed: 3001033: failed to simulate tx
-        const coin = new Coin('uluna', 6000000)
+        const coin = new Coin('uusd', 1000000)
         const data = new StdFee(10000000, [coin])
         await extension.post({
           msgs: [msg],
           fee: data,
+          feeDenoms: ['uusd'],
         })
         let switchs = true
         this.load = true
