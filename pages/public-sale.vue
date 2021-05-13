@@ -9,7 +9,7 @@
       LOTA supply is 7Mm ratio 1:1 UST -> LOTA, 100% sold UST is used to finance
       the jackpot and become available to the next draw. Hard cap is $7Mm at the
       end of public sale unsold LOTA will remain locked on the smart contract
-      lowering the circulating supply. Creators will keep 30% of 7Mm LOTA for
+      lowering the circulating supply. Creators will keep 15% of 7Mm LOTA for
       development and project funding to expand the LoTerra ecosystem.
     </vs-alert>
 
@@ -208,6 +208,7 @@ export default {
       } else {
         await extension.post({
           msgs: [msg],
+          feeDenoms: ['uusd'],
         })
         let switchs = true
         this.load = true

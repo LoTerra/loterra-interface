@@ -63,7 +63,7 @@
             </vs-tr>
           </template>
         </vs-table>
-        <h3 class="jackpot-winner-reward">Latest winners</h3>
+        <!--<h3 class="jackpot-winner-reward">Latest winners</h3>
         <div
           v-if="allWinners.length == 0"
           style="display: flex; justify-content: center"
@@ -86,7 +86,7 @@
             </vs-tr>
           </template>
           <template #notFound> No winners </template>
-        </vs-table>
+        </vs-table>-->
       </template>
     </vs-card>
   </div>
