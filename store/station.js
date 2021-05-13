@@ -3,18 +3,26 @@ export const state = () => ({
   // TESTNET
   // loterraLotteryContractAddress: 'terra14usn4a3cnexvlu0wq0ta6lm2sdstzdre5aqa6u',
   // LOCAL
-  loterraLotteryContractAddress: 'terra1n9g0nf3fgx094zxgwx6h4wzkzh476l7uxy08jj',
+  loterraLotteryContractAddress:
+    process.env
+      .LOTTERY_CONTRACT_ADDR /* 'terra1n9g0nf3fgx094zxgwx6h4wzkzh476l7uxy08jj' */,
   // TESTNET
   // lotaCw20ContractAddress: 'terra1veahtdq4qvt4dkl58r8v89a35vjmzjj8e5pn3s',
   // LOCAL
-  lotaCw20ContractAddress: 'terra1v000amr8a59r88p33ec2kk9xqe047g7zzqqaf4',
-  terrandContractAddress: 'terra1vgjrv99xcmgt8m7cw9udmcvyww7sqxqjucvue6',
+  lotaCw20ContractAddress:
+    process.env
+      .CW20_CONTRACT_ADDR /* 'terra1v000amr8a59r88p33ec2kk9xqe047g7zzqqaf4' */,
+  terrandContractAddress:
+    process.env
+      .TERRAND_CONTRACT_ADDR /* 'terra1vgjrv99xcmgt8m7cw9udmcvyww7sqxqjucvue6' */,
   // TESTNET
   // lotaStakingContractAddress: 'terra1lklaag0h9jhyekjvajwqc7h3406dlldnamtx9j',
   // LOCAL
-  lotaStakingContractAddress: 'terra12nvjq4uw3ajuzzpkeejep4nsc97w66tu9jret2',
-  lcdUrl: 'https://tequila-lcd.terra.dev',
-  lcdChainId: 'tequila-0004',
+  lotaStakingContractAddress:
+    process.env
+      .STAKING_CONTRACT_ADDR /* 'terra12nvjq4uw3ajuzzpkeejep4nsc97w66tu9jret2' */,
+  lcdUrl: process.env.LCD_URL /* 'https://tequila-lcd.terra.dev' */,
+  lcdChainId: process.env.LCD_CHAIN_ID /* 'tequila-0004' */,
   ticketPrice: '',
   balanceOf: '',
   allowance: '',

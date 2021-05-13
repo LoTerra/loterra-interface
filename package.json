@@ -12,10 +12,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@terra-money/terra.js": "^1.4.1",
     "boxicons": "^2.0.7",
     "core-js": "^3.8.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^9.0.2",
+    "fs": "^0.0.1-security",
+    "netlify": "cross-env",
     "numeral": "^2.0.6",
     "nuxt": "^2.14.12",
     "vuesax": "^4.0.1-alpha.25"
