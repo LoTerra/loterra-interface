@@ -5,15 +5,15 @@
       Stake your LOTA and get up to 20% of jackpots if big winners shared among
       all LOTA stakers
     </vs-alert>
-    <vs-card class="flex-staking margin-content">
+    <!-- <vs-card class="flex-staking margin-content">
       <template #title>
         <h3>Staking</h3>
       </template>
       <template #text>
         <p>Coming soon</p>
       </template>
-    </vs-card>
-    <div v-if="0 > 1" class="flex-staking">
+    </vs-card>-->
+    <div class="flex-staking">
       <!--<vs-card class="margin-content">
         <template #title>
           <h3>LOTA Wallet</h3>
@@ -108,6 +108,39 @@
                 <vs-button disabled gradient danger block>
                   Insufficient balance
                 </vs-button>
+              </div>
+              <div
+                v-if="!insufficientToUnstake"
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  style="font-size: 13px; display: flex; align-items: center"
+                >
+                  <div class="center">
+                    <vs-tooltip>
+                      <vs-button flat warn
+                        ><i class="bx bx-info-circle"></i
+                      ></vs-button>
+                      <template #tooltip>
+                        Stake in order to get rewards
+                      </template>
+                    </vs-tooltip>
+                  </div>
+                  Max:
+                  <vs-button
+                    shadow
+                    size="mini"
+                    style="color: dodgerblue"
+                    :loading="loadAmount"
+                    @click="lotaAll()"
+                    >{{ lotaBalance
+                    }}<span style="font-size: 11px">LOTA</span></vs-button
+                  >
+                </div>
               </div>
               <div v-if="!insufficientBalance">
                 <vs-button
@@ -478,12 +511,18 @@ export default {
         const obj = await api.contractQuery(
           this.$store.state.station.lotaStakingContractAddress,
           {
-            get_holder: {
+            claims: {
               address: w.address || this.$store.state.station.senderAddress,
             },
           }
         )
-        this.$store.commit('station/update_un_bonded', obj.un_bonded)
+        // eslint-disable-next-line camelcase
+        let all_unbonded = 0
+        obj.claims.forEach((e) => {
+          // eslint-disable-next-line camelcase
+          all_unbonded += parseInt(e.amount)
+        })
+        this.$store.commit('station/update_un_bonded', all_unbonded)
         this.releaseBlock = obj.period || 0
         console.log(obj)
       })
@@ -500,12 +539,12 @@ export default {
         const obj = await api.contractQuery(
           this.$store.state.station.lotaStakingContractAddress,
           {
-            get_holder: {
+            holder: {
               address: w.address || this.$store.state.station.senderAddress,
             },
           }
         )
-        this.$store.commit('station/update_bonded', obj.bonded)
+        this.$store.commit('station/update_bonded', obj.balance)
         console.log(obj)
       })
     },
@@ -522,12 +561,12 @@ export default {
           const obj = await api.contractQuery(
             this.$store.state.station.lotaStakingContractAddress,
             {
-              get_holder: {
+              accrued_rewards: {
                 address: w.address || this.$store.state.station.senderAddress,
               },
             }
           )
-          this.$store.commit('station/update_reward', obj.available)
+          this.$store.commit('station/update_reward', obj.rewards)
           console.log(obj)
         } catch (e) {
           console.log(e)
@@ -539,7 +578,7 @@ export default {
         this.$store.state.station.senderAddress,
         this.$store.state.station.lotaStakingContractAddress,
         {
-          claim_reward: {},
+          claim_rewards: {},
         }
       )
       const extension = new Extension()
@@ -590,7 +629,7 @@ export default {
         this.$store.state.station.senderAddress,
         this.$store.state.station.lotaStakingContractAddress,
         {
-          claim_un_staked: {},
+          withdraw_stake: {},
         }
       )
       const extension = new Extension()
@@ -642,9 +681,13 @@ export default {
       if (cmd === 'stake') {
         msg = new MsgExecuteContract(
           this.$store.state.station.senderAddress,
-          this.$store.state.station.lotaStakingContractAddress,
+          this.$store.state.station.lotaCw20ContractAddress,
           {
-            stake: { amount: amount.toString() },
+            send: {
+              contract: this.$store.state.station.lotaStakingContractAddress,
+              amount: amount.toString(),
+              msg: 'eyAiYm9uZF9zdGFrZSI6IHt9IH0=',
+            },
           }
         )
       } else {
@@ -652,7 +695,7 @@ export default {
           this.$store.state.station.senderAddress,
           this.$store.state.station.lotaStakingContractAddress,
           {
-            un_stake: { amount: amount.toString() },
+            unbond_stake: { amount: amount.toString() },
           }
         )
       }
