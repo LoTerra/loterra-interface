@@ -102,6 +102,7 @@ import {
   MsgExecuteContract,
   LCDClient,
   WasmAPI,
+  StdFee,
 } from '@terra-money/terra.js'
 export default {
   name: 'PublicSale',
@@ -285,12 +286,16 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 160000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          fee: obj,
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
