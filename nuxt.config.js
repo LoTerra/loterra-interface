@@ -32,7 +32,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/LoTerra.png',
+        content: 'https://loterra.io/loterra.png',
       },
       {
         hid: 'og:image:alt',
