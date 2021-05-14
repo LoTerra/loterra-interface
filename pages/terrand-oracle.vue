@@ -186,14 +186,14 @@ export default {
 
     const msgPlay = new MsgExecuteContract(
       this.$store.state.station.senderAddress,
-      'terra1fh2je8z4gajnvfm6xd80hqc3cpga0gsl396rls',
+      'terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta',
       {
         provide_liquidity: {
           assets: [
             {
               info: {
                 token: {
-                  contract_addr: 'terra1v000amr8a59r88p33ec2kk9xqe047g7zzqqaf4',
+                  contract_addr: 'terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr',
                 },
               },
               amount: '10000000',
@@ -211,23 +211,34 @@ export default {
       },
       [coinCoin]
     ) */
+    /* const msgPlay = new MsgExecuteContract(
+      this.$store.state.station.senderAddress,
+      'terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr',
+      {
+        increase_allowance: {
+          spender: 'terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta',
+          amount: '10000000',
+        },
+      },
+      [coinCoin]
+    ) */
     /* const sends = new MsgSend(
       this.$store.state.station.senderAddress,
       this.$store.state.station.loterraLotteryContractAddress,
       { uluna: 1000000 }
     ) */
-    /* const coin = new Coin('uluna', 60000000)
+
     // eslint-disable-next-line no-unused-vars
-    const data = new StdFee(30000000, [coin])
+    /* const obj = new StdFee(1_000_000, { uusd: 200000 })
     extension.post({
       msgs: [msgPlay],
-      fee: data,
+      gasPrices: obj.gasPrices(),
+      gasAdjustment: 1.5,
     })
     extension.on((trxMsg) => {
       console.log('dfe')
       console.log(trxMsg)
-    })
-    */
+    }) */
   },
   methods: {
     async queryRound() {

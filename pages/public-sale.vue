@@ -294,7 +294,7 @@ export default {
         await extension.post({
           msgs: [msg],
           gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.4,
+          gasAdjustment: 2,
         })
         let switchs = true
         this.load = true
