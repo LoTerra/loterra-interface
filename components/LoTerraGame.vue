@@ -319,6 +319,7 @@ import {
   MsgExecuteContract,
   Extension,
   BankAPI,
+  StdFee,
 } from '@terra-money/terra.js'
 
 import numeral from 'numeral'
@@ -465,14 +466,15 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          feeDenoms: ['uusd'],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
@@ -510,14 +512,15 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          feeDenoms: ['uusd'],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
@@ -665,13 +668,15 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: this.basket,
-          feeDenoms: ['uusd'],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         extension.on((trxMsg) => {
