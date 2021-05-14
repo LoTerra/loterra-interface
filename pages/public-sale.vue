@@ -293,7 +293,6 @@ export default {
       } else {
         await extension.post({
           msgs: [msg],
-          fee: obj,
           gasPrices: obj.gasPrices(),
           gasAdjustment: 1.4,
         })
