@@ -237,7 +237,7 @@ export default {
       const api = new WasmAPI(terraClient.apiRequester)
       const extension = new Extension()
       extension.connect()
-      extension.once(async (w) => {
+      extension.on(async (w) => {
         const objBalance = await api.contractQuery(
           this.$store.state.station.lotaCw20ContractAddress,
           {
