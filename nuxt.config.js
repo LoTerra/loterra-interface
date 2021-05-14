@@ -18,6 +18,27 @@ export default {
         name: 'description',
         content: `LoTerra is building a lottery gaming ecosystem thanks smart contracts on Terra blockchain.`,
       },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'LoTerra',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content:
+          'LoTerra is building a lottery gaming ecosystem thanks smart contracts on Terra blockchain.',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: '/LoTerra.png',
+      },
+      {
+        hid: 'og:image:alt',
+        property: 'og:image:alt',
+        content: 'LoTerra icon',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
