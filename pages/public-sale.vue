@@ -166,8 +166,10 @@ export default {
         dayFormat + ' ' + hourFormat + ' ' + minFormat + ' ' + secFormat
     },
   },
-  mounted() {
+  created() {
     this.queryLoTerraBalance()
+  },
+  mounted() {
     this.timeLeftDraw = new Date(1623672000 * 1000) - Date.now()
     this.PublicSaleEnd()
   },
