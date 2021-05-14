@@ -318,6 +318,7 @@ import {
   WasmAPI,
   Extension,
   MsgExecuteContract,
+  StdFee,
 } from '@terra-money/terra.js'
 import numeral from 'numeral'
 export default {
@@ -583,12 +584,15 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
@@ -634,12 +638,15 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
@@ -701,12 +708,15 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.4,
         })
         let switchs = true
         this.load = true
