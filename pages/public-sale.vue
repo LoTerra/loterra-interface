@@ -21,8 +21,14 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
     ></iframe>
-    <p class="jackpot-timer" style="margin-top: 20px">Remaining LOTA</p>
-    <p class="jackpot-timer">
+    <p
+      v-if="remainingBalance > 0"
+      class="jackpot-timer"
+      style="margin-top: 20px"
+    >
+      Remaining LOTA
+    </p>
+    <p v-if="remainingBalance > 0" class="jackpot-timer">
       {{ remainingBalance }}
     </p>
     <vs-card style="margin-top: 25px; margin-bottom: 25px">
