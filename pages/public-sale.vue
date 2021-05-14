@@ -292,7 +292,7 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 160000 })
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -300,7 +300,7 @@ export default {
         await extension.post({
           msgs: [msg],
           gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.2,
+          gasAdjustment: 2,
         })
         let switchs = true
         this.load = true
