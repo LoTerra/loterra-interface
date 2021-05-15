@@ -320,6 +320,8 @@ import {
   Extension,
   BankAPI,
   StdFee,
+  TxAPI,
+  StdTx,
 } from '@terra-money/terra.js'
 
 import numeral from 'numeral'
@@ -668,7 +670,10 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
+
       // eslint-disable-next-line no-unused-vars
+      // const obj = new StdFee(1_000_000, { uusd: 200000 })
+      // const obj = new StdFee(6_000_000, { uusd: 1500000 })
       const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
@@ -677,7 +682,7 @@ export default {
         await extension.post({
           msgs: this.basket,
           gasPrices: obj.gasPrices(),
-          gasAdjustment: 5,
+          gasAdjustment: 2,
         })
         let switchs = true
         extension.on((trxMsg) => {
