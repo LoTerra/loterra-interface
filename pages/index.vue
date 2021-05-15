@@ -1,17 +1,37 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
-    <vs-card style="margin-bottom: 50px">
-      <template #title>
-        <h3>Combination</h3>
-        <p>All your combination played for this lottery</p>
-      </template>
-      <template #text>
-        <div v-for="(combo, key) in senderCombinations.combination" :key="key">
-          {{ combo }}
-        </div>
-      </template>
-    </vs-card>
+    <div style="display: flex">
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>History combination</h3>
+          <p>All your combination played for last lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderHistoryCombination.combination"
+            :key="key + 'w'"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>Combination</h3>
+          <p>All your combination played for this lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderCombinations.combination"
+            :key="key"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+    </div>
+
     <vs-card style="margin-bottom: 50px">
       <template #title>
         <h3 class="jackpot-winner-reward">Latest jackpot rewards</h3>
@@ -118,6 +138,7 @@ export default {
     prizePerRank: [],
     terraClient: '',
     senderCombinations: [],
+    senderHistoryCombination: [],
   }),
   computed: {
     connected() {
@@ -185,8 +206,18 @@ export default {
           },
         }
       )
-
+      const contractHistoryCombinationInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          combination: {
+            lottery_id: contractConfigInfo.lottery_counter - 1,
+            address: this.$store.state.station.senderAddress,
+          },
+        }
+      )
+      console.log(contractHistoryCombinationInfo)
       this.senderCombinations = contractCombinationInfo
+      this.senderHistoryCombination = contractHistoryCombinationInfo
     },
     loadTicketPrice() {
       const api = new WasmAPI(this.terraClient.apiRequester)
@@ -207,18 +238,22 @@ export default {
           this.prizePerRank = config.prize_rank_winner_percentage
         })
     },
-    loadWinners() {
+    async loadWinners() {
       const api = new WasmAPI(this.terraClient.apiRequester)
-      api
-        .contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
-          {
-            winner: {},
-          }
-        )
-        .then((winners) => {
-          this.allWinners = winners
-        })
+      const contractConfigInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          config: {},
+        }
+      )
+
+      const contractWinnersInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          winner: { lottery_id: contractConfigInfo.lottery_counter },
+        }
+      )
+      this.allWinners = contractWinnersInfo
     },
     loadAllCombination() {},
     loadWallet: () => {
