@@ -1,37 +1,49 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
-    <div style="display: flex">
-      <vs-card style="margin-bottom: 50px">
-        <template #title>
-          <h3>History combination</h3>
-          <p>All your combination played for last lottery</p>
-        </template>
-        <template #text>
-          <div
-            v-for="(combo, key) in senderHistoryCombination.combination"
-            :key="key + 'w'"
-          >
-            {{ combo }}
-          </div>
-        </template>
-      </vs-card>
-      <vs-card style="margin-bottom: 50px">
-        <template #title>
-          <h3>Combination</h3>
-          <p>All your combination played for this lottery</p>
-        </template>
-        <template #text>
-          <div
-            v-for="(combo, key) in senderCombinations.combination"
-            :key="key"
-          >
-            {{ combo }}
-          </div>
-        </template>
-      </vs-card>
-    </div>
-
+    <vs-card style="margin-bottom: 50px">
+      <template #title>
+        <h3>Combination</h3>
+        <p>All your combination played for this lottery</p>
+      </template>
+      <template #text>
+        <div v-for="(combo, key) in senderCombinations.combination" :key="key">
+          {{ combo }}
+        </div>
+      </template>
+    </vs-card>
+    <vs-card style="margin-bottom: 50px">
+      <template #title>
+        <h3 class="jackpot-winner-reward">Winners</h3>
+        <p>All winners from previous lottery</p>
+        <p style="font-size: 14px; padding-top: 10px">
+          Claim jackpot rewards in order to check if you are a winner, do note
+          forget to collect in order to withdraw your prize when collect is open
+        </p>
+      </template>
+      <template #text>
+        <vs-table>
+          <template #thead>
+            <vs-tr>
+              <vs-th> collected </vs-th>
+              <vs-th> Ranks prizes </vs-th>
+              <vs-th> Address </vs-th>
+            </vs-tr>
+          </template>
+          <template #tbody>
+            <vs-tr v-for="(winner, key) in allWinners.winners" :key="key">
+              <vs-td> {{ winner.claims.claimed }}</vs-td>
+              <vs-td>
+                {{ winner.claims.ranks }}
+              </vs-td>
+              <vs-td>
+                <span style="font-size: 14px">{{ winner.address }}</span></vs-td
+              >
+            </vs-tr>
+          </template>
+        </vs-table>
+      </template>
+    </vs-card>
     <vs-card style="margin-bottom: 50px">
       <template #title>
         <h3 class="jackpot-winner-reward">Latest jackpot rewards</h3>
@@ -206,7 +218,7 @@ export default {
           },
         }
       )
-      const contractHistoryCombinationInfo = await api.contractQuery(
+      /* const contractHistoryCombinationInfo = await api.contractQuery(
         this.$store.state.station.loterraLotteryContractAddress,
         {
           combination: {
@@ -214,10 +226,9 @@ export default {
             address: this.$store.state.station.senderAddress,
           },
         }
-      )
-      console.log(contractHistoryCombinationInfo)
-      this.senderCombinations = contractCombinationInfo
-      this.senderHistoryCombination = contractHistoryCombinationInfo
+      ) */
+      this.senderCombinations = contractCombinationInfo || []
+      // this.senderHistoryCombination = contractHistoryCombinationInfo
     },
     loadTicketPrice() {
       const api = new WasmAPI(this.terraClient.apiRequester)
@@ -250,9 +261,10 @@ export default {
       const contractWinnersInfo = await api.contractQuery(
         this.$store.state.station.loterraLotteryContractAddress,
         {
-          winner: { lottery_id: contractConfigInfo.lottery_counter },
+          winner: { lottery_id: contractConfigInfo.lottery_counter - 1 },
         }
       )
+      console.log(contractWinnersInfo)
       this.allWinners = contractWinnersInfo
     },
     loadAllCombination() {},
