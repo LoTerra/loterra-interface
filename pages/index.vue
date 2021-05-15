@@ -1,17 +1,43 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
-    <vs-card style="margin-bottom: 50px">
-      <template #title>
-        <h3>Combination</h3>
-        <p>All your combination played for this lottery</p>
-      </template>
-      <template #text>
-        <div v-for="(combo, key) in senderCombinations.combination" :key="key">
-          {{ combo }}
-        </div>
-      </template>
-    </vs-card>
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 100%;
+      "
+    >
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>History Combination</h3>
+          <p>All your combination played for the previous lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderCombinations.combination"
+            :key="key"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>Combination</h3>
+          <p>All your combination played for the current lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderCombinations.combination"
+            :key="key"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+    </div>
     <vs-card style="margin-bottom: 50px">
       <template #title>
         <h3 class="jackpot-winner-reward">Winners</h3>
@@ -25,7 +51,7 @@
         <vs-table>
           <template #thead>
             <vs-tr>
-              <vs-th> collected </vs-th>
+              <vs-th> Collected </vs-th>
               <vs-th> Ranks prizes </vs-th>
               <vs-th> Address </vs-th>
             </vs-tr>
@@ -218,7 +244,7 @@ export default {
           },
         }
       )
-      /* const contractHistoryCombinationInfo = await api.contractQuery(
+      const contractHistoryCombinationInfo = await api.contractQuery(
         this.$store.state.station.loterraLotteryContractAddress,
         {
           combination: {
@@ -226,9 +252,11 @@ export default {
             address: this.$store.state.station.senderAddress,
           },
         }
-      ) */
+      )
+      console.log(contractHistoryCombinationInfo)
+      console.log(contractCombinationInfo)
       this.senderCombinations = contractCombinationInfo || []
-      // this.senderHistoryCombination = contractHistoryCombinationInfo
+      this.senderHistoryCombination = contractHistoryCombinationInfo || []
     },
     loadTicketPrice() {
       const api = new WasmAPI(this.terraClient.apiRequester)
