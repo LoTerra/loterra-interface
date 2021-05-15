@@ -3,6 +3,17 @@
     <LoTerraGame />
     <vs-card style="margin-bottom: 50px">
       <template #title>
+        <h3>Combination</h3>
+        <p>All your combination played for this lottery</p>
+      </template>
+      <template #text>
+        <div v-for="(combo, key) in senderCombinations.combination" :key="key">
+          {{ combo }}
+        </div>
+      </template>
+    </vs-card>
+    <vs-card style="margin-bottom: 50px">
+      <template #title>
         <h3 class="jackpot-winner-reward">Latest jackpot rewards</h3>
         <p>Potential rewards</p>
         <div>
@@ -105,8 +116,17 @@ export default {
     allWinners: [],
     jackpotTotalReward: '0',
     prizePerRank: [],
+    terraClient: '',
+    senderCombinations: [],
   }),
   computed: {
+    connected() {
+      if (this.$store.state.station.senderAddress) {
+        return true
+      } else {
+        return false
+      }
+    },
     jackpotFormat() {
       return numeral(this.jackpotTotalReward).format('0,0.00')
     },
@@ -131,18 +151,45 @@ export default {
       ).format('0,0.00')
     },
   },
+  watch: {
+    connected() {
+      this.loadTicket()
+    },
+  },
   created() {
+    this.terraClient = new LCDClient({
+      URL: this.$store.state.station.lcdUrl,
+      chainID: this.$store.state.station.lcdChainId,
+    })
     this.loadTicketPrice()
     this.loadWinners()
+    this.loadAllCombination()
   },
   // middleware: 'terraConnect',
   methods: {
+    async loadTicket() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      const contractConfigInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          config: {},
+        }
+      )
+
+      const contractCombinationInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          combination: {
+            lottery_id: contractConfigInfo.lottery_counter,
+            address: this.$store.state.station.senderAddress,
+          },
+        }
+      )
+
+      this.senderCombinations = contractCombinationInfo
+    },
     loadTicketPrice() {
-      const client = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(client.apiRequester)
+      const api = new WasmAPI(this.terraClient.apiRequester)
       api
         .contractQuery(
           this.$store.state.station.loterraLotteryContractAddress,
@@ -161,11 +208,7 @@ export default {
         })
     },
     loadWinners() {
-      const client = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(client.apiRequester)
+      const api = new WasmAPI(this.terraClient.apiRequester)
       api
         .contractQuery(
           this.$store.state.station.loterraLotteryContractAddress,
@@ -177,6 +220,7 @@ export default {
           this.allWinners = winners
         })
     },
+    loadAllCombination() {},
     loadWallet: () => {
       // eslint-disable-next-line no-unused-vars
       /*
