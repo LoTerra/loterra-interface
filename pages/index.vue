@@ -163,7 +163,7 @@ export default {
     })
     this.loadTicketPrice()
     this.loadWinners()
-    this.loadAllCombination()
+    this.loadTicket()
   },
   // middleware: 'terraConnect',
   methods: {
