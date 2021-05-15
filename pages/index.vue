@@ -17,7 +17,7 @@
         <h3 class="jackpot-winner-reward">Winners</h3>
         <p>All winners from previous lottery</p>
         <p style="font-size: 14px; padding-top: 10px">
-          Claim jackpot rewards in order to check if you are a winner, do note
+          Claim jackpot rewards in order to check if you are a winner, do not
           forget to collect in order to withdraw your prize when collect is open
         </p>
       </template>
