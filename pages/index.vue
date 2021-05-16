@@ -213,6 +213,7 @@ export default {
   watch: {
     connected() {
       this.loadTicket()
+      this.loadHistoryTicket()
     },
   },
   created() {
