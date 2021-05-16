@@ -686,7 +686,7 @@ export default {
           await extension.post({
             msgs: this.basket,
             gasPrices: obj.gasPrices(),
-            gasAdjustment: 1,
+            gasAdjustment: 2,
           })
         }
 
