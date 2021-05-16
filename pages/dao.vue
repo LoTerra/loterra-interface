@@ -50,6 +50,14 @@
             <div>
               Status: <span class="color-proposal">{{ item.status }}</span>
             </div>
+            <div>
+              Proposal:
+              <span class="color-proposal">{{
+                item.proposal == 'AmountToRegister'
+                  ? 'Amount to register a combination'
+                  : item.proposal
+              }}</span>
+            </div>
           </div>
         </template>
         <template v-if="item.status == 'InProgress'" #buttons>
