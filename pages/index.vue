@@ -223,40 +223,61 @@ export default {
     this.loadTicketPrice()
     this.loadWinners()
     this.loadTicket()
+    this.loadHistoryTicket()
   },
   // middleware: 'terraConnect',
   methods: {
     async loadTicket() {
       const api = new WasmAPI(this.terraClient.apiRequester)
-      const contractConfigInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          config: {},
-        }
-      )
+      try {
+        const contractConfigInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddress,
+          {
+            config: {},
+          }
+        )
 
-      const contractCombinationInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          combination: {
-            lottery_id: contractConfigInfo.lottery_counter,
-            address: this.$store.state.station.senderAddress,
-          },
-        }
-      )
-      const contractHistoryCombinationInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          combination: {
-            lottery_id: contractConfigInfo.lottery_counter - 1,
-            address: this.$store.state.station.senderAddress,
-          },
-        }
-      )
-      console.log(contractHistoryCombinationInfo)
-      console.log(contractCombinationInfo)
-      this.senderCombinations = contractCombinationInfo || []
-      this.senderHistoryCombination = contractHistoryCombinationInfo || []
+        const contractCombinationInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddress,
+          {
+            combination: {
+              lottery_id: contractConfigInfo.lottery_counter,
+              address: this.$store.state.station.senderAddress,
+            },
+          }
+        )
+
+        console.log(contractCombinationInfo)
+        this.senderCombinations = contractCombinationInfo || []
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async loadHistoryTicket() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      try {
+        const contractConfigInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddress,
+          {
+            config: {},
+          }
+        )
+
+        const contractHistoryCombinationInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddress,
+          {
+            combination: {
+              lottery_id: contractConfigInfo.lottery_counter - 1,
+              address: this.$store.state.station.senderAddress,
+            },
+          }
+        )
+
+        console.log(contractHistoryCombinationInfo)
+        this.senderHistoryCombination = contractHistoryCombinationInfo || []
+      } catch (e) {
+        console.log(e)
+      }
     },
     loadTicketPrice() {
       const api = new WasmAPI(this.terraClient.apiRequester)
