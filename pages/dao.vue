@@ -123,6 +123,7 @@ import {
   LCDClient,
   MsgExecuteContract,
   Extension,
+  StdFee,
 } from '@terra-money/terra.js'
 export default {
   name: 'Dao',
@@ -215,13 +216,14 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 1500000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          feeDenoms: ['uusd'],
+          gasPrices: obj.gasPrices(),
         })
         let switchs = true
         this.load = true
@@ -264,13 +266,14 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 1500000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          feeDenoms: ['uusd'],
+          gasPrices: obj.gasPrices(),
         })
         let switchs = true
         extension.on((trxMsg) => {
