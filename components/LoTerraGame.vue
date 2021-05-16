@@ -673,7 +673,7 @@ export default {
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
       const x = this.basket.length * 60000
-      let gas = this.basket.length * 150000
+      let gas = this.basket.length * 200000
       if (gas > 10_000_000) {
         gas = 10_000_000
       }
