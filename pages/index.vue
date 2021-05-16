@@ -16,7 +16,7 @@
         </template>
         <template #text>
           <div
-            v-for="(combo, key) in senderCombinations.combination"
+            v-for="(combo, key) in senderHistoryCombination.combination"
             :key="key"
           >
             {{ combo }}
