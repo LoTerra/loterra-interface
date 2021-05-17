@@ -677,7 +677,7 @@ export default {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
-        if (this.basket.length > 30) {
+        if (this.basket.length > 20) {
           await extension.post({
             msgs: this.basket,
             fee: obj,
