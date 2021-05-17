@@ -62,6 +62,14 @@
                   : item.proposal
               }}</span>
             </div>
+            <div>
+              Yes votes:
+              <span class="color-proposal">{{ item.yes_vote }}</span>
+            </div>
+            <div>
+              No votes:
+              <span class="color-proposal">{{ item.no_vote }}</span>
+            </div>
           </div>
         </template>
         <template v-if="item.status == 'InProgress'" #buttons>
@@ -79,10 +87,10 @@
             style="display: flex; justify-content: space-around"
           >
             <vs-button danger gradient @click="vote(true, index + 1)">
-              {{ item.yes_vote }} YES</vs-button
+              YES</vs-button
             >
             <vs-button danger gradient @click="vote(false, index + 1)">
-              {{ item.no_vote }} NO</vs-button
+              NO</vs-button
             >
           </div>
           <div
