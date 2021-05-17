@@ -51,6 +51,10 @@
               Status: <span class="color-proposal">{{ item.status }}</span>
             </div>
             <div>
+              Prize per rank:
+              <span class="color-proposal">{{ item.prize_per_rank }}</span>
+            </div>
+            <div>
               Proposal:
               <span class="color-proposal">{{
                 item.proposal == 'AmountToRegister'
@@ -74,11 +78,11 @@
             v-if="connected"
             style="display: flex; justify-content: space-around"
           >
-            <vs-button danger gradient @click="vote(true, index + 1)"
-              >YES</vs-button
+            <vs-button danger gradient @click="vote(true, index + 1)">
+              {{ item.yes_vote }} YES</vs-button
             >
-            <vs-button danger gradient @click="vote(false, index + 1)"
-              >NO</vs-button
+            <vs-button danger gradient @click="vote(false, index + 1)">
+              {{ item.no_vote }} NO</vs-button
             >
           </div>
           <div
