@@ -133,6 +133,7 @@ import {
   WasmAPI,
   MsgExecuteContract,
   StdFee,
+  BankAPI,
 } from '@terra-money/terra.js'
 
 export default {
@@ -183,6 +184,7 @@ export default {
     this.queryRound()
     const extension = new Extension()
     extension.connect()
+
     /* const coinCoin = new Coin('uusd', 10000000)
 
     const msgPlay = new MsgExecuteContract(

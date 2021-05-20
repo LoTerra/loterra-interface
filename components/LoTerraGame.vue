@@ -691,6 +691,7 @@ export default {
         }
 
         let switchs = true
+
         extension.on((trxMsg) => {
           console.log(trxMsg)
           this.load = !this.load
