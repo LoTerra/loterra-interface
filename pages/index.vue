@@ -164,11 +164,11 @@
 <script>
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import numeral from 'numeral'
-// import LoTerraGame from '~/components/LoTerraGame'
+import LoTerraGame from '~/components/LoTerraGame'
 
 export default {
   components: {
-    LoTerraGame,
+    LoTerraGam,
   },
   data: () => ({
     allWinners: [],
