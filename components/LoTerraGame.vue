@@ -24,7 +24,7 @@
     </vs-alert>
     <a class="public-sale-title" href="/public-sale">
       <i class="bx bxs-coin"></i>
-      Buy LOTA Public sale
+      Buy LOTA public sale
     </a>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
