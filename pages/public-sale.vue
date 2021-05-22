@@ -29,7 +29,7 @@
       Remaining LOTA
     </p>
     <p v-if="remainingBalance > 0" class="jackpot-timer">
-      {{ remainingBalance }}
+      {{ remaining_balance }}
     </p>
     <vs-card style="margin-top: 25px; margin-bottom: 25px">
       <template #title>
@@ -110,6 +110,7 @@ import {
   WasmAPI,
   StdFee,
 } from '@terra-money/terra.js'
+import numeral from 'numeral'
 export default {
   name: 'PublicSale',
   data: () => ({
@@ -142,6 +143,9 @@ export default {
       } else {
         return false
       }
+    },
+    remaining_balance() {
+      return numeral(this.remainingBalance).format('0,0.00')
     },
   },
   watch: {
