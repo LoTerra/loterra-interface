@@ -501,7 +501,7 @@ export default {
         this.$store.state.station.senderAddress,
         this.$store.state.station.loterraLotteryContractAddress,
         {
-          jackpot: {},
+          collect: {},
         }
       )
       const extension = new Extension()
