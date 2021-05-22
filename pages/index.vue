@@ -168,7 +168,7 @@ import LoTerraGame from '~/components/LoTerraGame'
 
 export default {
   components: {
-    LoTerraGam,
+    LoTerraGame,
   },
   data: () => ({
     allWinners: [],

@@ -22,6 +22,10 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
+    <a class="public-sale-title" href="/public-sale">
+      <i class="bx bxs-coin"></i>
+      Buy LOTA Public sale
+    </a>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -778,6 +782,14 @@ export default {
   }
   .jackpot span {
     font-size: 2rem;
+  }
+  .public-sale-title {
+    border: transparent;
+    color: #5b3cc4;
+    font-size: 3rem;
+    padding-bottom: 10px;
+    background: transparent;
+    text-decoration: none;
   }
 }
 </style>
