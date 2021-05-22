@@ -1,11 +1,20 @@
 export const state = () => ({
   senderAddress: '',
-  loterraLotteryContractAddress: 'terra1e7hzp3tnsswpfcu6gt4wlgfm20lcsqqywhaagu',
-  lotaCw20ContractAddress: 'terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr',
-  terrandContractAddress: 'terra17hsftucasxf5leyax47unm84hqnvr0yhusy6xt',
-  lotaStakingContractAddress: 'terra1342fp86c3z3q0lksq92lncjxpkfl9hujwh6xfn',
-  lcdUrl: 'https://lcd.terra.dev',
-  lcdChainId: 'columbus-4',
+  // TESTNET
+  // loterraLotteryContractAddress: 'terra14usn4a3cnexvlu0wq0ta6lm2sdstzdre5aqa6u',
+  // LOCAL
+  loterraLotteryContractAddress: 'terra1a7gsygvka09dtew98zuxdcnrsypx3x7evasras',
+  // TESTNET
+  // lotaCw20ContractAddress: 'terra1veahtdq4qvt4dkl58r8v89a35vjmzjj8e5pn3s',
+  // LOCAL
+  lotaCw20ContractAddress: 'terra1jycglrkn0q3ffpxm0tzdjajjt2su27dx2trelu',
+  terrandContractAddress: 'terra1vgjrv99xcmgt8m7cw9udmcvyww7sqxqjucvue6',
+  // TESTNET
+  // lotaStakingContractAddress: 'terra1lklaag0h9jhyekjvajwqc7h3406dlldnamtx9j',
+  // LOCAL
+  lotaStakingContractAddress: 'terra1ltak0zrdt7wk4294zr8xmevkjmhl7msejgt0t5',
+  lcdUrl: 'https://tequila-lcd.terra.dev',
+  lcdChainId: 'tequila-0004',
   ticketPrice: '',
   balanceOf: '',
   allowance: '',
