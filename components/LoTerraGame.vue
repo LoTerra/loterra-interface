@@ -243,7 +243,7 @@
               "
             >
               <div class="jackpot-timer" style="margin-right: 25px">
-                {{ item.execute_msg.register.combination }}
+                {{ item }}
               </div>
               <div>
                 <vs-button
@@ -412,17 +412,7 @@ export default {
         this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          register: {
-            combination: this.combination,
-          },
-        },
-        { uusd: this.$store.state.station.ticketPrice }
-      )
-      this.basket.push(msg)
+      this.basket.push(this.combination)
       this.combination = ''
     },
     individualEmptyBasket(index) {
@@ -672,7 +662,16 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
-
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddress,
+        {
+          register: {
+            combination: this.basket,
+          },
+        },
+        { uusd: this.basket.length * this.$store.state.station.ticketPrice }
+      )
       // eslint-disable-next-line no-unused-vars
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
@@ -683,12 +682,12 @@ export default {
       } else {
         if (this.basket.length > 20) {
           await extension.post({
-            msgs: this.basket,
+            msgs: [msg],
             fee: obj,
           })
         } else {
           await extension.post({
-            msgs: this.basket,
+            msgs: [msg],
             gasPrices: obj.gasPrices(),
             gasAdjustment: 2,
           })
