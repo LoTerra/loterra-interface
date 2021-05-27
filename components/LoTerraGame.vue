@@ -26,6 +26,7 @@
       <i class="bx bxs-coin"></i>
       Buy LOTA public sale
     </a>
+
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -355,7 +356,7 @@ export default {
       }
     },
     contractAddr() {
-      return this.$store.state.station.loterraLotteryContractAddress
+      return this.$store.state.station.loterraLotteryContractAddressV2
     },
     basketTotal() {
       const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
@@ -453,7 +454,7 @@ export default {
     async claim() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           claim: {},
         }
@@ -499,7 +500,7 @@ export default {
     async collect() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           collect: {},
         }
@@ -555,7 +556,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const objBalance = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -588,7 +589,7 @@ export default {
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
-        this.$store.state.station.loterraLotteryContractAddress
+        this.$store.state.station.loterraLotteryContractAddressV2
       )
       const ustBalance = allBalance.get('uusd').toData()
       this.contractBalance = numeral(ustBalance.amount / 1000000).format(
@@ -600,7 +601,7 @@ export default {
       // eslint-disable-next-line camelcase
       const api = new WasmAPI(this.terraClient.apiRequester)
       const contractInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -664,7 +665,7 @@ export default {
       extension.connect()
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           register: {
             combination: this.basket,
