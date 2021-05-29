@@ -606,14 +606,13 @@ export default {
           config: {},
         }
       )
-      this.latestWinningCombination = contractInfo.last_winning_number
-        ? contractInfo.last_winning_number.substr(
-            contractInfo.last_winning_number.length - 6
-          )
-        : contractInfo.latest_winning_number.substr(
-            contractInfo.latest_winning_number.length - 6
-          )
-
+      const lastCombination = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          winning_combination: { lottery_id: contractInfo.lottery_counter - 1 },
+        }
+      )
+      this.latestWinningCombination = lastCombination
       this.pricePerTicket = contractInfo.price_per_ticket_to_register / 1000000
       const amountMinMax = numeral(this.pricePerTicket).format('0,0.00')
       this.$vs.notification({
