@@ -221,7 +221,7 @@ export default {
         this.$store.state.station.senderAddress,
         this.$store.state.station.loterraLotteryContractAddressV2,
         {
-          reject_proposal: {
+          reject_poll: {
             poll_id: pollId,
           },
         }
