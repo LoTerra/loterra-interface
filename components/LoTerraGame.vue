@@ -26,6 +26,7 @@
       <i class="bx bxs-coin"></i>
       Buy LOTA public sale
     </a>
+
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -243,7 +244,7 @@
               "
             >
               <div class="jackpot-timer" style="margin-right: 25px">
-                {{ item.execute_msg.register.combination }}
+                {{ item }}
               </div>
               <div>
                 <vs-button
@@ -355,7 +356,7 @@ export default {
       }
     },
     contractAddr() {
-      return this.$store.state.station.loterraLotteryContractAddress
+      return this.$store.state.station.loterraLotteryContractAddressV2
     },
     basketTotal() {
       const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
@@ -412,17 +413,7 @@ export default {
         this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          register: {
-            combination: this.combination,
-          },
-        },
-        { uusd: this.$store.state.station.ticketPrice }
-      )
-      this.basket.push(msg)
+      this.basket.push(this.combination)
       this.combination = ''
     },
     individualEmptyBasket(index) {
@@ -463,7 +454,7 @@ export default {
     async claim() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           claim: {},
         }
@@ -509,9 +500,9 @@ export default {
     async collect() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
-          jackpot: {},
+          collect: {},
         }
       )
       const extension = new Extension()
@@ -565,7 +556,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const objBalance = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -598,7 +589,7 @@ export default {
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
-        this.$store.state.station.loterraLotteryContractAddress
+        this.$store.state.station.loterraLotteryContractAddressV2
       )
       const ustBalance = allBalance.get('uusd').toData()
       this.contractBalance = numeral(ustBalance.amount / 1000000).format(
@@ -610,19 +601,18 @@ export default {
       // eslint-disable-next-line camelcase
       const api = new WasmAPI(this.terraClient.apiRequester)
       const contractInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
       )
-      this.latestWinningCombination = contractInfo.last_winning_number
-        ? contractInfo.last_winning_number.substr(
-            contractInfo.last_winning_number.length - 6
-          )
-        : contractInfo.latest_winning_number.substr(
-            contractInfo.latest_winning_number.length - 6
-          )
-
+      const lastCombination = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          winning_combination: { lottery_id: contractInfo.lottery_counter - 1 },
+        }
+      )
+      this.latestWinningCombination = lastCombination
       this.pricePerTicket = contractInfo.price_per_ticket_to_register / 1000000
       const amountMinMax = numeral(this.pricePerTicket).format('0,0.00')
       this.$vs.notification({
@@ -672,7 +662,16 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
-
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          register: {
+            combination: this.basket,
+          },
+        },
+        { uusd: this.basket.length * this.$store.state.station.ticketPrice }
+      )
       // eslint-disable-next-line no-unused-vars
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
@@ -683,12 +682,12 @@ export default {
       } else {
         if (this.basket.length > 20) {
           await extension.post({
-            msgs: this.basket,
+            msgs: [msg],
             fee: obj,
           })
         } else {
           await extension.post({
-            msgs: this.basket,
+            msgs: [msg],
             gasPrices: obj.gasPrices(),
             gasAdjustment: 2,
           })
