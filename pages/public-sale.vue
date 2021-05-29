@@ -9,7 +9,7 @@
       LOTA supply is 7Mm ratio 1:1 UST -> LOTA, 100% sold UST is used to finance
       the jackpot and become available to the next draw. Hard cap is $7Mm at the
       end of public sale unsold LOTA will remain locked on the smart contract
-      lowering the circulating supply. Creators will keep 30% of 7Mm LOTA for
+      lowering the circulating supply. Creators will keep 15% of 7Mm LOTA for
       development and project funding to expand the LoTerra ecosystem.
     </vs-alert>
 
@@ -21,9 +21,25 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
     ></iframe>
+    <p
+      v-if="remainingBalance > 0"
+      class="jackpot-timer"
+      style="margin-top: 20px"
+    >
+      Remaining LOTA
+    </p>
+    <p v-if="remainingBalance > 0" class="jackpot-timer">
+      {{ remaining_balance }}
+    </p>
     <vs-card style="margin-top: 25px; margin-bottom: 25px">
       <template #title>
         <h3>Public sale</h3>
+        <p style="margin-top: 10px">Time left before public sale end:</p>
+        <p class="jackpot-timer">
+          {{
+            lotteryTimestampDraw ? lotteryTimestampDraw : 'Public sale closed'
+          }}
+        </p>
         <p style="margin-bottom: 25px">
           Buy LOTA at ratio 1:1 with UST and contribute to the jackpot grow
         </p>
@@ -92,7 +108,9 @@ import {
   MsgExecuteContract,
   LCDClient,
   WasmAPI,
+  StdFee,
 } from '@terra-money/terra.js'
+import numeral from 'numeral'
 export default {
   name: 'PublicSale',
   data: () => ({
@@ -101,6 +119,9 @@ export default {
     formatAmount: 0,
     load: false,
     activeDialogInfoNoWalletDetected: false,
+    lotteryTimestampDraw: 0,
+    timeLeftDraw: 0,
+    remainingBalance: 0,
   }),
   head: {
     title: 'Public sale',
@@ -123,6 +144,9 @@ export default {
         return false
       }
     },
+    remaining_balance() {
+      return numeral(this.remainingBalance).format('0,0.00')
+    },
   },
   watch: {
     amount(val) {
@@ -134,8 +158,58 @@ export default {
         this.errorFormat = false
       }
     },
+    timeLeftDraw() {
+      const days = this.roundDown(this.timeLeftDraw / 86400000)
+      const hours = this.roundDown((this.timeLeftDraw % 86400000) / 3600000)
+      const min = this.roundDown(
+        ((this.timeLeftDraw % 86400000) % 3600000) / 60000
+      )
+      const sec = this.roundDown(
+        (((this.timeLeftDraw % 86400000) % 3600000) % 60000) / 1000
+      )
+      const dayFormat = days < 10 ? '0' + days : days
+      const hourFormat = hours < 10 ? '0' + hours : hours
+      const minFormat = min < 10 ? '0' + min : min
+      const secFormat = sec < 10 ? '0' + sec : sec
+
+      this.lotteryTimestampDraw =
+        dayFormat + ' ' + hourFormat + ' ' + minFormat + ' ' + secFormat
+    },
+  },
+  created() {
+    this.queryLoTerraBalance()
+  },
+  mounted() {
+    this.timeLeftDraw = new Date(1623672000 * 1000) - Date.now()
+    this.PublicSaleEnd()
   },
   methods: {
+    roundDown(num) {
+      const full = num.toString()
+      const reg = /([\d]+)/i
+      const res = reg.exec(full)
+      return res[1]
+    },
+    PublicSaleEnd() {
+      // this.getTimeDraw()
+      // var timestamp = (Date.now() + 1000 * 60 * 60 * 24 * 3) - Date.now();
+      let int
+      if (this.timeLeftDraw > 0) {
+        int = setInterval(() => {
+          this.timeLeftDraw -= 1000
+          // this.lotteryDraw()
+        }, 1000)
+      } else {
+        this.timeLeftDraw = 0
+        clearInterval(int)
+      }
+      // Hours part from the timestamp
+      // const hours = date.getHours()
+      // Minutes part from the timestamp
+      // const minutes = '0' + date.getMinutes()
+      // Seconds part from the timestamp
+      // const seconds = '0' + date.getSeconds()
+    },
     openNotification(title, text, seconds) {
       this.$vs.notification({
         position: 'bottom-right',
@@ -165,6 +239,26 @@ export default {
           'station/update_balance',
           objBalance.balance / 1000000
         )
+      })
+    },
+    queryLoTerraBalance() {
+      const terraClient = new LCDClient({
+        URL: this.$store.state.station.lcdUrl,
+        chainID: this.$store.state.station.lcdChainId,
+      })
+      const api = new WasmAPI(terraClient.apiRequester)
+      const extension = new Extension()
+      extension.connect()
+      extension.on(async (w) => {
+        const objBalance = await api.contractQuery(
+          this.$store.state.station.lotaCw20ContractAddress,
+          {
+            balance: {
+              address: this.$store.state.station.loterraLotteryContractAddress,
+            },
+          }
+        )
+        this.remainingBalance = (objBalance.balance - 1050000000000) / 1000000
       })
     },
     station() {
@@ -202,12 +296,14 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(10_000_000, { uusd: 1500000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
         })
         let switchs = true
         this.load = true
@@ -232,6 +328,7 @@ export default {
             switchs = false
             setTimeout(() => {
               this.queryBalance()
+              this.queryLoTerraBalance()
             }, 7000)
           }
         })
@@ -247,5 +344,12 @@ export default {
   width: 70%;
   margin-bottom: 25px;
   text-align: left;
+}
+.jackpot-timer {
+  background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  padding-bottom: 10px;
 }
 </style>

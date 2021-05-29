@@ -1,6 +1,75 @@
 <template>
   <div class="content-container">
     <LoTerraGame />
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 100%;
+      "
+    >
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>History Combination</h3>
+          <p>All your combination played for the previous lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderHistoryCombination.combination"
+            :key="key"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+      <vs-card style="margin-bottom: 50px">
+        <template #title>
+          <h3>Combination</h3>
+          <p>All your combination played for the current lottery</p>
+        </template>
+        <template #text>
+          <div
+            v-for="(combo, key) in senderCombinations.combination"
+            :key="key"
+          >
+            {{ combo }}
+          </div>
+        </template>
+      </vs-card>
+    </div>
+    <vs-card style="margin-bottom: 50px">
+      <template #title>
+        <h3 class="jackpot-winner-reward">Winners</h3>
+        <p>All winners from previous lottery</p>
+        <p style="font-size: 14px; padding-top: 10px">
+          Claim jackpot rewards in order to add your address to winners, do not
+          forget to collect in order to withdraw your prize when collect is open
+        </p>
+      </template>
+      <template #text>
+        <vs-table>
+          <template #thead>
+            <vs-tr>
+              <vs-th> Collected </vs-th>
+              <vs-th> Ranks prizes </vs-th>
+              <vs-th> Address </vs-th>
+            </vs-tr>
+          </template>
+          <template #tbody>
+            <vs-tr v-for="(winner, key) in allWinners.winners" :key="key">
+              <vs-td> {{ winner.claims.claimed }}</vs-td>
+              <vs-td>
+                {{ winner.claims.ranks }}
+              </vs-td>
+              <vs-td>
+                <span style="font-size: 14px">{{ winner.address }}</span></vs-td
+              >
+            </vs-tr>
+          </template>
+        </vs-table>
+      </template>
+    </vs-card>
     <vs-card style="margin-bottom: 50px">
       <template #title>
         <h3 class="jackpot-winner-reward">Latest jackpot rewards</h3>
@@ -63,7 +132,7 @@
             </vs-tr>
           </template>
         </vs-table>
-        <h3 class="jackpot-winner-reward">Latest winners</h3>
+        <!--<h3 class="jackpot-winner-reward">Latest winners</h3>
         <div
           v-if="allWinners.length == 0"
           style="display: flex; justify-content: center"
@@ -86,7 +155,7 @@
             </vs-tr>
           </template>
           <template #notFound> No winners </template>
-        </vs-table>
+        </vs-table>-->
       </template>
     </vs-card>
   </div>
@@ -105,8 +174,18 @@ export default {
     allWinners: [],
     jackpotTotalReward: '0',
     prizePerRank: [],
+    terraClient: '',
+    senderCombinations: [],
+    senderHistoryCombination: [],
   }),
   computed: {
+    connected() {
+      if (this.$store.state.station.senderAddress) {
+        return true
+      } else {
+        return false
+      }
+    },
     jackpotFormat() {
       return numeral(this.jackpotTotalReward).format('0,0.00')
     },
@@ -131,21 +210,82 @@ export default {
       ).format('0,0.00')
     },
   },
+  watch: {
+    connected() {
+      this.loadTicket()
+      this.loadHistoryTicket()
+    },
+  },
   created() {
+    this.terraClient = new LCDClient({
+      URL: this.$store.state.station.lcdUrl,
+      chainID: this.$store.state.station.lcdChainId,
+    })
     this.loadTicketPrice()
     this.loadWinners()
+    this.loadTicket()
+    this.loadHistoryTicket()
+    this.loadJackpot()
   },
   // middleware: 'terraConnect',
   methods: {
+    async loadTicket() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      try {
+        const contractConfigInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
+          {
+            config: {},
+          }
+        )
+
+        const contractCombinationInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
+          {
+            combination: {
+              lottery_id: contractConfigInfo.lottery_counter,
+              address: this.$store.state.station.senderAddress,
+            },
+          }
+        )
+
+        console.log(contractCombinationInfo)
+        this.senderCombinations = contractCombinationInfo || []
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async loadHistoryTicket() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      try {
+        const contractConfigInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
+          {
+            config: {},
+          }
+        )
+
+        const contractHistoryCombinationInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
+          {
+            combination: {
+              lottery_id: contractConfigInfo.lottery_counter - 1,
+              address: this.$store.state.station.senderAddress,
+            },
+          }
+        )
+
+        console.log(contractHistoryCombinationInfo)
+        this.senderHistoryCombination = contractHistoryCombinationInfo || []
+      } catch (e) {
+        console.log(e)
+      }
+    },
     loadTicketPrice() {
-      const client = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(client.apiRequester)
+      const api = new WasmAPI(this.terraClient.apiRequester)
       api
         .contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             config: {},
           }
@@ -156,27 +296,49 @@ export default {
             'station/update_ticket_price',
             config.price_per_ticket_to_register
           )
-          this.jackpotTotalReward = parseInt(config.jackpot_reward) / 1000000
           this.prizePerRank = config.prize_rank_winner_percentage
         })
     },
-    loadWinners() {
-      const client = new LCDClient({
-        URL: this.$store.state.station.lcdUrl,
-        chainID: this.$store.state.station.lcdChainId,
-      })
-      const api = new WasmAPI(client.apiRequester)
-      api
-        .contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+    async loadJackpot() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      try {
+        const contractConfigInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
-            winner: {},
+            config: {},
           }
         )
-        .then((winners) => {
-          this.allWinners = winners
-        })
+
+        const contractJackpotInfo = await api.contractQuery(
+          this.$store.state.station.loterraLotteryContractAddressV2,
+          {
+            jackpot: { lottery_id: contractConfigInfo.lottery_counter - 1 },
+          }
+        )
+        this.jackpotTotalReward = parseInt(contractJackpotInfo) / 1000000
+      } catch (e) {
+        console.log(e)
+      }
     },
+    async loadWinners() {
+      const api = new WasmAPI(this.terraClient.apiRequester)
+      const contractConfigInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          config: {},
+        }
+      )
+
+      const contractWinnersInfo = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          winner: { lottery_id: contractConfigInfo.lottery_counter - 1 },
+        }
+      )
+      console.log(contractWinnersInfo)
+      this.allWinners = contractWinnersInfo
+    },
+    loadAllCombination() {},
     loadWallet: () => {
       // eslint-disable-next-line no-unused-vars
       /*

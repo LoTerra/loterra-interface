@@ -132,7 +132,6 @@ import {
   LCDClient,
   WasmAPI,
   MsgExecuteContract,
-  Coin,
   StdFee,
 } from '@terra-money/terra.js'
 
@@ -182,13 +181,72 @@ export default {
       chainID: this.$store.state.station.lcdChainId,
     })
     this.queryRound()
+    const extension = new Extension()
+    extension.connect()
+    /* const coinCoin = new Coin('uusd', 10000000)
+
+    const msgPlay = new MsgExecuteContract(
+      this.$store.state.station.senderAddress,
+      'terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta',
+      {
+        provide_liquidity: {
+          assets: [
+            {
+              info: {
+                token: {
+                  contract_addr: 'terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr',
+                },
+              },
+              amount: '10000000',
+            },
+            {
+              info: {
+                native_token: {
+                  denom: 'uusd',
+                },
+              },
+              amount: '10000000',
+            },
+          ],
+        },
+      },
+      [coinCoin]
+    ) */
+    /* const msgPlay = new MsgExecuteContract(
+      this.$store.state.station.senderAddress,
+      'terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr',
+      {
+        increase_allowance: {
+          spender: 'terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta',
+          amount: '10000000',
+        },
+      },
+      [coinCoin]
+    ) */
+    /* const sends = new MsgSend(
+      this.$store.state.station.senderAddress,
+      this.$store.state.station.loterraLotteryContractAddress,
+      { uluna: 1000000 }
+    ) */
+
+    // eslint-disable-next-line no-unused-vars
+    /* const obj = new StdFee(1_000_000, { uusd: 200000 })
+    extension.post({
+      msgs: [msgPlay],
+      gasPrices: obj.gasPrices(),
+      gasAdjustment: 1.5,
+    })
+    extension.on((trxMsg) => {
+      console.log('dfe')
+      console.log(trxMsg)
+    }) */
   },
   methods: {
     async queryRound() {
       const api = new WasmAPI(this.terraClient.apiRequester)
 
       const nextRoundObj = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           get_round: {},
         }
@@ -259,11 +317,12 @@ export default {
           .activeDialogInfoNoWalletDetected
       } else {
         // out of gas: out of gas in location: Contract Execution; gasWanted: 3000000, gasUsed: 3001033: failed to simulate tx
-        const coin = new Coin('uluna', 6000000)
-        const data = new StdFee(10000000, [coin])
+        // const coin = new Coin('uusd', 1000000)
+        // const data = new StdFee(10000000, [coin])
+        const obj = new StdFee(6_000_000, { uusd: 1500000 })
         await extension.post({
           msgs: [msg],
-          fee: data,
+          fee: obj,
         })
         let switchs = true
         this.load = true

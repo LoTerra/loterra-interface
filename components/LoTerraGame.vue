@@ -22,6 +22,11 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
+    <a class="public-sale-title" href="/public-sale">
+      <i class="bx bxs-coin"></i>
+      Buy LOTA public sale
+    </a>
+
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -43,9 +48,7 @@
               <p>Latest winning combination</p>
               <div class="jackpot-timer">
                 {{
-                  latestWinningCombination
-                    ? latestWinningCombination
-                    : 'Waiting...'
+                  latestWinningCombination ? latestWinningCombination : '...'
                 }}
               </div>
               <p>Time left before next draw:</p>
@@ -195,7 +198,16 @@
                 block
                 gradient
                 @click="claim()"
-                >Claim jackpot rewards 🤑</vs-button
+                >Claim jackpot rewards</vs-button
+              >
+              <vs-button
+                v-if="connected"
+                :loading="load"
+                danger
+                block
+                gradient
+                @click="collect()"
+                >Collect jackpot rewards 🤑</vs-button
               >
               <vs-button
                 v-if="!connected"
@@ -232,7 +244,7 @@
               "
             >
               <div class="jackpot-timer" style="margin-right: 25px">
-                {{ item.execute_msg.register.combination }}
+                {{ item }}
               </div>
               <div>
                 <vs-button
@@ -312,6 +324,7 @@ import {
   MsgExecuteContract,
   Extension,
   BankAPI,
+  StdFee,
 } from '@terra-money/terra.js'
 
 import numeral from 'numeral'
@@ -343,7 +356,7 @@ export default {
       }
     },
     contractAddr() {
-      return this.$store.state.station.loterraLotteryContractAddress
+      return this.$store.state.station.loterraLotteryContractAddressV2
     },
     basketTotal() {
       const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
@@ -400,17 +413,7 @@ export default {
         this.openNotification('Error', 'You need to register 6 symbols', 4000)
         return
       }
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          register: {
-            combination: this.combination,
-          },
-        },
-        { uusd: this.$store.state.station.ticketPrice }
-      )
-      this.basket.push(msg)
+      this.basket.push(this.combination)
       this.combination = ''
     },
     individualEmptyBasket(index) {
@@ -451,19 +454,22 @@ export default {
     async claim() {
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
-          jackpot: {},
+          claim: {},
         }
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 2,
         })
         let switchs = true
         this.load = true
@@ -491,6 +497,52 @@ export default {
         switchs = true
       }
     },
+    async collect() {
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          collect: {},
+        }
+      )
+      const extension = new Extension()
+      extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
+      if (!extension.isAvailable) {
+        this.activeDialogInfoNoWalletDetected = !this
+          .activeDialogInfoNoWalletDetected
+      } else {
+        await extension.post({
+          msgs: [msg],
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 2,
+        })
+        let switchs = true
+        this.load = true
+        extension.on((trxMsg) => {
+          console.log(trxMsg)
+          if (!trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction error',
+              trxMsg.error.message,
+              30000
+            )
+            this.load = false
+            switchs = false
+          }
+          if (trxMsg.success && switchs) {
+            this.openNotification(
+              'Transaction success',
+              'Reward collected 🥳',
+              4000
+            )
+            this.load = false
+            switchs = false
+          }
+        })
+        switchs = true
+      }
+    },
     roundDown(num) {
       const full = num.toString()
       const reg = /([\d]+)/i
@@ -504,7 +556,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const objBalance = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -537,7 +589,7 @@ export default {
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
-        this.$store.state.station.loterraLotteryContractAddress
+        this.$store.state.station.loterraLotteryContractAddressV2
       )
       const ustBalance = allBalance.get('uusd').toData()
       this.contractBalance = numeral(ustBalance.amount / 1000000).format(
@@ -549,19 +601,18 @@ export default {
       // eslint-disable-next-line camelcase
       const api = new WasmAPI(this.terraClient.apiRequester)
       const contractInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
       )
-      this.latestWinningCombination = contractInfo.last_winning_number
-        ? contractInfo.last_winning_number.substr(
-            contractInfo.last_winning_number.length - 6
-          )
-        : contractInfo.latest_winning_number.substr(
-            contractInfo.latest_winning_number.length - 6
-          )
-
+      const lastCombination = await api.contractQuery(
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          winning_combination: { lottery_id: contractInfo.lottery_counter - 1 },
+        }
+      )
+      this.latestWinningCombination = lastCombination
       this.pricePerTicket = contractInfo.price_per_ticket_to_register / 1000000
       const amountMinMax = numeral(this.pricePerTicket).format('0,0.00')
       this.$vs.notification({
@@ -611,14 +662,39 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
+      const msg = new MsgExecuteContract(
+        this.$store.state.station.senderAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
+        {
+          register: {
+            combination: this.basket,
+          },
+        },
+        { uusd: this.basket.length * this.$store.state.station.ticketPrice }
+      )
+      // eslint-disable-next-line no-unused-vars
+      // const obj = new StdFee(1_000_000, { uusd: 200000 })
+      // const obj = new StdFee(6_000_000, { uusd: 1500000 })
+      const obj = new StdFee(10_000_000, { uusd: 2000000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
-        await extension.post({
-          msgs: this.basket,
-        })
+        if (this.basket.length > 20) {
+          await extension.post({
+            msgs: [msg],
+            fee: obj,
+          })
+        } else {
+          await extension.post({
+            msgs: [msg],
+            gasPrices: obj.gasPrices(),
+            gasAdjustment: 2,
+          })
+        }
+
         let switchs = true
+
         extension.on((trxMsg) => {
           console.log(trxMsg)
           this.load = !this.load
@@ -705,6 +781,14 @@ export default {
   }
   .jackpot span {
     font-size: 2rem;
+  }
+  .public-sale-title {
+    border: transparent;
+    color: #5b3cc4;
+    font-size: 3rem;
+    padding-bottom: 10px;
+    background: transparent;
+    text-decoration: none;
   }
 }
 </style>

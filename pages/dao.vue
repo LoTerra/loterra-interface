@@ -50,6 +50,26 @@
             <div>
               Status: <span class="color-proposal">{{ item.status }}</span>
             </div>
+            <div>
+              Prize per rank:
+              <span class="color-proposal">{{ item.prize_per_rank }}</span>
+            </div>
+            <div>
+              Proposal:
+              <span class="color-proposal">{{
+                item.proposal == 'AmountToRegister'
+                  ? 'Amount to register a combination'
+                  : item.proposal
+              }}</span>
+            </div>
+            <div>
+              Yes votes:
+              <span class="color-proposal">{{ item.yes_vote }}</span>
+            </div>
+            <div>
+              No votes:
+              <span class="color-proposal">{{ item.no_vote }}</span>
+            </div>
           </div>
         </template>
         <template v-if="item.status == 'InProgress'" #buttons>
@@ -66,11 +86,11 @@
             v-if="connected"
             style="display: flex; justify-content: space-around"
           >
-            <vs-button danger gradient @click="vote(true, index + 1)"
-              >YES</vs-button
+            <vs-button danger gradient @click="vote(true, index + 1)">
+              YES</vs-button
             >
-            <vs-button danger gradient @click="vote(false, index + 1)"
-              >NO</vs-button
+            <vs-button danger gradient @click="vote(false, index + 1)">
+              NO</vs-button
             >
           </div>
           <div
@@ -115,6 +135,7 @@ import {
   LCDClient,
   MsgExecuteContract,
   Extension,
+  StdFee,
 } from '@terra-money/terra.js'
 export default {
   name: 'Dao',
@@ -177,7 +198,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const contractInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -185,7 +206,7 @@ export default {
       this.pollCount = contractInfo.poll_count
       for (let x = 1; x <= this.pollCount; x++) {
         const contractInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             get_poll: { poll_id: x },
           }
@@ -198,21 +219,23 @@ export default {
       // eslint-disable-next-line camelcase
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
-          reject_proposal: {
+          reject_poll: {
             poll_id: pollId,
           },
         }
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 1500000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
         })
         let switchs = true
         this.load = true
@@ -245,7 +268,7 @@ export default {
       // eslint-disable-next-line camelcase
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           vote: {
             poll_id: pollId,
@@ -255,12 +278,14 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
+      const obj = new StdFee(1_000_000, { uusd: 1500000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
+          gasPrices: obj.gasPrices(),
         })
         let switchs = true
         extension.on((trxMsg) => {

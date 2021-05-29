@@ -10,7 +10,7 @@
         Guide
       </vs-navbar-item>-->
       <template #right>
-        <vs-button flat success> Testnet </vs-button>
+        <vs-button flat success> Contract-v2 testnet </vs-button>
         <vs-button
           :loading="load"
           flat
