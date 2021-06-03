@@ -172,7 +172,7 @@
                   </vs-button>
                 </vs-col>
               </vs-row>-->
-              <p>Please do not play until contract-v2 update finished</p>
+              <p>Please do not play until contract-v2 migration complete</p>
             </div>
           </template>
           <template #buttons>
