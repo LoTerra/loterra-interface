@@ -225,7 +225,6 @@ export default {
     this.loadWinners()
     this.loadTicket()
     this.loadHistoryTicket()
-    this.loadJackpot()
   },
   // middleware: 'terraConnect',
   methods: {
@@ -233,14 +232,14 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       try {
         const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          this.$store.state.station.loterraLotteryContractAddress,
           {
             config: {},
           }
         )
 
         const contractCombinationInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          this.$store.state.station.loterraLotteryContractAddress,
           {
             combination: {
               lottery_id: contractConfigInfo.lottery_counter,
@@ -259,14 +258,14 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       try {
         const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          this.$store.state.station.loterraLotteryContractAddress,
           {
             config: {},
           }
         )
 
         const contractHistoryCombinationInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          this.$store.state.station.loterraLotteryContractAddress,
           {
             combination: {
               lottery_id: contractConfigInfo.lottery_counter - 1,
@@ -285,7 +284,7 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       api
         .contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          this.$store.state.station.loterraLotteryContractAddress,
           {
             config: {},
           }
@@ -296,41 +295,21 @@ export default {
             'station/update_ticket_price',
             config.price_per_ticket_to_register
           )
+          this.jackpotTotalReward = parseInt(config.jackpot_reward) / 1000000
           this.prizePerRank = config.prize_rank_winner_percentage
         })
-    },
-    async loadJackpot() {
-      const api = new WasmAPI(this.terraClient.apiRequester)
-      try {
-        const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
-          {
-            config: {},
-          }
-        )
-
-        const contractJackpotInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
-          {
-            jackpot: { lottery_id: contractConfigInfo.lottery_counter - 1 },
-          }
-        )
-        this.jackpotTotalReward = parseInt(contractJackpotInfo) / 1000000
-      } catch (e) {
-        console.log(e)
-      }
     },
     async loadWinners() {
       const api = new WasmAPI(this.terraClient.apiRequester)
       const contractConfigInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddressV2,
+        this.$store.state.station.loterraLotteryContractAddress,
         {
           config: {},
         }
       )
 
       const contractWinnersInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddressV2,
+        this.$store.state.station.loterraLotteryContractAddress,
         {
           winner: { lottery_id: contractConfigInfo.lottery_counter - 1 },
         }

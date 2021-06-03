@@ -180,7 +180,7 @@ export default {
     this.queryLoTerraBalance()
   },
   mounted() {
-    this.timeLeftDraw = new Date(1684781197 * 1000) - Date.now()
+    this.timeLeftDraw = new Date(1623672000 * 1000) - Date.now()
     this.PublicSaleEnd()
   },
   methods: {

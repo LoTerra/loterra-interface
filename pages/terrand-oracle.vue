@@ -246,7 +246,7 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
 
       const nextRoundObj = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddressV2,
+        this.$store.state.station.loterraLotteryContractAddress,
         {
           get_round: {},
         }
