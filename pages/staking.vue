@@ -2,8 +2,8 @@
   <div class="content-container">
     <vs-alert id="alert-1" gradient danger>
       <template #title> LOTA staking </template>
-      Stake your LOTA and get up to 20% of jackpots if big winners shared among
-      all LOTA stakers
+      Stake your LOTA and get up to 20% of all winners collecting jackpots,
+      shared among all LOTA stakers
     </vs-alert>
     <!-- <vs-card class="flex-staking margin-content">
       <template #title>
