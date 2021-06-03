@@ -263,9 +263,10 @@
               gradient
               danger
               block
+              disabled
               @click="buyCombination()"
             >
-              Buy ticket 🍀
+              Buy ticket 🍀 (disabled contract-v2 update)
             </vs-button>
             <p>Total: {{ basketTotal }}UST</p>
             <vs-button
