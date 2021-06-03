@@ -69,7 +69,7 @@
               >
                 {{ combination ? combination : 'Combination' }}
               </h2>
-              <vs-row>
+              <!--<vs-row>
                 <vs-col w="4">
                   <vs-button
                     border
@@ -171,7 +171,8 @@
                     <i class="bx bxs-tag-x"></i>
                   </vs-button>
                 </vs-col>
-              </vs-row>
+              </vs-row>-->
+              <p>Please do not play until contract-v2 update finished</p>
             </div>
           </template>
           <template #buttons>
