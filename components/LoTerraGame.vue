@@ -183,6 +183,7 @@
                 gradient
                 danger
                 block
+                disabled
                 animation-type="scale"
                 @click="addToBasket()"
               >
