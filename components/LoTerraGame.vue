@@ -69,7 +69,7 @@
               >
                 {{ combination ? combination : 'Combination' }}
               </h2>
-              <!--<vs-row>
+              <vs-row>
                 <vs-col w="4">
                   <vs-button
                     border
@@ -171,8 +171,7 @@
                     <i class="bx bxs-tag-x"></i>
                   </vs-button>
                 </vs-col>
-              </vs-row>-->
-              <p>Please do not play until contract-v2 migration complete</p>
+              </vs-row>
             </div>
           </template>
           <template #buttons>
@@ -183,7 +182,6 @@
                 gradient
                 danger
                 block
-                disabled
                 animation-type="scale"
                 @click="addToBasket()"
               >
@@ -283,10 +281,9 @@
               gradient
               danger
               block
-              disabled
               @click="buyCombination()"
             >
-              Buy ticket 🍀 (disabled contract-v2 update)
+              Buy ticket 🍀
             </vs-button>
             <p>Total: {{ basketTotal }}UST</p>
             <vs-button
