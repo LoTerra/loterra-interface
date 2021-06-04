@@ -198,7 +198,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const contractInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -206,7 +206,7 @@ export default {
       this.pollCount = contractInfo.poll_count
       for (let x = 1; x <= this.pollCount; x++) {
         const contractInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             get_poll: { poll_id: x },
           }
@@ -219,7 +219,7 @@ export default {
       // eslint-disable-next-line camelcase
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           reject_proposal: {
             poll_id: pollId,
@@ -268,7 +268,7 @@ export default {
       // eslint-disable-next-line camelcase
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           vote: {
             poll_id: pollId,
