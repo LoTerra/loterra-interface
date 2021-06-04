@@ -26,6 +26,10 @@
       <i class="bx bxs-coin"></i>
       Buy LOTA public sale
     </a>
+    <a class="mobile" href="https://mobile.loterra.io/">
+      <i class="bx bxs-mobile"></i>
+      Terra Station Mobile
+    </a>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div
@@ -887,6 +891,14 @@ export default {
     border: transparent;
     color: #5b3cc4;
     font-size: 3rem;
+    padding-bottom: 10px;
+    background: transparent;
+    text-decoration: none;
+  }
+  .mobile {
+    border: transparent;
+    color: rgb(23, 201, 100);
+    font-size: 2rem;
     padding-bottom: 10px;
     background: transparent;
     text-decoration: none;
