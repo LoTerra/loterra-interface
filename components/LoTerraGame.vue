@@ -213,24 +213,6 @@
                 >Collect jackpot rewards 🤑</vs-button
               >
               <vs-button
-                v-if="connected"
-                :loading="load"
-                danger
-                block
-                gradient
-                @click="claimV1()"
-                >Claim jackpot rewards (contract-v1)</vs-button
-              >
-              <vs-button
-                v-if="connected"
-                :loading="load"
-                danger
-                block
-                gradient
-                @click="collectV1()"
-                >Collect jackpot rewards 🤑 (contract-v1)</vs-button
-              >
-              <vs-button
                 v-if="!connected"
                 gradient
                 danger
@@ -509,98 +491,6 @@ export default {
             this.openNotification(
               'Transaction success',
               'Reward claimed 🥳',
-              4000
-            )
-            this.load = false
-            switchs = false
-          }
-        })
-        switchs = true
-      }
-    },
-    async claimV1() {
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          claim: {},
-        }
-      )
-      const extension = new Extension()
-      extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 200000 })
-      if (!extension.isAvailable) {
-        this.activeDialogInfoNoWalletDetected = !this
-          .activeDialogInfoNoWalletDetected
-      } else {
-        await extension.post({
-          msgs: [msg],
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 2,
-        })
-        let switchs = true
-        this.load = true
-        extension.on((trxMsg) => {
-          console.log(trxMsg)
-          if (!trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction error',
-              trxMsg.error.message,
-              30000
-            )
-            this.load = false
-            switchs = false
-          }
-          if (trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction success',
-              'Reward claimed 🥳',
-              4000
-            )
-            this.load = false
-            switchs = false
-          }
-        })
-        switchs = true
-      }
-    },
-    async collectV1() {
-      const msg = new MsgExecuteContract(
-        this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddress,
-        {
-          collect: {},
-        }
-      )
-      const extension = new Extension()
-      extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 200000 })
-      if (!extension.isAvailable) {
-        this.activeDialogInfoNoWalletDetected = !this
-          .activeDialogInfoNoWalletDetected
-      } else {
-        await extension.post({
-          msgs: [msg],
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 2,
-        })
-        let switchs = true
-        this.load = true
-        extension.on((trxMsg) => {
-          console.log(trxMsg)
-          if (!trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction error',
-              trxMsg.error.message,
-              30000
-            )
-            this.load = false
-            switchs = false
-          }
-          if (trxMsg.success && switchs) {
-            this.openNotification(
-              'Transaction success',
-              'Reward collected 🥳',
               4000
             )
             this.load = false
