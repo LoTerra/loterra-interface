@@ -27,7 +27,7 @@
       Buy LOTA public sale
     </a>
     <a class="mobile" href="https://mobile.loterra.io/">
-      <i class="bx bxs-mobile"></i>
+      <i class="bx bx-mobile-alt"></i>
       Terra Station Mobile
     </a>
     <div class="jackpot-title">Jackpot</div>
