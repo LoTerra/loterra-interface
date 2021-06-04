@@ -793,7 +793,7 @@ export default {
         await extension.post({
           msgs: [msg],
           gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.1,
+          gasAdjustment: 1.2,
         })
         let switchs = true
         extension.on((trxMsg) => {
