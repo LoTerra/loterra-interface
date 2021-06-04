@@ -258,7 +258,7 @@ export default {
             },
           }
         )
-        this.remainingBalance = (objBalance.balance - 1050000000000) / 1000000
+        this.remainingBalance = objBalance.balance / 1000000
       })
     },
     station() {
