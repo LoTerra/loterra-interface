@@ -785,7 +785,7 @@ export default {
       // eslint-disable-next-line no-unused-vars
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
-      const obj = new StdFee(10_000_000, { uusd: 2000000 })
+      const obj = new StdFee(1_000_000, { uusd: 200000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -793,7 +793,7 @@ export default {
         await extension.post({
           msgs: [msg],
           gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.2,
+          gasAdjustment: 1.5,
         })
         let switchs = true
         extension.on((trxMsg) => {
