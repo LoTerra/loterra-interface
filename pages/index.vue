@@ -232,14 +232,14 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       try {
         const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             config: {},
           }
         )
 
         const contractCombinationInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             combination: {
               lottery_id: contractConfigInfo.lottery_counter,
@@ -258,14 +258,14 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       try {
         const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             config: {},
           }
         )
 
         const contractHistoryCombinationInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             combination: {
               lottery_id: contractConfigInfo.lottery_counter - 1,
@@ -284,7 +284,7 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       api
         .contractQuery(
-          this.$store.state.station.loterraLotteryContractAddress,
+          this.$store.state.station.loterraLotteryContractAddressV2,
           {
             config: {},
           }
@@ -302,14 +302,14 @@ export default {
     async loadWinners() {
       const api = new WasmAPI(this.terraClient.apiRequester)
       const contractConfigInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
       )
 
       const contractWinnersInfo = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddress,
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           winner: { lottery_id: contractConfigInfo.lottery_counter - 1 },
         }
