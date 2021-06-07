@@ -30,8 +30,10 @@
       <i class="bx bx-mobile-alt"></i>
       Terra Station Mobile
     </a>
-    <div class="jackpot-title">Jackpot</div>
+    <div class="jackpot-title">Contract Balance</div>
     <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
+    <div class="jackpot-title">Jackpot</div>
+    <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
     <div
       style="
         display: flex;
@@ -341,6 +343,7 @@ export default {
     time: 10000,
     progress: 0,
     terraClient: '',
+    contractBalanceInUusd: 0,
     contractBalance: '',
     countDown: 0,
     lotteryTimestampDraw: 0,
@@ -349,6 +352,7 @@ export default {
     latestWinningCombination: '',
     basket: [],
     pricePerTicket: '',
+    jackpotAlloc: 0,
   }),
   computed: {
     connected() {
@@ -364,6 +368,12 @@ export default {
     basketTotal() {
       const pricePerTicket = this.$store.state.station.ticketPrice / 1000000
       return numeral(this.basket.length * pricePerTicket).format('0,0.00')
+    },
+    jackpotTotal() {
+      const pot =
+        this.contractBalanceInUusd -
+        (this.contractBalanceInUusd * this.jackpotAlloc) / 100
+      return numeral(pot / 1000000).format('0,0.00')
     },
   },
   watch: {
@@ -566,6 +576,7 @@ export default {
       )
       this.timeLeftDraw =
         new Date(objBalance.block_time_play * 1000) - Date.now()
+      this.jackpotAlloc = objBalance.jackpot_percentage_reward
       console.log(this.timeLeftDraw)
       this.lotteryDraw()
     },
@@ -595,6 +606,7 @@ export default {
         this.$store.state.station.loterraLotteryContractAddressV2
       )
       const ustBalance = allBalance.get('uusd').toData()
+      this.contractBalanceInUusd = ustBalance.amount
       this.contractBalance = numeral(ustBalance.amount / 1000000).format(
         '0,0.00'
       )
