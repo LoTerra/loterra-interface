@@ -370,9 +370,7 @@ export default {
       return numeral(this.basket.length * pricePerTicket).format('0,0.00')
     },
     jackpotTotal() {
-      const pot =
-        this.contractBalanceInUusd -
-        (this.contractBalanceInUusd * this.jackpotAlloc) / 100
+      const pot = (this.contractBalanceInUusd * this.jackpotAlloc) / 100
       return numeral(pot / 1000000).format('0,0.00')
     },
   },
