@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
-    "@terra-money/terra.js": "^1.4.1",
+    "@terra-money/terra.js": "^1.8.8",
     "boxicons": "^2.0.7",
     "core-js": "^3.8.3",
     "numeral": "^2.0.6",
