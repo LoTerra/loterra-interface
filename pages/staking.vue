@@ -638,15 +638,17 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 200000 })
+      // const obj = new StdFee(1_000_000, { uusd: 200000 })
+      const obj = new StdFee(200_000, { uusd: 35000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 2,
+          fee: obj,
+          // gasPrices: obj.gasPrices(),
+          // gasAdjustment: 2,
         })
         let switchs = true
         this.load = true
@@ -708,15 +710,17 @@ export default {
       }
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 200000 })
+      // const obj = new StdFee(1_000_000, { uusd: 200000 })
+      const obj = new StdFee(200_000, { uusd: 35000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 2,
+          fee: obj,
+          // gasPrices: obj.gasPrices(),
+          // gasAdjustment: 2,
         })
         let switchs = true
         this.load = true

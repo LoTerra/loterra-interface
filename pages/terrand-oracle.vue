@@ -319,7 +319,8 @@ export default {
         // out of gas: out of gas in location: Contract Execution; gasWanted: 3000000, gasUsed: 3001033: failed to simulate tx
         // const coin = new Coin('uusd', 1000000)
         // const data = new StdFee(10000000, [coin])
-        const obj = new StdFee(6_000_000, { uusd: 1500000 })
+        // const obj = new StdFee(6_000_000, { uusd: 1500000 })
+        const obj = new StdFee(7_000_000, { uusd: 2000000 })
         await extension.post({
           msgs: [msg],
           fee: obj,
