@@ -472,7 +472,7 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(200_000, { uusd: 35000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -520,7 +520,7 @@ export default {
       const extension = new Extension()
       extension.connect()
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
-      const obj = new StdFee(200_000, { uusd: 35000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -693,7 +693,7 @@ export default {
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
       const addToGas = 5000 * this.basket.length
-      const obj = new StdFee(200_000, { uusd: 30000 + addToGas })
+      const obj = new StdFee(400_000, { uusd: 60000 + addToGas })
 
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this

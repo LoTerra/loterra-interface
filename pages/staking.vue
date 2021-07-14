@@ -639,7 +639,8 @@ export default {
       const extension = new Extension()
       extension.connect()
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
-      const obj = new StdFee(200_000, { uusd: 35000 })
+      // const obj = new StdFee(200_000, { uusd: 35000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -711,7 +712,7 @@ export default {
       const extension = new Extension()
       extension.connect()
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
-      const obj = new StdFee(200_000, { uusd: 35000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected

@@ -228,14 +228,15 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 1500000 })
+      // const obj = new StdFee(1_000_000, { uusd: 1500000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          gasPrices: obj.gasPrices(),
+          fee: obj,
         })
         let switchs = true
         this.load = true
@@ -278,14 +279,16 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(1_000_000, { uusd: 1500000 })
+      // const obj = new StdFee(1_000_000, { uusd: 1500000 })
+      const obj = new StdFee(400_000, { uusd: 60000 })
+
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
       } else {
         await extension.post({
           msgs: [msg],
-          gasPrices: obj.gasPrices(),
+          fee: obj,
         })
         let switchs = true
         extension.on((trxMsg) => {
