@@ -7,9 +7,13 @@
     <footer>
       <div><Rank /></div>
     </footer>
+    <div style="position: fixed; bottom: 0px">
+      latest block height : {{ blockHeight }}
+    </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
 import SideBar from '~/components/SideBar'
 import Rank from '~/components/Rank'
 
@@ -17,6 +21,13 @@ export default {
   components: {
     SideBar,
     Rank,
+  },
+  data: () => ({
+    blockHeight: 0,
+  }),
+  async created() {
+    const latestBlocks = await axios.get('https://lcd.terra.dev/blocks/latest')
+    this.blockHeight = latestBlocks.data.block.header.height
   },
 }
 </script>
