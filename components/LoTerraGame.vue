@@ -604,7 +604,8 @@ export default {
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
-        this.$store.state.station.loterraLotteryContractAddressV2
+        // this.$store.state.station.loterraLotteryContractAddressV2
+        'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0'
       )
       const ustBalance = allBalance.get('uusd').toData()
       this.contractBalanceInUusd = ustBalance.amount
