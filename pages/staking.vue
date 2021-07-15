@@ -233,7 +233,7 @@
                     <template #tooltip> Claim all unbonded LOTA </template>
                   </vs-tooltip>
                 </div>
-                Available:
+                Available at block {{ releaseBlock }}:
                 <vs-button shadow size="mini" :loading="loadAmount"
                   >{{ unBondedLota
                   }}<span style="font-size: 11px">LOTA</span></vs-button
@@ -524,7 +524,7 @@ export default {
           all_unbonded += parseInt(e.amount)
         })
         this.$store.commit('station/update_un_bonded', all_unbonded)
-        this.releaseBlock = obj.period || 0
+        this.releaseBlock = obj.claims[0].release_at.at_height || 0
         console.log(obj)
       })
     },
