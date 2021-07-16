@@ -19,8 +19,7 @@
       LoTerra enables decentralized lottery on Terra Luna blockchain. Smart
       contract address:
       <b>{{ contractAddr }}</b
-      >. Disclaimer: All reward need to be claim before the next draw. (do not
-      trust read the code)
+      >.
     </vs-alert>
     <div>
       <img
