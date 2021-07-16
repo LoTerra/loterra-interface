@@ -807,7 +807,7 @@ export default {
     background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 3rem;
+    font-size: 5rem;
     padding-bottom: 30px;
   }
   .jackpot span {
