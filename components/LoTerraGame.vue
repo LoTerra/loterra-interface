@@ -26,7 +26,10 @@
       <i class="bx bx-mobile-alt"></i>
       Terra Station Mobile
     </a>
-    <div class="jackpot-title">Jackpot</div>
+    <div>
+      <img src="jackpot.png" alt="jackpot img" height="100%" width="100%" />
+    </div>
+
     <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
     <div
       style="
