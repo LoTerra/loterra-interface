@@ -809,6 +809,7 @@ export default {
     -webkit-text-fill-color: transparent;
     font-size: 5rem;
     padding-bottom: 30px;
+    margin-top: -180px;
   }
   .jackpot span {
     font-size: 2rem;
