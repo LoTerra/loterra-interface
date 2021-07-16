@@ -36,6 +36,10 @@
       "
     >
       <div style="margin-bottom: 50px">
+        <a class="mobile" href="https://mobile.loterra.io/">
+          <i class="bx bx-mobile-alt"></i>
+          Terra Station Mobile
+        </a>
         <vs-card>
           <template #title>
             <h3>Enter draw</h3>
@@ -221,10 +225,6 @@
             </div>
           </template>
         </vs-card>
-        <a class="mobile" href="https://mobile.loterra.io/">
-          <i class="bx bx-mobile-alt"></i>
-          Terra Station Mobile
-        </a>
       </div>
       <div
         v-if="basket.length > 0"
