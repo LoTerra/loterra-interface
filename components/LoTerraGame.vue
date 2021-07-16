@@ -233,29 +233,31 @@
             <h3>Bag</h3>
           </template>
           <template #text>
-            <div
-              v-for="(item, index) in basket"
-              :key="index"
-              class="center content-inputs"
-              style="
-                margin-top: 5px;
-                margin-bottom: 5px;
-                display: flex;
-                justify-content: space-between;
-              "
-            >
-              <div class="jackpot-timer" style="margin-right: 25px">
-                {{ item }}
-              </div>
-              <div>
-                <vs-button
-                  gradient
-                  danger
-                  block
-                  @click="individualEmptyBasket(index)"
-                >
-                  <i class="bx bxs-trash"></i>
-                </vs-button>
+            <div style="max-height: 500px; padding: 20px; overflow-x: hidden">
+              <div
+                v-for="(item, index) in basket"
+                :key="index"
+                class="center content-inputs"
+                style="
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <div class="jackpot-timer" style="margin-right: 25px">
+                  {{ item }}
+                </div>
+                <div>
+                  <vs-button
+                    gradient
+                    danger
+                    block
+                    @click="individualEmptyBasket(index)"
+                  >
+                    <i class="bx bxs-trash"></i>
+                  </vs-button>
+                </div>
               </div>
             </div>
 
