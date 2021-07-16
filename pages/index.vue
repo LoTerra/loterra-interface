@@ -233,7 +233,8 @@ export default {
       const api = new WasmAPI(this.terraClient.apiRequester)
       try {
         const contractConfigInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          // this.$store.state.station.loterraLotteryContractAddressV2,
+          'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
           {
             config: {},
           }
@@ -268,7 +269,8 @@ export default {
         )
 
         const contractHistoryCombinationInfo = await api.contractQuery(
-          this.$store.state.station.loterraLotteryContractAddressV2,
+          // this.$store.state.station.loterraLotteryContractAddressV2,
+          'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
           {
             combination: {
               lottery_id: contractConfigInfo.lottery_counter - 1,
