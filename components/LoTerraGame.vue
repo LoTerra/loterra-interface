@@ -181,6 +181,10 @@
             </div>
           </template>
           <template #buttons>
+            <div style="font-size: small; font-weight: lighter">
+              We recommend to not buy more than 200 tickets per transactions
+              (gas limit)
+            </div>
             <div class="p-20">
               <vs-button
                 v-if="connected"
@@ -223,10 +227,6 @@
               >
                 Connect Wallet
               </vs-button>
-              <div class="text-sm">
-                We recommend to not buy more than 200 tickets per transactions
-                (gas limit)
-              </div>
             </div>
           </template>
         </vs-card>
