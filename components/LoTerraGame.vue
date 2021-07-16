@@ -22,10 +22,6 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
-    <a class="public-sale-title" href="/public-sale">
-      <i class="bx bxs-coin"></i>
-      Buy LOTA public sale
-    </a>
     <a class="mobile" href="https://mobile.loterra.io/">
       <i class="bx bx-mobile-alt"></i>
       Terra Station Mobile
@@ -59,9 +55,7 @@
               <p>Time left before next draw:</p>
               <p class="jackpot-timer">
                 {{
-                  lotteryTimestampDraw
-                    ? lotteryTimestampDraw
-                    : 'Registration closed'
+                  lotteryTimestampDraw ? lotteryTimestampDraw : 'On sale soon!'
                 }}
               </p>
               <h2
