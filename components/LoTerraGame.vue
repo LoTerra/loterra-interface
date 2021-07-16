@@ -26,8 +26,6 @@
       <i class="bx bx-mobile-alt"></i>
       Terra Station Mobile
     </a>
-    <div class="jackpot-title">Contract Balance</div>
-    <div class="jackpot">{{ contractBalance }}<span>UST</span></div>
     <div class="jackpot-title">Jackpot</div>
     <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
     <div
@@ -317,6 +315,8 @@
         </p>
       </div>
     </vs-dialog>
+    <div class="balance-title">Contract Balance</div>
+    <div class="balance">{{ contractBalance }}<span>UST</span></div>
   </div>
 </template>
 
@@ -776,6 +776,20 @@ export default {
 @media (min-width: 620px) {
   .basket {
     margin-left: 20px;
+  }
+  .balance-title {
+    background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1rem;
+    padding-bottom: 10px;
+  }
+  .balance {
+    background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.3rem;
+    padding-bottom: 30px;
   }
   .jackpot-title {
     background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
