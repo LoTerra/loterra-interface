@@ -22,10 +22,6 @@
       >. Disclaimer: All reward need to be claim before the next draw. (do not
       trust read the code)
     </vs-alert>
-    <a class="mobile" href="https://mobile.loterra.io/">
-      <i class="bx bx-mobile-alt"></i>
-      Terra Station Mobile
-    </a>
     <div>
       <img src="jackpot.png" alt="jackpot img" height="100%" width="100%" />
     </div>
@@ -225,6 +221,10 @@
             </div>
           </template>
         </vs-card>
+        <a class="mobile" href="https://mobile.loterra.io/">
+          <i class="bx bx-mobile-alt"></i>
+          Terra Station Mobile
+        </a>
       </div>
       <div
         v-if="basket.length > 0"
