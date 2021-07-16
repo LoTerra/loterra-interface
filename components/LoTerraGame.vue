@@ -223,6 +223,10 @@
               >
                 Connect Wallet
               </vs-button>
+              <div class="text-sm">
+                We recommend to not buy more than 200 tickets per transactions
+                (gas limit)
+              </div>
             </div>
           </template>
         </vs-card>
