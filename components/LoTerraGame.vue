@@ -574,7 +574,8 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const objBalance = await api.contractQuery(
-        this.$store.state.station.loterraLotteryContractAddressV2,
+        // this.$store.state.station.loterraLotteryContractAddressV2,
+        'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
         {
           config: {},
         }
