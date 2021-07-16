@@ -315,7 +315,7 @@
         </p>
       </div>
     </vs-dialog>
-    <div class="balance-title">Contract Balance</div>
+    <div class="balance-title">Available balance for lottery</div>
     <div class="balance">{{ contractBalance }}<span>UST</span></div>
   </div>
 </template>
