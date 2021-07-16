@@ -191,7 +191,7 @@
                   <i class="bx bxs-shopping-bag"></i>
                 </template>
               </vs-button>
-              <vs-button
+              <!--<vs-button
                 v-if="connected"
                 :loading="load"
                 danger
@@ -208,7 +208,7 @@
                 gradient
                 @click="collect()"
                 >Collect jackpot rewards 🤑</vs-button
-              >
+              >-->
               <vs-button
                 v-if="!connected"
                 gradient
