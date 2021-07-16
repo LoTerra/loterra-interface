@@ -22,13 +22,7 @@
       >.
     </vs-alert>
     <div>
-      <img
-        src="jackpot.png"
-        alt="jackpot img"
-        height="100%"
-        width="100%"
-        style="margin-top: -200px"
-      />
+      <img src="jackpot.png" alt="jackpot img" height="100%" width="100%" />
     </div>
 
     <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
