@@ -10,20 +10,28 @@
         Guide
       </vs-navbar-item>-->
       <template #right>
-        <vs-button flat success> Contract-v2.0.1 mainnet </vs-button>
+        <vs-button class="contract-btn" flat success>
+          <small>Contract-v2.0.1 mainnet</small>
+        </vs-button>
         <vs-button
+          class="lota-btn"
           :loading="load"
           flat
           danger
           @click="activeDialog = !activeDialog"
         >
-          <GetBalanceUserLotaContract /><span style="font-size: 15px"
-            >LOTA</span
-          >
+          <GetBalanceUserLotaContract /><span>LOTA</span>
         </vs-button>
 
-        <vs-button v-if="!humanAddress" gradient danger @click="station()"
-          >Connect to a wallet</vs-button
+        <vs-button
+          v-if="!humanAddress"
+          class="connect-wallet"
+          gradient
+          danger
+          @click="station()"
+        >
+          <i class="bx bxs-wallet"></i>
+          <span>Connect wallet</span></vs-button
         >
         <vs-button
           v-if="humanAddress"
@@ -240,4 +248,28 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.connect-wallet i {
+  margin-right: 5px;
+}
+.lota-btn span {
+  font-size: 15px;
+}
+@media (max-width: 660px) {
+  .connect-wallet span {
+    display: none;
+  }
+  .connect-wallet i {
+    margin-right: 0px;
+  }
+  .lota-btn span {
+    font-size: 13px;
+  }
+  .contract-btn {
+    font-size: 13px;
+  }
+  .contract-btn small {
+    padding: 0px;
+  }
+}
+</style>

@@ -22,7 +22,11 @@
       >.
     </vs-alert>
     <div>
-      <img src="jackpot.png" alt="jackpot img" height="100%" width="100%" />
+      <img
+        src="jackpot.png"
+        alt="jackpot img"
+        style="height: auto; max-width: 1100px; width: 100%"
+      />
     </div>
 
     <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
@@ -34,12 +38,21 @@
         align-items: flex-start;
       "
     >
+      <a class="mobile" href="https://mobile.loterra.io/">
+        <i class="bx bx-mobile-alt"></i>
+        Terra Station Mobile
+      </a>
+    </div>
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+      "
+    >
       <div style="margin-bottom: 50px">
-        <a class="mobile" href="https://mobile.loterra.io/">
-          <i class="bx bx-mobile-alt"></i>
-          Terra Station Mobile
-        </a>
-        <vs-card>
+        <vs-card style="margin: 0 auto">
           <template #title>
             <h3>Enter draw</h3>
             <p>Register your combination for next lottery draw.</p>
@@ -774,10 +787,23 @@ export default {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-top: -70px;
   padding-bottom: 30px;
 }
-@media (min-width: 620px) {
+.mobile {
+  border: transparent;
+  background: #f2145d33;
+  text-decoration: none;
+  padding: 7px 13px;
+  color: #f2145d;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 667px) {
   .basket {
     margin-left: 20px;
   }
@@ -817,14 +843,6 @@ export default {
     border: transparent;
     color: #5b3cc4;
     font-size: 3rem;
-    padding-bottom: 10px;
-    background: transparent;
-    text-decoration: none;
-  }
-  .mobile {
-    border: transparent;
-    color: rgb(23, 201, 100);
-    font-size: 2rem;
     padding-bottom: 10px;
     background: transparent;
     text-decoration: none;
