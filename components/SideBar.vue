@@ -173,7 +173,17 @@
       </template>
       <div class="con-content">
         <p>
-          The LoTerra Dapp requires
+          <vs-button
+            flat
+            danger
+            icon
+            href="https://mobile.loterra.io"
+            target="_blank"
+            >Play on mobile now!</vs-button
+          >
+        </p>
+        <p>
+          LoTerra Dapp requires
           <a href="https://www.google.com/intl/en_en/chrome/" target="_blank"
             >Google Chrome</a
           >

@@ -320,9 +320,7 @@
           <a href="https://mobile.loterra.io" target="_blank"
             >Play on mobile now!</a
           >
-        </p>
-        <p>
-          The LoTerra Dapp requires
+          LoTerra Dapp requires
           <a href="https://www.google.com/intl/en_en/chrome/" target="_blank"
             >Google Chrome</a
           >
