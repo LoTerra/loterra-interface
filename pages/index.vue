@@ -59,9 +59,8 @@
           <template #tbody>
             <vs-tr v-for="(winner, key) in allWinners.winners" :key="key">
               <vs-td>
-                <!--{{ winner.claims.claimed }}-->
-                true</vs-td
-              >
+                {{ winner.claims.claimed }}
+              </vs-td>
               <vs-td>
                 {{ winner.claims.ranks }}
               </vs-td>
