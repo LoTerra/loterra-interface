@@ -4,7 +4,7 @@ export const state = () => ({
   // loterraLotteryContractAddress: 'terra14usn4a3cnexvlu0wq0ta6lm2sdstzdre5aqa6u',
   // LOCAL
   loterraLotteryContractAddressV2:
-    'terra1zcf0d95z02u2r923sgupp28mqrdwmt930gn8x5',
+    'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
   loterraLotteryContractAddress: 'terra1e7hzp3tnsswpfcu6gt4wlgfm20lcsqqywhaagu',
   // terra1h587jntrh2gdxp3t0cwnv65te6qtndly8reh7j
   // terra189z82xyj324yd2lzusarj4fs53ww7h4atxa0v5

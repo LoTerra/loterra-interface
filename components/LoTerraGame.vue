@@ -585,8 +585,7 @@ export default {
       })
       const api = new WasmAPI(terraClient.apiRequester)
       const objBalance = await api.contractQuery(
-        // this.$store.state.station.loterraLotteryContractAddressV2,
-        'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           config: {},
         }
@@ -620,8 +619,7 @@ export default {
     async contactBalance() {
       const bank = new BankAPI(this.terraClient.apiRequester)
       const allBalance = await bank.balance(
-        // this.$store.state.station.loterraLotteryContractAddressV2
-        'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0'
+        this.$store.state.station.loterraLotteryContractAddressV2
       )
       const ustBalance = allBalance.get('uusd').toData()
       this.contractBalanceInUusd = ustBalance.amount
@@ -698,8 +696,7 @@ export default {
       extension.connect()
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        // this.$store.state.station.loterraLotteryContractAddressV2,
-        'terra14mevcmeqt0n4myggt7c56l5fl0xw2hwa2mhlg0',
+        this.$store.state.station.loterraLotteryContractAddressV2
         {
           register: {
             combination: this.basket,
