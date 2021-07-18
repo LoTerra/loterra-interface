@@ -186,6 +186,10 @@
           >
           Extension to be installed.
         </p>
+        <a class="mobile" href="https://mobile.loterra.io/">
+          <i class="bx bx-mobile-alt"></i>
+          Terra Station Mobile
+        </a>
       </div>
     </vs-dialog>
   </div>
@@ -254,6 +258,16 @@ export default {
 }
 .lota-btn span {
   font-size: 15px;
+}
+.mobile {
+  border: transparent;
+  background: #f2145d33;
+  text-decoration: none;
+  padding: 7px 13px;
+  color: #f2145d;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
 }
 @media (max-width: 660px) {
   .connect-wallet span {
