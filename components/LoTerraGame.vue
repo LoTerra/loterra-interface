@@ -22,7 +22,11 @@
       >.
     </vs-alert>
     <div>
-      <img src="jackpot.png" alt="jackpot img" height="100%" width="100%" />
+      <img
+        src="jackpot.png"
+        alt="jackpot img"
+        style="height: auto; max-width: 1100px; width: 100%"
+      />
     </div>
 
     <div class="jackpot">{{ jackpotTotal }}<span>UST</span></div>
@@ -774,10 +778,12 @@ export default {
   background: linear-gradient(to right, rgb(242, 19, 93), #5b3cc4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-top: -70px;
   padding-bottom: 30px;
 }
-@media (min-width: 620px) {
+@media (min-width: 667px) {
   .basket {
     margin-left: 20px;
   }

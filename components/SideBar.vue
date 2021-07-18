@@ -10,7 +10,9 @@
         Guide
       </vs-navbar-item>-->
       <template #right>
-        <vs-button flat success> Contract-v2.0.1 mainnet </vs-button>
+        <vs-button flat success>
+          <small>Contract-v2.0.1 mainnet</small>
+        </vs-button>
         <vs-button
           :loading="load"
           flat
@@ -22,8 +24,15 @@
           >
         </vs-button>
 
-        <vs-button v-if="!humanAddress" gradient danger @click="station()"
-          >Connect to a wallet</vs-button
+        <vs-button
+          v-if="!humanAddress"
+          class="connect-wallet"
+          gradient
+          danger
+          @click="station()"
+        >
+          <i class="bx bxs-wallet"></i>
+          <span>Connect wallet</span></vs-button
         >
         <vs-button
           v-if="humanAddress"
@@ -240,4 +249,16 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.connect-wallet i {
+  margin-right: 5px;
+}
+@media (max-width: 660px) {
+  .connect-wallet span {
+    display: none;
+  }
+  .connect-wallet i {
+    margin-right: 0px;
+  }
+}
+</style>
