@@ -10,18 +10,17 @@
         Guide
       </vs-navbar-item>-->
       <template #right>
-        <vs-button flat success>
+        <vs-button class="contract-btn" flat success>
           <small>Contract-v2.0.1 mainnet</small>
         </vs-button>
         <vs-button
+          class="lota-btn"
           :loading="load"
           flat
           danger
           @click="activeDialog = !activeDialog"
         >
-          <GetBalanceUserLotaContract /><span style="font-size: 15px"
-            >LOTA</span
-          >
+          <GetBalanceUserLotaContract /><span>LOTA</span>
         </vs-button>
 
         <vs-button
@@ -253,12 +252,24 @@ export default {
 .connect-wallet i {
   margin-right: 5px;
 }
+.lota-btn span {
+  font-size: 15px;
+}
 @media (max-width: 660px) {
   .connect-wallet span {
     display: none;
   }
   .connect-wallet i {
     margin-right: 0px;
+  }
+  .lota-btn span {
+    font-size: 13px;
+  }
+  .contract-btn {
+    font-size: 13px;
+  }
+  .contract-btn small {
+    padding: 0px;
   }
 }
 </style>

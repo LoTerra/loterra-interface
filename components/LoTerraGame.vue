@@ -43,7 +43,7 @@
           <i class="bx bx-mobile-alt"></i>
           Terra Station Mobile
         </a>
-        <vs-card>
+        <vs-card style="margin: 0 auto">
           <template #title>
             <h3>Enter draw</h3>
             <p>Register your combination for next lottery draw.</p>
@@ -783,6 +783,10 @@ export default {
   margin-top: -70px;
   padding-bottom: 30px;
 }
+.mobile {
+  display: block;
+}
+
 @media (min-width: 667px) {
   .basket {
     margin-left: 20px;
