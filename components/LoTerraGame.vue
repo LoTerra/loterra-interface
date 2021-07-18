@@ -38,11 +38,20 @@
         align-items: flex-start;
       "
     >
+      <a class="mobile" href="https://mobile.loterra.io/">
+        <i class="bx bx-mobile-alt"></i>
+        Terra Station Mobile
+      </a>
+    </div>
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+      "
+    >
       <div style="margin-bottom: 50px">
-        <a class="mobile" href="https://mobile.loterra.io/">
-          <i class="bx bx-mobile-alt"></i>
-          Terra Station Mobile
-        </a>
         <vs-card style="margin: 0 auto">
           <template #title>
             <h3>Enter draw</h3>
