@@ -696,7 +696,7 @@ export default {
       extension.connect()
       const msg = new MsgExecuteContract(
         this.$store.state.station.senderAddress,
-        this.$store.state.station.loterraLotteryContractAddressV2
+        this.$store.state.station.loterraLotteryContractAddressV2,
         {
           register: {
             combination: this.basket,
