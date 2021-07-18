@@ -793,7 +793,14 @@ export default {
   padding-bottom: 30px;
 }
 .mobile {
-  display: block;
+  border: transparent;
+  background: #f2145d33;
+  text-decoration: none;
+  padding: 7px 13px;
+  color: #f2145d;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
 }
 
 @media (min-width: 667px) {
@@ -836,14 +843,6 @@ export default {
     border: transparent;
     color: #5b3cc4;
     font-size: 3rem;
-    padding-bottom: 10px;
-    background: transparent;
-    text-decoration: none;
-  }
-  .mobile {
-    border: transparent;
-    color: rgb(23, 201, 100);
-    font-size: 2rem;
     padding-bottom: 10px;
     background: transparent;
     text-decoration: none;
