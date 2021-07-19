@@ -189,8 +189,7 @@
           </template>
           <template #buttons>
             <div style="font-size: small; font-weight: normal">
-              We recommend to not buy more than 200 tickets per transactions
-              (gas limit)
+              We recommend not purchase more than 200 tickets per transaction (gas limit)
             </div>
             <div class="p-20">
               <vs-button
