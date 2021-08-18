@@ -489,7 +489,9 @@ export default {
       )
       const extension = new Extension()
       extension.connect()
-      const obj = new StdFee(400_000, { uusd: 60000 })
+
+
+      const obj = new StdFee(400_000, { uusd: 90000 })
       if (!extension.isAvailable) {
         this.activeDialogInfoNoWalletDetected = !this
           .activeDialogInfoNoWalletDetected
@@ -709,7 +711,8 @@ export default {
       // eslint-disable-next-line no-unused-vars
       // const obj = new StdFee(1_000_000, { uusd: 200000 })
       // const obj = new StdFee(6_000_000, { uusd: 1500000 })
-      const addToGas = 5300 * this.basket.length
+      const addToGas = 5700 * this.basket.length
+
       const obj = new StdFee(600_000, { uusd: 90000 + addToGas })
 
       if (!extension.isAvailable) {
